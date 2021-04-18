@@ -19,7 +19,7 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>
         this.message = message;
     }
 
-    public virtual void Draw(RvSpriteBatch spriteBatch)
+    public override void Draw(RvSpriteBatch spriteBatch)
     {
         //just the rectangle of the button.
         spriteBatch.DrawRectangle(bounds, Color.Gray, RvSpriteBatch.DEFAULT_UI_LAYER);
@@ -32,7 +32,7 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>
             && bounds.Y < cursorY && cursorY < bounds.Y + bounds.Height;
     }
 
-    public void Update(GameTime gameTime)
+    public override void Update(GameTime gameTime)
     {
         MouseState mouse = Mouse.GetState();
         if (mouse.LeftButton == ButtonState.Pressed && lastClick > MIN_TIME_BETWEEN_CLICKS)
