@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections.Generic;
 using System;
 
-public class RvTextField : RvAbstractComponent, RvKeyboardListenerI
+public class RvTextField : RvAbstractComponent, RvKeyboardListenerI, RvMouseListenerI, RvFocusableI
 {
     public const int MODE_DEFAULT = 0;
     public const int MODE_NUMBERS = 1;
@@ -20,6 +20,7 @@ public class RvTextField : RvAbstractComponent, RvKeyboardListenerI
     {
         this.mode = mode;
         RvKeyboard.the().addKeyboardListener(this);
+        RvMouse.the().addMouseListener(this);
         initKeysToChars();
     }
 
@@ -54,8 +55,26 @@ public class RvTextField : RvAbstractComponent, RvKeyboardListenerI
         processKey(key, shiftModifier);
     }
 
+    public void mousePressed(RvMouseEvent mouseEvent)
+    {
+        if (bounds.Contains(mouseEvent.X, mouseEvent.Y))
+        {
+            if (mouseEvent.pressed == RvMouseEvent.LEFT_MOUSE_BUTTON_PRESSED)
+            {
+                setFocused();
+                return;
+            }
+        }
+        removeFocus();
+    }
+
     private void processKey(Keys key, bool shiftModifier)
     {
+        if (!isFocused())
+        {
+            return;
+        }
+
         if (key == Keys.Back && sb.Length > 0)
         {
             sb.Remove(sb.Length-1 ,1);
@@ -141,5 +160,20 @@ public class RvTextField : RvAbstractComponent, RvKeyboardListenerI
     private void addKeyToChar(Keys key, char charNoShift, char charShift)
     {
         keysToChars[key] = new Tuple<char, char>(charNoShift, charShift);
+    }
+
+    public void setFocused()
+    {
+        RvFocusHandler.the().setFocused(this);
+    }
+
+    public void removeFocus()
+    {
+        RvFocusHandler.the().removeFocus(this);
+    }
+
+    public bool isFocused()
+    {
+        return RvFocusHandler.the().isFocused(this);
     }
 }

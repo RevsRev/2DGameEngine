@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 
 public class RvMouseEvent
 {
@@ -23,5 +24,10 @@ public class RvMouseEvent
         {
             pressed = RIGHT_MOUSE_BUTTON_PRESSED;
         }
+    }
+
+    public Vector2 getCoords()
+    {
+        return new Vector2(X, Y);
     }
 }
