@@ -1,0 +1,72 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/eddie/Documents/2DGameEngine/2DGameEngine.csproj": {}
+  },
+  "projects": {
+    "/home/eddie/Documents/2DGameEngine/2DGameEngine.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/eddie/Documents/2DGameEngine/2DGameEngine.csproj",
+        "projectName": "2DGameEngine",
+        "projectPath": "/home/eddie/Documents/2DGameEngine/2DGameEngine.csproj",
+        "packagesPath": "/home/eddie/.nuget/packages/",
+        "outputPath": "/home/eddie/Documents/2DGameEngine/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/eddie/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "MonoGame.Content.Builder.Task": {
+              "target": "Package",
+              "version": "[3.8.0.1641, )"
+            },
+            "MonoGame.Framework.DesktopGL": {
+              "target": "Package",
+              "version": "[3.8.0.1641, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.407/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
