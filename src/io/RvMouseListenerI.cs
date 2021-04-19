@@ -2,5 +2,5 @@
 
 public interface RvMouseListenerI
 {
-    public abstract void mousePressed(RvMouseEvent e);
+    public abstract void mouseEvent(RvMouseEvent e);
 }

@@ -55,7 +55,7 @@ public class RvTextField : RvAbstractComponent, RvKeyboardListenerI, RvMouseList
         processKey(key, shiftModifier);
     }
 
-    public void mousePressed(RvMouseEvent mouseEvent)
+    public void mouseEvent(RvMouseEvent mouseEvent)
     {
         if (bounds.Contains(mouseEvent.X, mouseEvent.Y))
         {

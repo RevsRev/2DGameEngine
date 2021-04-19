@@ -115,6 +115,7 @@ public class RvGame : Game
 
         //testing
         RvKeyboard.the().Update(gameTime);
+        RvMouse.the().Update(gameTime);
 
         base.Update(gameTime);
     }
