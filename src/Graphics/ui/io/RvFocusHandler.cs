@@ -27,7 +27,7 @@ public class RvFocusHandler
     {
         if (focused == focusable)
         {
-            focusable = null;
+            focused = null;
         }
     }
     public bool isFocused(RvFocusableI focusable)
