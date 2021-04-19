@@ -23,6 +23,7 @@ public class RvGame : Game
 
     //testing
     RvTextField textField;
+    RvPhysicalObjectCreator physicalObjectCreator;
 
     public RvGame()
     {
@@ -57,6 +58,7 @@ public class RvGame : Game
 
         //testing
         textField = new RvTextField(new Rectangle(100,100,300,40));
+        physicalObjectCreator = new RvPhysicalObjectCreator(new Vector2(400,400));
     }
 
     private void loadLevels()
@@ -149,6 +151,7 @@ public class RvGame : Game
         //testing
         spriteBatch.Begin();
         textField.Draw(spriteBatch);
+        physicalObjectCreator.Draw(spriteBatch);
         spriteBatch.End();
 
         base.Draw(gameTime);

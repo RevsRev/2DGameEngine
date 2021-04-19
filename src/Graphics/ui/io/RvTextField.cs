@@ -65,7 +65,11 @@ public class RvTextField : RvAbstractComponent, RvKeyboardListenerI, RvMouseList
                 return;
             }
         }
-        removeFocus();
+
+        if (mouseEvent.pressed != RvMouseEvent.NO_MOUSE_BUTTON_PRESSED)
+        {
+            removeFocus();
+        }
     }
 
     private void processKey(Keys key, bool shiftModifier)
