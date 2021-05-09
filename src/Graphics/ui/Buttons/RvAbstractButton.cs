@@ -19,6 +19,11 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>
         this.message = message;
     }
 
+    public override void unInit()
+    {
+        //to do
+    }
+
     public override void Draw(RvSpriteBatch spriteBatch)
     {
         //just the rectangle of the button.

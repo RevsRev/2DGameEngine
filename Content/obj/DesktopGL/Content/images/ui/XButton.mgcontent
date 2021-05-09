@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>/home/eddie/Documents/2DGameEngine/Content/images/sprites/orc/walk.png</SourceFile>
-  <SourceTime>2021-03-22T21:02:06.998308+00:00</SourceTime>
-  <DestFile>/home/eddie/Documents/2DGameEngine/Content/bin/DesktopGL/images/sprites/orc/walk.xnb</DestFile>
-  <DestTime>2021-04-30T12:42:23.4638672+01:00</DestTime>
+  <SourceFile>/home/eddie/Documents/2DGameEngine/Content/images/ui/XButton.png</SourceFile>
+  <SourceTime>2021-04-30T12:16:09.988835+01:00</SourceTime>
+  <DestFile>/home/eddie/Documents/2DGameEngine/Content/bin/DesktopGL/Content/images/ui/XButton.xnb</DestFile>
+  <DestTime>2021-04-30T12:43:23.024126+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

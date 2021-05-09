@@ -29,6 +29,11 @@ public class RvPanel : RvAbstractComponent
         }
     }
 
+    public override void unInit()
+    {
+        //to do
+    }
+
     public virtual void addComponent(RvAbstractComponent component)
     {
         //Make sure that adding components is relative.

@@ -16,6 +16,7 @@ public class RvGame : Game
     private RvSpriteBatch spriteBatch;
 
     RvEditor editor;
+    private static RvGame instance; //Making this accessible from anywhere because it's getting annoying having to pass into lots of things.
 
     private int gameState = GAME_STATE_START_MENU;
     private string currentLevel;
@@ -37,6 +38,7 @@ public class RvGame : Game
     protected override void Initialize()
     {
         initializeGraphics();
+        InitializeInstance();
 
         RvDebug.MODE_DEBUG = true;
         RvDebug.PIXEL = Content.Load<Texture2D>(RvContentFiles.DRAWING + "white_pixel");
@@ -49,6 +51,15 @@ public class RvGame : Game
         graphics.PreferredBackBufferHeight = RvSystem.SCR_HEIGHT;
         graphics.PreferredBackBufferWidth = RvSystem.SCR_WIDTH;
         graphics.ApplyChanges();
+    }
+
+    private void InitializeInstance()
+    {
+        instance = this;
+    }
+    public static RvGame the()
+    {
+        return instance;
     }
 
     protected override void LoadContent()

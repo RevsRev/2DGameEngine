@@ -28,8 +28,10 @@
     <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Monsters_Creatures_Fantasy/Flying eye/FlyingEye_TakeHit.png</File>
     <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/orc/all_animations.jpg</File>
     <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/orc/walk.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/ui/XButton.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

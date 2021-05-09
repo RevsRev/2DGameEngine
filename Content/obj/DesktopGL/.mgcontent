@@ -4,32 +4,34 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/ball.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/drawing/white_pixel.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/fonts/fantasy_font.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/fonts/TheanoDidot.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/scenery/dark_forest.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/scenery/pixelated_wall.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/scenery/spooky_background.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/scenery/stone_wall.jpg</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightFalling_strip.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightFloating_strip.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightIdle_strip.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightJab_strip.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightJump_strip.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightLanding_strip.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightRising_strip.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightRun_strip.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightSmash_strip.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightSwipe_strip.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Monsters_Creatures_Fantasy/Flying eye/FlyingEye_Attack.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Monsters_Creatures_Fantasy/Flying eye/FlyingEye_Death.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Monsters_Creatures_Fantasy/Flying eye/FlyingEye_Flight.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Monsters_Creatures_Fantasy/Flying eye/FlyingEye_TakeHit.png</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/orc/all_animations.jpg</File>
-    <File>/home/eddie/Documents/2dGameEngine/Content/images/sprites/orc/walk.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/ball.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/drawing/white_pixel.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/fonts/fantasy_font.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/fonts/TheanoDidot.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/scenery/dark_forest.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/scenery/pixelated_wall.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/scenery/spooky_background.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/scenery/stone_wall.jpg</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightFalling_strip.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightFloating_strip.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightIdle_strip.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightJab_strip.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightJump_strip.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightLanding_strip.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightRising_strip.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightRun_strip.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightSmash_strip.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightSwipe_strip.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Monsters_Creatures_Fantasy/Flying eye/FlyingEye_Attack.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Monsters_Creatures_Fantasy/Flying eye/FlyingEye_Death.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Monsters_Creatures_Fantasy/Flying eye/FlyingEye_Flight.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Monsters_Creatures_Fantasy/Flying eye/FlyingEye_TakeHit.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/orc/all_animations.jpg</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/sprites/orc/walk.png</File>
+    <File>/home/eddie/Documents/2DGameEngine/Content/images/ui/XButton.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

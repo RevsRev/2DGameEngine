@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-public class RvAbstractComponent
+public abstract class RvAbstractComponent
 {
     protected Rectangle bounds;
 
@@ -8,6 +8,8 @@ public class RvAbstractComponent
     {
         this.bounds = bounds;
     }
+
+    public abstract void unInit();
 
     public Rectangle getBounds()
     {

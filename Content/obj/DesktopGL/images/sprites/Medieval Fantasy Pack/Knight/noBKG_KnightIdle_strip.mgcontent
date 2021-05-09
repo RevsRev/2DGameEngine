@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>/home/eddie/Documents/2dGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightIdle_strip.png</SourceFile>
+  <SourceFile>/home/eddie/Documents/2DGameEngine/Content/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightIdle_strip.png</SourceFile>
   <SourceTime>2021-04-02T13:29:46.791909+01:00</SourceTime>
-  <DestFile>/home/eddie/Documents/2dGameEngine/Content/bin/DesktopGL/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightIdle_strip.xnb</DestFile>
-  <DestTime>2021-04-18T11:17:23.408517+01:00</DestTime>
+  <DestFile>/home/eddie/Documents/2DGameEngine/Content/bin/DesktopGL/images/sprites/Medieval Fantasy Pack/Knight/noBKG_KnightIdle_strip.xnb</DestFile>
+  <DestTime>2021-04-30T12:42:23.3518667+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

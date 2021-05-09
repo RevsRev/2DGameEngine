@@ -4,6 +4,7 @@ public class RvContentFiles
     public static readonly string DRAWING = IMAGES + "drawing/";
     public static readonly string SCENRY = IMAGES  + "scenery/";
     public static readonly string FONTS = IMAGES + "fonts/";
+    public static readonly string UI = IMAGES + "ui/";
 
     public static readonly string LEVELS = "Levels/";
 

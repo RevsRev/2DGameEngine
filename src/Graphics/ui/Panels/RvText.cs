@@ -20,4 +20,9 @@ public class RvText : RvAbstractComponent
         spriteBatch.DrawRectangleBorder(bounds, Color.Gray, RvSpriteBatch.DEFAULT_UI_BORDER_LAYER);
         spriteBatch.DrawString(text, new Vector2(bounds.X, bounds.Y), 20);
     }
+
+    public override void unInit()
+    {
+        //to do
+    }
 }

@@ -24,6 +24,11 @@ public class RvTextField : RvAbstractComponent, RvKeyboardListenerI, RvMouseList
         initKeysToChars();
     }
 
+    public override void unInit()
+    {
+        //to do.
+    }
+
     private void initKeysToChars()
     {
         switch (mode)
