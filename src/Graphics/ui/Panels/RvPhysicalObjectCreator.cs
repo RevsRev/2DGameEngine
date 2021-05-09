@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
+using System.Threading.Tasks;
 
-public class RvPhysicalObjectCreator : RvDialogPanel
+public class RvPhysicalObjectCreator : RvDialogPanel<RvPhysicalObject>
 {
     private const int DEFAULT_WIDTH = 400;
     private const int DEFAULT_HEIGHT = 200;
@@ -20,6 +21,18 @@ public class RvPhysicalObjectCreator : RvDialogPanel
     public RvPhysicalObjectCreator(Vector2 position) : this(new Rectangle((int)position.X, (int)position.Y, DEFAULT_WIDTH, DEFAULT_HEIGHT))
     {
 
+    }
+
+    //this is all just for generic testing at the moment.
+    public override Task<RvPhysicalObject> doPopup()
+    {
+        Rectangle bounds = new Rectangle(200,200, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        RvPhysicalObjectCreator screen = new RvPhysicalObjectCreator(bounds);
+        return new Task<RvPhysicalObject>(screen.getValue);
+    }
+    public RvPhysicalObject getValue()
+    {
+        return new RvPhysicalObject(RvGame.the(), new Vector2(0,0), new Vector2(0,0), 1.0f);
     }
 
     private void initComponents()
