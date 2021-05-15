@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System;
 
 public class RvGame : Game
@@ -129,6 +130,12 @@ public class RvGame : Game
         //testing
         RvKeyboard.the().Update(gameTime);
         RvMouse.the().Update(gameTime);
+
+        if (Keyboard.GetState().IsKeyDown(Keys.F1))
+        {
+            RvPhysicalObject newObj = RvScreenHandler.doPopup<RvPhysicalObject>("RvPhysicalObjectCreator").Result;
+            levels[currentLevel].addToObjectHandler(newObj);
+        }
 
         base.Update(gameTime);
     }

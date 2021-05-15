@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 public class RvPhysicalObjectCreator : RvDialogPanel<RvPhysicalObject>
 {
+    private const int DEFAULT_X = 200;
+    private const int DEFAULT_Y = 200;
     private const int DEFAULT_WIDTH = 400;
     private const int DEFAULT_HEIGHT = 200;
 
@@ -12,6 +14,11 @@ public class RvPhysicalObjectCreator : RvDialogPanel<RvPhysicalObject>
 
     private RvText tipText;
     private RvTextField textField;
+
+    public RvPhysicalObjectCreator() : this(new Vector2(DEFAULT_X, DEFAULT_Y))
+    {
+
+    }
 
     public RvPhysicalObjectCreator(Rectangle bounds) : base(bounds)
     {
@@ -32,7 +39,7 @@ public class RvPhysicalObjectCreator : RvDialogPanel<RvPhysicalObject>
     }
     public RvPhysicalObject getValue()
     {
-        return new RvPhysicalObject(RvGame.the(), new Vector2(0,0), new Vector2(0,0), 1.0f);
+        return new RvKnight(RvGame.the(), new Vector2(0,0), new Vector2(0,0), 1.0f);
     }
 
     private void initComponents()

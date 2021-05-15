@@ -1,6 +1,4 @@
-using System.Threading.Tasks;
-
-public interface RvScreenI<T>
+public interface RvScreenI
 {
-    public abstract Task<T> doPopup();
+    public abstract void Draw(RvSpriteBatch spriteBatch);
 }

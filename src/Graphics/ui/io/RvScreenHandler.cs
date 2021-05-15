@@ -1,16 +1,19 @@
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using System;
 
 public class RvScreenHandler
 {
-    private RvScreenHandler instance;
+    private static RvScreenHandler instance;
+
+    private List<RvScreenI> screens = new List<RvScreenI>();
 
     private RvScreenHandler()
     {
 
     }
 
-    public RvScreenHandler the()
+    public static RvScreenHandler the()
     {
         if (instance == null)
         {
@@ -18,11 +21,27 @@ public class RvScreenHandler
         }
         return instance;
     }
-
-
-    public static async Task<T> doPopup<T>(RvScreenI<T> screen)
+    public void addScreen(RvScreenI screen)
     {
-        Task<T> task = screen.doPopup();
-        return await task;
+        screens.Add(screen);
+    }
+    public void removeScreen(RvScreenI screen)
+    {
+        screens.Remove(screen);
+    }
+    public void Draw(RvSpriteBatch spriteBatch)
+    {
+        foreach (var screen in screens)
+        {
+            screen.Draw(spriteBatch);
+        }
+    }
+
+
+    public static async Task<T> doPopup<T>(String screenName)
+    {
+        RvScreenTypeI<T> screen = (RvScreenTypeI<T>)RvClassLoader.createByName(screenName);
+        RvScreenHandler.the().addScreen(screen);
+        return await screen.doPopup();
     }
 }

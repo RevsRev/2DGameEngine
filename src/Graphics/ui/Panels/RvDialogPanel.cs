@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Threading.Tasks;
 
-public abstract class RvDialogPanel<T> : RvPanel, IObserver<string>, RvScreenI<T>
+public abstract class RvDialogPanel<T> : RvPanel, IObserver<string>, RvScreenTypeI<T>
 {
     private const int BANNER_HEIGHT = 20;
 
