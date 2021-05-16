@@ -134,7 +134,7 @@ public class RvGame : Game
 
         if (Keyboard.GetState().IsKeyDown(Keys.F1))
         {
-            RvPhysicalObject newObj = RvScreenHandler.doPopup<RvPhysicalObject>("RvPhysicalObjectCreator").Result;
+            RvPhysicalObject newObj = RvScreenHandler.doPopup<RvPhysicalObject>("RvPhysicalObjectCreator");
             levels[currentLevel].addToObjectHandler(newObj);
         }
 

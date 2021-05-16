@@ -28,7 +28,7 @@ public sealed class RvScreenHandler
         }
         return instance;
     }
-    
+
     public void addScreen(RvScreenI screen)
     {
         screens.Add(screen);
@@ -45,11 +45,12 @@ public sealed class RvScreenHandler
         }
     }
 
-
-    public static async Task<T> doPopup<T>(String screenName)
+    public static T doPopup<T>(String screenName)
     {
         RvScreenTypeI<T> screen = (RvScreenTypeI<T>)RvClassLoader.createByName(screenName);
         RvScreenHandler.the().addScreen(screen);
-        return await screen.doPopup();
+        Task<T> task = screen.doPoupAsync();
+        task.Wait();
+        return task.Result;
     }
 }

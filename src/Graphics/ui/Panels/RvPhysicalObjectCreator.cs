@@ -31,11 +31,11 @@ public class RvPhysicalObjectCreator : RvDialogPanel<RvPhysicalObject>
     }
 
     //this is all just for generic testing at the moment.
-    public override Task<RvPhysicalObject> doPopup()
+    public override RvPhysicalObject doPopup()
     {
         Rectangle bounds = new Rectangle(200,200, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         RvPhysicalObjectCreator screen = new RvPhysicalObjectCreator(bounds);
-        return new Task<RvPhysicalObject>(screen.getValue);
+        return screen.getValue();
     }
     public RvPhysicalObject getValue()
     {

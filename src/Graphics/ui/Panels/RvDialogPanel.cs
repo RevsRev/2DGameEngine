@@ -14,7 +14,7 @@ public abstract class RvDialogPanel<T> : RvPanel, IObserver<string>, RvScreenTyp
         init();
     }
 
-    public abstract Task<T> doPopup();
+    public abstract T doPopup();
 
     public void init()
     {
