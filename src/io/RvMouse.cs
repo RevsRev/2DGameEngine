@@ -7,6 +7,7 @@ using System;
 public class RvMouse
 {
     private static RvMouse instance = null;
+    private static readonly object padlock = new object();
 
     List<RvMouseListenerI> listeners = new List<RvMouseListenerI>();
 
@@ -19,7 +20,13 @@ public class RvMouse
     {
         if (instance == null)
         {
-            instance = new RvMouse();
+            lock(padlock)
+            {
+                if (instance == null)
+                {
+                    instance = new RvMouse();
+                }
+            }
         }
         return instance;
     }

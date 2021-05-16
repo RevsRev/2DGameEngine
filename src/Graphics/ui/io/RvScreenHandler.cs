@@ -2,9 +2,10 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
 
-public class RvScreenHandler
+public sealed class RvScreenHandler
 {
     private static RvScreenHandler instance;
+    private static readonly object padlock = new object();
 
     private List<RvScreenI> screens = new List<RvScreenI>();
 
@@ -17,10 +18,17 @@ public class RvScreenHandler
     {
         if (instance == null)
         {
-            instance = new RvScreenHandler();
+            lock(padlock)
+            {
+                if (instance == null)
+                {
+                    instance = new RvScreenHandler();
+                }
+            }
         }
         return instance;
     }
+    
     public void addScreen(RvScreenI screen)
     {
         screens.Add(screen);

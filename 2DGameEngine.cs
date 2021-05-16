@@ -60,6 +60,7 @@ public class RvGame : Game
     }
     public static RvGame the()
     {
+        //this is always initialised right at the start of the program, so no need for lock(padlock) pattern.
         return instance;
     }
 

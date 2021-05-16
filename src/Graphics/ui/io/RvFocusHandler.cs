@@ -3,6 +3,7 @@ using System.Collections.Generic;
 public class RvFocusHandler
 {
     private static RvFocusHandler instance;
+    private static readonly object padlock = new object();
 
     RvFocusableI focused = null;
 
@@ -14,7 +15,13 @@ public class RvFocusHandler
     {
         if (instance == null)
         {
-            instance = new RvFocusHandler();
+            lock(padlock)
+            {
+                if (instance == null)
+                {
+                    instance = new RvFocusHandler();
+                }
+            }
         }
         return instance;
     }

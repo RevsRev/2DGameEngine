@@ -7,6 +7,8 @@ using System;
 public class RvKeyboard
 {
     private static RvKeyboard instance = null;
+    private static readonly object padlock = new object();
+
     private static readonly float MIN_TIME_BETWEEN_SAME_KEY_PRESSES = 0.2f;
     private static readonly int NUM_KEYS = 254;
 
@@ -25,7 +27,13 @@ public class RvKeyboard
     {
         if (instance == null)
         {
-            instance = new RvKeyboard();
+            lock(padlock)
+            {
+                if (instance == null)
+                {
+                    instance = new RvKeyboard();
+                }
+            }
         }
         return instance;
     }
