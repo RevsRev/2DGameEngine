@@ -21,5 +21,5 @@ public abstract class RvAbstractComponent
     }
     
     public virtual void Update(GameTime gameTime) {}
-    public virtual void Draw(RvSpriteBatch spriteBatch) {}
+    public virtual void Draw() {}
 }

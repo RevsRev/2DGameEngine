@@ -69,7 +69,7 @@ public class RvAnimation
         }
     }
 
-    public void Draw(RvSpriteBatch spriteBatch, Rectangle destinationRect, float layer)
+    public void Draw(Rectangle destinationRect, float layer)
     {
         bool doClipping = false; //pass this in/set at a later date.
 
@@ -99,7 +99,7 @@ public class RvAnimation
 
         Rectangle sourceRect = new Rectangle(width*column, height*row, clipWidth, clipHeight);
 
-        spriteBatch.Draw(atlas, trueDestRect, sourceRect, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, layer);
+        RvSpriteBatch.the().Draw(atlas, trueDestRect, sourceRect, Color.White, 0.0f, Vector2.Zero, SpriteEffects.None, layer);
     }
 
     public int getId()

@@ -47,20 +47,20 @@ public class RvLevel
         await File.WriteAllTextAsync(RvContentFiles.LEVELS + levelName + ".txt", output);
     }
 
-    public void Update(GameTime gameTime, RvSpriteBatch spriteBatch)
+    public void Update(GameTime gameTime)
     {
         objectHandler.Update(gameTime);
         sceneryHandler.Update(gameTime);
     }
-    public void Update(GameTime gameTime, RvSpriteBatch spriteBatch, RvEditor editor)
+    public void Update(GameTime gameTime, RvEditor editor)
     {
-        editor.bindObject(objectHandler, spriteBatch);
-        editor.Update(gameTime, spriteBatch);
+        editor.bindObject(objectHandler);
+        editor.Update(gameTime);
     }
-    public void Draw(RvSpriteBatch spriteBatch)
+    public void Draw()
     {
-        objectHandler.Draw(spriteBatch);
-        sceneryHandler.Draw(spriteBatch);      
+        objectHandler.Draw();
+        sceneryHandler.Draw();      
     }
 
     public void setObjectHandler(RvObjectHandler objectHandler)

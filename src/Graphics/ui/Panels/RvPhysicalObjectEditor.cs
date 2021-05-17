@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-public class RvPhysicalObjectEditor : RvPanel
+public class RvPhysicalObjectEditor : RvSDialog<RvPhysicalObject>
 {
     private Vector2 position;
     private Vector2 velocity;

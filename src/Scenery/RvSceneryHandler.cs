@@ -54,14 +54,14 @@ public class RvSceneryHandler
             sceneryVec[i].Update(gameTime);
         }
     }
-    public void Draw(RvSpriteBatch spriteBatch)
+    public void Draw()
     {
         //At the moment, I only want to draw the forest!
         // for (int i=0; i<sceneryVec.Count; i++)
         // {
         //     sceneryVec[i].Draw(spriteBatch);
         // }
-        sceneryVec[SCENE_ID_FOREST].Draw(spriteBatch);
+        sceneryVec[SCENE_ID_FOREST].Draw();
     }
 }
 

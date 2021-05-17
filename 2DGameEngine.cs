@@ -14,7 +14,6 @@ public class RvGame : Game
     private static readonly int GAME_STATE_EDIT         = 4;
 
     private GraphicsDeviceManager graphics;
-    private RvSpriteBatch spriteBatch;
 
     RvEditor editor;
     private static RvGame instance; //Making this accessible from anywhere because it's getting annoying having to pass into lots of things.
@@ -66,7 +65,6 @@ public class RvGame : Game
 
     protected override void LoadContent()
     {
-        spriteBatch = new RvSpriteBatch(Content, GraphicsDevice, new Vector2(RvSystem.SCR_WIDTH/2, RvSystem.SCR_HEIGHT/2), RvSystem.SCR_WIDTH, RvSystem.SCR_HEIGHT);
         loadLevels();
 
         //testing
@@ -144,12 +142,12 @@ public class RvGame : Game
     private void updateGameStatePlaying(GameTime gameTime)
     {
         RvLevel level = levels[currentLevel];
-        level.Update(gameTime, spriteBatch);
+        level.Update(gameTime);
     }
     private void updateGameStateEdit(GameTime gameTime)
     {
         RvLevel level = levels[currentLevel];
-        level.Update(gameTime, spriteBatch, editor);
+        level.Update(gameTime, editor);
     }
 
     protected override void Draw(GameTime gameTime)
@@ -168,10 +166,11 @@ public class RvGame : Game
         }
 
         //testing
-        spriteBatch.Begin();
-        textField.Draw(spriteBatch);
-        physicalObjectCreator.Draw(spriteBatch);
-        spriteBatch.End();
+        RvSpriteBatch.the().Begin();
+
+        //test drawing goes here.
+
+        RvSpriteBatch.the().End();
 
         base.Draw(gameTime);
     }
@@ -180,24 +179,18 @@ public class RvGame : Game
     {
         RvLevel level = levels[currentLevel];
 
-        spriteBatch.Begin(SpriteSortMode.BackToFront, null);
-        level.Draw(spriteBatch);
+        RvSpriteBatch.the().Begin(SpriteSortMode.BackToFront, null);
+        level.Draw();
 
         if (gameState == GAME_STATE_EDIT)
         {
-            editor.Draw(spriteBatch);
+            editor.Draw();
         }
-
-        spriteBatch.End();
+        RvSpriteBatch.the().End();
     }
 
     public void saveCurrentLevel()
     {
         levels[currentLevel].saveLevel();
-    }
-
-    public RvSpriteBatch getSpriteBatch()
-    {
-        return spriteBatch;
     }
 }

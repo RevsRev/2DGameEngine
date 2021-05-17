@@ -13,12 +13,12 @@ public class RvText : RvAbstractComponent
         this.text = text;
     }
 
-    public override void Draw(RvSpriteBatch spriteBatch)
+    public override void Draw()
     {
         //at the moment, this is just to text.
-        spriteBatch.DrawRectangle(bounds, Color.White, RvSpriteBatch.DEFAULT_UI_LAYER);
-        spriteBatch.DrawRectangleBorder(bounds, Color.Gray, RvSpriteBatch.DEFAULT_UI_BORDER_LAYER);
-        spriteBatch.DrawString(text, new Vector2(bounds.X, bounds.Y), 20);
+        RvSpriteBatch.the().DrawRectangle(bounds, Color.White, RvSpriteBatch.DEFAULT_UI_LAYER);
+        RvSpriteBatch.the().DrawRectangleBorder(bounds, Color.Gray, RvSpriteBatch.DEFAULT_UI_BORDER_LAYER);
+        RvSpriteBatch.the().DrawString(text, new Vector2(bounds.X, bounds.Y), 20);
     }
 
     public override void unInit()

@@ -55,10 +55,10 @@ public class RvScenery : RvDrawableObject
         base.Update(gameTime);
     }
 
-    public void Draw(RvSpriteBatch spriteBatch)
+    public void Draw()
     {
         Rectangle pallet = new Rectangle((int)(position.X), (int)(position.Y), width, height);
-        base.Draw(spriteBatch, pallet);
+        base.Draw(pallet);
     }
 }
 

@@ -35,7 +35,7 @@ public class RvMenu : IObserver<string>, IObservable<string>
         buttons.Add(newButton);
     }
 
-    public void Draw(RvSpriteBatch spriteBatch)
+    public void Draw()
     {
         if (!visible)
         {
@@ -44,7 +44,7 @@ public class RvMenu : IObserver<string>, IObservable<string>
 
         for (int i=0; i<buttons.Count; i++)
         {
-            buttons[i].Draw(spriteBatch);
+            buttons[i].Draw();
         }
     }
 

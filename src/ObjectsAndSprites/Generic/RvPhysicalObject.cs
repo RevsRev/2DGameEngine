@@ -147,13 +147,13 @@ public class RvPhysicalObject : GameComponent
         return otherObject.hitBox.getRestoringDirection(hitBox.sampleEdgePoints());
     }
 
-    public void draw(RvSpriteBatch spriteBatch)
+    public void draw()
     {
-        sprite.Draw(spriteBatch, hitBox.getTextureRectangle());
+        sprite.Draw(hitBox.getTextureRectangle());
 
         if (RvDebug.isDebugMode())
         {
-            hitBox.drawBoundary(spriteBatch);
+            hitBox.drawBoundary();
         }
     }
 

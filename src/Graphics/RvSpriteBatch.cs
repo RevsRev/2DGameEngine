@@ -22,6 +22,10 @@ public class RvSpriteBatch : SpriteBatch
     public static readonly int FONT_FANTASY         = 1;
     public static readonly int FONT_THEANO_DIDOT    = 2;
 
+    //this is a singleton
+    private static RvSpriteBatch instance = null;
+    private static readonly object padlock = new object();
+
     //Defines the region within which we want things to be drawn.
     private int width;
     private int height;
@@ -30,7 +34,7 @@ public class RvSpriteBatch : SpriteBatch
     //If we want to follow a particular object (i.e. side scrolling for a platformer!)
     private RvPhysicalObject boundObject;
 
-    public RvSpriteBatch(ContentManager content, GraphicsDevice graphics, Vector2 centre, int width, int height) : base(graphics)
+    private RvSpriteBatch(ContentManager content, GraphicsDevice graphics, Vector2 centre, int width, int height) : base(graphics)
     {
         this.centre = centre;
         this.width = width;
@@ -38,6 +42,21 @@ public class RvSpriteBatch : SpriteBatch
 
         initPens(content);
         initFonts(content);
+    }
+
+    public static RvSpriteBatch the()
+    {
+        if (instance == null)
+        {
+            lock(padlock)
+            {
+                if(instance == null)
+                {
+                    instance = new RvSpriteBatch(RvGame.the().Content, RvGame.the().GraphicsDevice, new Vector2(RvSystem.SCR_WIDTH/2, RvSystem.SCR_HEIGHT/2), RvSystem.SCR_WIDTH, RvSystem.SCR_HEIGHT);
+                }
+            }
+        }
+        return instance;
     }
 
     public void initPens(ContentManager content)

@@ -110,7 +110,7 @@ namespace Shapes
             this.bottomLeftCorner = translation;
         }
 
-        public void drawBoundary(RvSpriteBatch spriteBatch)
+        public void drawBoundary()
         {
             Rectangle top = new Rectangle((int)(bottomLeftCorner.X), (int)(bottomLeftCorner.Y + height), (int)width, 1);
             Rectangle right = new Rectangle((int)(bottomLeftCorner.X + width), (int)(bottomLeftCorner.Y), 1, (int)height);
@@ -119,10 +119,10 @@ namespace Shapes
 
             Texture2D pixel = RvDebug.getPixel();
 
-            spriteBatch.Draw(pixel, top, Color.LimeGreen);
-            spriteBatch.Draw(pixel, right, Color.LimeGreen);
-            spriteBatch.Draw(pixel, bottom, Color.LimeGreen);
-            spriteBatch.Draw(pixel, left, Color.LimeGreen);
+            RvSpriteBatch.the().Draw(pixel, top, Color.LimeGreen);
+            RvSpriteBatch.the().Draw(pixel, right, Color.LimeGreen);
+            RvSpriteBatch.the().Draw(pixel, bottom, Color.LimeGreen);
+            RvSpriteBatch.the().Draw(pixel, left, Color.LimeGreen);
         }
 
         public override Rectangle getTextureRectangle()

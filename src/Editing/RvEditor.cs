@@ -31,7 +31,7 @@ public class RvEditor : IObserver<string>
         editorMenu.Subscribe(this);
     }
 
-    public void bindObject(RvObjectHandler objHandler, RvSpriteBatch spriteBatch)
+    public void bindObject(RvObjectHandler objHandler)
     {
         MouseState mouseState = Mouse.GetState();
 
@@ -46,7 +46,7 @@ public class RvEditor : IObserver<string>
         {
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
-                Vector2 point = mapScreenCoordsToGameCoords(mouseState, spriteBatch);
+                Vector2 point = mapScreenCoordsToGameCoords(mouseState);
                 List<RvPhysicalObject> objects = objHandler.getObjectsAt(point);
 
                 //for now, we'll just bind the first object
@@ -58,29 +58,29 @@ public class RvEditor : IObserver<string>
         }
     }
 
-    public void Update(GameTime gameTime, RvSpriteBatch spriteBatch)
+    public void Update(GameTime gameTime)
     {
         if (boundObject != null)
         {
             MouseState mouseState = Mouse.GetState();
-            Vector2 mousePhysicalCoords = mapScreenCoordsToGameCoords(mouseState, spriteBatch);
+            Vector2 mousePhysicalCoords = mapScreenCoordsToGameCoords(mouseState);
             boundObject.setPositionAndHitbox(new Vector2(mousePhysicalCoords.X - xOffset, mousePhysicalCoords.Y - yOffset));
         }
         editorMenu.Update(gameTime);
     }
 
-    public void Draw(RvSpriteBatch spriteBatch)
+    public void Draw()
     {
-        editorMenu.Draw(spriteBatch);
+        editorMenu.Draw();
     }
 
-    private Vector2 mapScreenCoordsToGameCoords(MouseState mouseState, RvSpriteBatch spriteBatch)
+    private Vector2 mapScreenCoordsToGameCoords(MouseState mouseState)
     {
-        return mapScreenCoordsToGameCoords(new Vector2(mouseState.X, mouseState.Y), spriteBatch);
+        return mapScreenCoordsToGameCoords(new Vector2(mouseState.X, mouseState.Y));
     }
-    private Vector2 mapScreenCoordsToGameCoords(Vector2 position, RvSpriteBatch spriteBatch)
+    private Vector2 mapScreenCoordsToGameCoords(Vector2 position)
     {
-        Vector2 topLeftGameCoords = spriteBatch.getTopLeftGameCoords();
+        Vector2 topLeftGameCoords = RvSpriteBatch.the().getTopLeftGameCoords();
         return new Vector2(position.X + topLeftGameCoords.X, position.Y + topLeftGameCoords.Y);
     }
 
@@ -143,15 +143,14 @@ public class RvEditor : IObserver<string>
 
     private void doRemove()
     {
-        RvSpriteBatch spriteBatch = game.getSpriteBatch();
         Vector2 position = editorMenu.getPosition();
-        Vector2 point = mapScreenCoordsToGameCoords(position, spriteBatch);
+        Vector2 point = mapScreenCoordsToGameCoords(position);
         game.getCurrentLevel().removeFromObjectHandler(point);
     }
 
     private void addObject(string objectName, Vector2 position)
     {
-        Vector2 physicalPosition = mapScreenCoordsToGameCoords(position, game.getSpriteBatch());
+        Vector2 physicalPosition = mapScreenCoordsToGameCoords(position);
         if (objectName.Equals("Knight"))
         {
             game.getCurrentLevel().addToObjectHandler(new RvKnight(game, physicalPosition, Vector2.Zero));

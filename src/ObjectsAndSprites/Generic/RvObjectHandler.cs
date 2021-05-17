@@ -39,11 +39,11 @@ public class RvObjectHandler
         doPhysics(gameTime);
     }
 
-    public void Draw(RvSpriteBatch spriteBatch)
+    public void Draw()
     {
         for (int i=0; i<objects.Count; i++)
         {
-            objects[i].draw(spriteBatch);
+            objects[i].draw();
         }
     }
 

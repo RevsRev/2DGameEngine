@@ -37,11 +37,11 @@ public sealed class RvScreenHandler
     {
         screens.Remove(screen);
     }
-    public void Draw(RvSpriteBatch spriteBatch)
+    public void Draw()
     {
         foreach (var screen in screens)
         {
-            screen.Draw(spriteBatch);
+            screen.Draw();
         }
     }
 

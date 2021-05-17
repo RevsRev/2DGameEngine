@@ -69,13 +69,13 @@ public class RvDrawableObject
         animations[currentAnimation].Update(gameTime);
     }
 
-    public virtual void Draw(RvSpriteBatch spriteBatch, Rectangle destinationRectangle)
+    public virtual void Draw(Rectangle destinationRectangle)
     {
         if (!visible)
         {
             return;
         }
-        animations[currentAnimation].Draw(spriteBatch, destinationRectangle, layer);
+        animations[currentAnimation].Draw(destinationRectangle, layer);
     }
 
 

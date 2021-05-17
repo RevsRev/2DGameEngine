@@ -10,8 +10,8 @@ public class RvButtonImage : RvAbstractButton<string>
         image = RvContentHandler.the().getImage(imagePath);
     }
 
-    public override void Draw(RvSpriteBatch spriteBatch)
+    public override void Draw()
     {
-        spriteBatch.Draw(image, bounds, Color.White);
+        RvSpriteBatch.the().Draw(image, bounds, Color.White);
     }
 }
