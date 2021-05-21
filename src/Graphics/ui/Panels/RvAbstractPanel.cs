@@ -18,11 +18,11 @@ public abstract class RvAbstractPanel : RvAbstractComponent
             components[i].Draw();
         }
     }
-    public override void Update(GameTime gameTime)
+    public override void Update()
     {
         for (int i=0; i<components.Count; i++)
         {
-            components[i].Update(gameTime);
+            components[i].Update();
         }
     }
 

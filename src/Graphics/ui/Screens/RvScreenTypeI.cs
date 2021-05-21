@@ -4,6 +4,7 @@ public interface RvScreenTypeI<T> : RvScreenI
 {
     public async Task<T> doPoupAsync()
     {
+        init();
         return doPopup();
     }
 

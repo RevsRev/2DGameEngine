@@ -165,7 +165,7 @@ public class RvGame : Game
             || gameState == GAME_STATE_EDIT)
         {
             //do playing
-            drawCurrentLevel();
+            //drawCurrentLevel();
         }
 
         //testing

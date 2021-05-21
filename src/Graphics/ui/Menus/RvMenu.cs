@@ -71,7 +71,7 @@ public class RvMenu : IObserver<string>, IObservable<string>
 
         for (int i=0; i<buttons.Count; i++)
         {
-            buttons[i].Update(gameTime);
+            buttons[i].Update();
         }
     }
 

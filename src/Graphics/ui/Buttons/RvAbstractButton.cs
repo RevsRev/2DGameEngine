@@ -6,12 +6,15 @@ using System.Collections.Generic;
 
 public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>
 {
+    //statics
+    private static readonly float CLICK_INCREMENT = 1.0f;
+
     //Keep track of who's listening to the button
     protected List<IObserver<T>> observers = new List<IObserver<T>>();
     protected T message;
 
     //To prevent the button firing too many events
-    private static readonly float MIN_TIME_BETWEEN_CLICKS = 0.1f;
+    private static readonly float MIN_TIME_BETWEEN_CLICKS = 20.0f;
     private float lastClick = 0.0f;
 
     public RvAbstractButton(T message, Rectangle bounds) : base(bounds)
@@ -37,7 +40,7 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>
             && bounds.Y < cursorY && cursorY < bounds.Y + bounds.Height;
     }
 
-    public override void Update(GameTime gameTime)
+    public override void Update()
     {
         MouseState mouse = Mouse.GetState();
         if (mouse.LeftButton == ButtonState.Pressed && lastClick > MIN_TIME_BETWEEN_CLICKS)
@@ -48,7 +51,7 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>
             }
             lastClick = 0.0f;
         }
-        lastClick += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        lastClick += CLICK_INCREMENT;
     }
 
     public void buttonPressed()

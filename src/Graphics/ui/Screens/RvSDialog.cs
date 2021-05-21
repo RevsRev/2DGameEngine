@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Threading.Tasks;
 
-public abstract class RvSDialog<T> : RvSAbstractScreen<T>, IObserver<string>, RvScreenTypeI<T>
+public abstract class RvSDialog<T> : RvSAbstractScreen<T>, IObserver<string>
 {
     private const int BANNER_HEIGHT = 20;
 
@@ -19,8 +19,10 @@ public abstract class RvSDialog<T> : RvSAbstractScreen<T>, IObserver<string>, Rv
         //unimplemented.
     }
 
-    public void init()
+    public override void init()
     {
+        base.init();
+        
         //I'm going to assume we put in sensible dimensions for the time being...
         Rectangle bannerRect = new Rectangle(bounds.X, bounds.Y, bounds.Width, BANNER_HEIGHT);
         banner = new RvPanel(bannerRect);

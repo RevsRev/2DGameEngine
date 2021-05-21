@@ -20,6 +20,6 @@ public abstract class RvAbstractComponent
         this.bounds = bounds;
     }
     
-    public virtual void Update(GameTime gameTime) {}
+    public virtual void Update() {}
     public virtual void Draw() {}
 }
