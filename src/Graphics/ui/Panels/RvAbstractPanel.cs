@@ -12,7 +12,7 @@ public abstract class RvAbstractPanel : RvAbstractComponent
 
     public override void Draw()
     {
-        RvSpriteBatch.the().DrawRectangle(bounds, color, 0.0f); //todo - ui layer depths...
+        RvUiDrawer.the().DrawRectangle(bounds, color, 0.0f); //todo - ui layer depths...
         for (int i=0; i<components.Count; i++)
         {
             components[i].Draw();

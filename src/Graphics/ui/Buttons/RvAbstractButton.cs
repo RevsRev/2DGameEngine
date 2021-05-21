@@ -27,8 +27,8 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>
     public override void Draw()
     {
         //just the rectangle of the button.
-        RvSpriteBatch.the().DrawRectangle(bounds, Color.Gray, RvSpriteBatch.DEFAULT_UI_LAYER);
-        RvSpriteBatch.the().DrawRectangleBorder(bounds, Color.Black, RvSpriteBatch.DEFAULT_UI_BORDER_LAYER);
+        RvUiDrawer.the().DrawRectangle(bounds, Color.Gray);
+        RvUiDrawer.the().DrawRectangleBorder(bounds, Color.Black);
     }
 
     public bool enteredButton(int cursorX, int cursorY)

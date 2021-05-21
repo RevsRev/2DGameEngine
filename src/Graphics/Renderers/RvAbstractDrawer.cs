@@ -4,15 +4,13 @@ using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
 using System;
 
-public class RvSpriteBatch : SpriteBatch
+public abstract class RvAbstractDrawer : SpriteBatch
 {
     //used to define the region within which the bound object can move before we start scrolling
     public static readonly float BINDING_WIDTH_RATIO = 0.9f;
     public static readonly float BINDING_HEIGHT_RATIO = 0.9f;
 
-    public static readonly float DEFAULT_DRAWING_LAYER      = 0.5f;
-    public static readonly float DEFAULT_UI_LAYER           = 0.1f;
-    public static readonly float DEFAULT_UI_BORDER_LAYER    = 0.05f;
+    public static readonly float DEFAULT_DRAWING_LAYER = 0.5f;
 
     //used for drawing buttons/menus
     public static Dictionary<int, Texture2D> pens = new Dictionary<int, Texture2D>();
@@ -22,19 +20,13 @@ public class RvSpriteBatch : SpriteBatch
     public static readonly int FONT_FANTASY         = 1;
     public static readonly int FONT_THEANO_DIDOT    = 2;
 
-    //this is a singleton
-    private static RvSpriteBatch instance = null;
-    private static readonly object padlock = new object();
-
     //Defines the region within which we want things to be drawn.
-    private int width;
-    private int height;
-    private Vector2 centre;
+    protected int width;
+    protected int height;
+    protected Vector2 centre;
+    protected float drawingLayer = DEFAULT_DRAWING_LAYER;
 
-    //If we want to follow a particular object (i.e. side scrolling for a platformer!)
-    private RvPhysicalObject boundObject;
-
-    private RvSpriteBatch(ContentManager content, GraphicsDevice graphics, Vector2 centre, int width, int height) : base(graphics)
+    protected RvAbstractDrawer(ContentManager content, GraphicsDevice graphics, Vector2 centre, int width, int height) : base(graphics)
     {
         this.centre = centre;
         this.width = width;
@@ -44,20 +36,8 @@ public class RvSpriteBatch : SpriteBatch
         initFonts(content);
     }
 
-    public static RvSpriteBatch the()
-    {
-        if (instance == null)
-        {
-            lock(padlock)
-            {
-                if(instance == null)
-                {
-                    instance = new RvSpriteBatch(RvGame.the().Content, RvGame.the().GraphicsDevice, new Vector2(RvSystem.SCR_WIDTH/2, RvSystem.SCR_HEIGHT/2), RvSystem.SCR_WIDTH, RvSystem.SCR_HEIGHT);
-                }
-            }
-        }
-        return instance;
-    }
+    //If we want to follow a particular object (i.e. side scrolling for a platformer!)
+    private RvPhysicalObject boundObject;
 
     public void initPens(ContentManager content)
     {
@@ -190,12 +170,20 @@ public class RvSpriteBatch : SpriteBatch
         }
     }
 
+    public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects)
+    {
+        Draw(texture, position, sourceRectangle, color, rotation, origin, scale, effects, drawingLayer);
+    }
     new public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth)
     {
         //implement
         base.Draw(texture, position, sourceRectangle, color, rotation, origin, scale, effects, layerDepth);
     }
 
+    public void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects)
+    {
+        Draw(texture, destinationRectangle, sourceRectangle, color, rotation, origin, effects, drawingLayer);
+    }
     new public void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth)
     {
         if (sourceRectangle == null) //I haven't written the code to handle this yet.
@@ -210,9 +198,18 @@ public class RvSpriteBatch : SpriteBatch
         }
     }
 
+    public void DrawRectangle(Rectangle destinationRectangle, Color color)
+    {
+        DrawRectangle(destinationRectangle, color, drawingLayer);
+    }
     public void DrawRectangle(Rectangle destinationRectangle, Color color, float layerDepth)
     {
         base.Draw(pens[PEN_WHITE_PIXEL], destinationRectangle, null, color, 0.0f, Vector2.Zero, SpriteEffects.None, layerDepth);
+    }
+
+    public void DrawRectangleBorder(Rectangle destinationRectangle, Color color)
+    {
+        DrawRectangle(destinationRectangle, color, drawingLayer);
     }
     public void DrawRectangleBorder(Rectangle destinationRectangle, Color color, float layerDepth)
     {
@@ -229,15 +226,14 @@ public class RvSpriteBatch : SpriteBatch
 
     public void DrawString(string text, Vector2 position, float size)
     {
+        DrawString(text, position, size, drawingLayer);
+    }
+
+    public void DrawString(string text, Vector2 position, float size, float layerDepth)
+    {
         Vector2 letterSize = fonts[FONT_THEANO_DIDOT].getLetterSize();
         float scale = size/letterSize.Y;
 
-        DrawString(fonts[FONT_THEANO_DIDOT].createSpriteFont(), text, position, Color.Black, 0.0f, Vector2.Zero, scale, SpriteEffects.None, DEFAULT_UI_BORDER_LAYER);
-    }
-
-    //Trims the string to the appropriate length if it's too long.
-    public void DrawString(string text, Vector2 position, float size, float length)
-    {
-        //todo (not that important at the moment)
+        DrawString(fonts[FONT_THEANO_DIDOT].createSpriteFont(), text, position, Color.Black, 0.0f, Vector2.Zero, scale, SpriteEffects.None, layerDepth);
     }
 }

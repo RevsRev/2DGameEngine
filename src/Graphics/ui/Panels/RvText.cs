@@ -16,9 +16,9 @@ public class RvText : RvAbstractComponent
     public override void Draw()
     {
         //at the moment, this is just to text.
-        RvSpriteBatch.the().DrawRectangle(bounds, Color.White, RvSpriteBatch.DEFAULT_UI_LAYER);
-        RvSpriteBatch.the().DrawRectangleBorder(bounds, Color.Gray, RvSpriteBatch.DEFAULT_UI_BORDER_LAYER);
-        RvSpriteBatch.the().DrawString(text, new Vector2(bounds.X, bounds.Y), 20);
+        RvUiDrawer.the().DrawRectangle(bounds, Color.White);
+        RvUiDrawer.the().DrawRectangleBorder(bounds, Color.Gray);
+        RvUiDrawer.the().DrawString(text, new Vector2(bounds.X, bounds.Y), 20);
     }
 
     public override void unInit()

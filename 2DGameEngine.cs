@@ -133,7 +133,10 @@ public class RvGame : Game
         if (Keyboard.GetState().IsKeyDown(Keys.F1))
         {
             RvPhysicalObject newObj = RvScreenHandler.doPopup<RvPhysicalObject>("RvPhysicalObjectCreator");
-            levels[currentLevel].addToObjectHandler(newObj);
+            if (newObj != null)
+            {
+                levels[currentLevel].addToObjectHandler(newObj);
+            }
         }
 
         base.Update(gameTime);

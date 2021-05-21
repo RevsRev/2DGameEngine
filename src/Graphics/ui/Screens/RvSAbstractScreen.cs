@@ -26,8 +26,9 @@ public abstract class RvSAbstractScreen<T> : RvAbstractPanel, RvScreenTypeI<T>
     {
         while (!okToFinish)
         {
-            //draw
-            //update
+            RvUiDrawer.the().Begin();
+            Draw();
+            RvUiDrawer.the().End();
         }
         return data;
     }
