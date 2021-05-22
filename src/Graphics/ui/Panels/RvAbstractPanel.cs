@@ -10,19 +10,19 @@ public abstract class RvAbstractPanel : RvAbstractComponent
     {
     }
 
-    public override void Draw()
+    public override void Draw(RvAbstractDrawer drawer)
     {
-        RvUiDrawer.the().DrawRectangle(bounds, color, 0.0f); //todo - ui layer depths...
+        drawer.DrawRectangle(bounds, color, getDrawingLayer());
         for (int i=0; i<components.Count; i++)
         {
-            components[i].Draw();
+            components[i].Draw(drawer);
         }
     }
-    public override void Update()
+    public override void Update(GameTime gameTime)
     {
         for (int i=0; i<components.Count; i++)
         {
-            components[i].Update();
+            components[i].Update(gameTime);
         }
     }
 
@@ -34,6 +34,7 @@ public abstract class RvAbstractPanel : RvAbstractComponent
         Rectangle absoluteBounds = component.getBounds();
         Rectangle relativeBounds = new Rectangle(absoluteBounds.X + bounds.X, absoluteBounds.Y + bounds.Y, absoluteBounds.Width, absoluteBounds.Height);
         component.setBounds(relativeBounds);
+        component.setLayerNum(layerNum + 1);
 
         components.Add(component);
     }

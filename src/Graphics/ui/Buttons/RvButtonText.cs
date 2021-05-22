@@ -12,9 +12,9 @@ public class RvButtonText : RvAbstractButton<string>
         this.fontSize = fontSize;
     }
 
-    public override void Draw()
+    public override void Draw(RvAbstractDrawer drawer)
     {
-        RvUiDrawer.the().DrawString(message, new Vector2(bounds.X, bounds.Y), fontSize);
-        base.Draw();
+        drawer.DrawString(message, new Vector2(bounds.X, bounds.Y), fontSize);
+        base.Draw(drawer);
     }
 }

@@ -2,14 +2,14 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Threading.Tasks;
 
-public abstract class RvSDialog<T> : RvSAbstractScreen<T>, IObserver<string>
+public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>
 {
     private const int BANNER_HEIGHT = 20;
 
     RvAbstractPanel banner; //contains the title, X buttons, etc...
     RvAbstractPanel contentPanel; //for putting the actual content of the panel.
 
-    public RvSDialog(Rectangle bounds) : base(bounds)
+    protected RvSDialog(Rectangle bounds) : base(bounds)
     {
         init();
     }
@@ -34,8 +34,8 @@ public abstract class RvSDialog<T> : RvSAbstractScreen<T>, IObserver<string>
         Rectangle contentRect = new Rectangle(bounds.X, bounds.Y + BANNER_HEIGHT, bounds.Width, bounds.Height - BANNER_HEIGHT);
         contentPanel = new RvPanel(contentRect);
 
-        components.Add(banner);
-        components.Add(contentPanel);
+        base.addComponent(contentPanel);
+        base.addComponent(banner);
     }
 
     public override void addComponent(RvAbstractComponent component)

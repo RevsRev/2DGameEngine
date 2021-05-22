@@ -35,7 +35,7 @@ public class RvMenu : IObserver<string>, IObservable<string>
         buttons.Add(newButton);
     }
 
-    public void Draw()
+    public void Draw(RvAbstractDrawer drawer)
     {
         if (!visible)
         {
@@ -44,12 +44,17 @@ public class RvMenu : IObserver<string>, IObservable<string>
 
         for (int i=0; i<buttons.Count; i++)
         {
-            buttons[i].Draw();
+            buttons[i].Draw(drawer);
         }
     }
 
     public void Update(GameTime gameTime)
     {
+        if (!visible)
+        {
+            return;
+        }
+
         lastClick = (float)Math.Min(lastClick + (float)gameTime.ElapsedGameTime.TotalSeconds, MIN_TIME_BETWEEN_CLICKS_SECONDS);
 
         MouseState mouse = Mouse.GetState();
@@ -71,7 +76,7 @@ public class RvMenu : IObserver<string>, IObservable<string>
 
         for (int i=0; i<buttons.Count; i++)
         {
-            buttons[i].Update();
+            buttons[i].Update(gameTime);
         }
     }
 

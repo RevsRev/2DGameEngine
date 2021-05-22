@@ -27,11 +27,11 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>
         //to do
     }
 
-    public override void Draw()
+    public override void Draw(RvAbstractDrawer drawer)
     {
         //just the rectangle of the button.
-        RvUiDrawer.the().DrawRectangle(bounds, Color.Gray);
-        RvUiDrawer.the().DrawRectangleBorder(bounds, Color.Black);
+        drawer.DrawRectangle(bounds, Color.Gray);
+        drawer.DrawRectangleBorder(bounds, Color.Black);
     }
 
     public bool enteredButton(int cursorX, int cursorY)
@@ -40,7 +40,7 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>
             && bounds.Y < cursorY && cursorY < bounds.Y + bounds.Height;
     }
 
-    public override void Update()
+    public override void Update(GameTime gameTime)
     {
         MouseState mouse = Mouse.GetState();
         if (mouse.LeftButton == ButtonState.Pressed && lastClick > MIN_TIME_BETWEEN_CLICKS)

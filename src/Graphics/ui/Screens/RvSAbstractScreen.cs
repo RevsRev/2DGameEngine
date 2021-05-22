@@ -1,9 +1,8 @@
 using Microsoft.Xna.Framework;
 using System.Threading.Tasks;
 
-public abstract class RvSAbstractScreen<T> : RvAbstractPanel, RvScreenTypeI<T>
+public abstract class RvSAbstractScreen : RvAbstractPanel, RvScreenI
 {
-
     //20 frames per second seems reasonable.
     public static readonly int SCREEN_REFRESH_PERIOD = 50;
 
@@ -12,9 +11,8 @@ public abstract class RvSAbstractScreen<T> : RvAbstractPanel, RvScreenTypeI<T>
     public static readonly int DEFAULT_Y = 200;
 
     bool okToFinish = false;
-    T data = default(T);
 
-    public RvSAbstractScreen(Rectangle bounds) : base(bounds)
+    protected RvSAbstractScreen(Rectangle bounds) : base(bounds)
     {
     }
 
@@ -25,25 +23,17 @@ public abstract class RvSAbstractScreen<T> : RvAbstractPanel, RvScreenTypeI<T>
 
     public abstract override void unInit();
 
-    protected void setData(T data)
-    {
-        this.data = data;
-    }
     protected void setOkToFinish(bool okToFinish)
     {
         this.okToFinish = okToFinish;
     }
 
-    public T doPopup()
+    public bool isOkToFinish()
     {
-        while (!okToFinish)
-        {
-            RvUiDrawer.the().Begin();
-            Draw();
-            Update();
-            RvUiDrawer.the().End();
-            RvThread.sleep(SCREEN_REFRESH_PERIOD);
-        }
-        return data;
+        return okToFinish;
+    }
+    public virtual void doFinish()
+    {
+
     }
 }

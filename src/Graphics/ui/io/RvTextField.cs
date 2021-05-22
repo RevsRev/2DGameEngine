@@ -46,12 +46,11 @@ public class RvTextField : RvAbstractComponent, RvKeyboardListenerI, RvMouseList
         }
     }
 
-    public override void Draw()
+    public override void Draw(RvAbstractDrawer drawer)
     {
         //at the moment, this is just to text.
-        RvUiDrawer.the().DrawRectangle(bounds, Color.White);
-        RvUiDrawer.the().DrawRectangleBorder(bounds, Color.Gray);
-        RvUiDrawer.the().DrawString(sb.ToString(), new Vector2(bounds.X, bounds.Y), 20);
+        base.Draw(drawer);
+        drawer.DrawString(sb.ToString(), new Vector2(bounds.X, bounds.Y), 20, RvUiConstantsI.DRAWING_LAYER_TEXT);
     }
 
     public void keyPressed(Keys key)

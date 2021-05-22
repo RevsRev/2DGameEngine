@@ -5,7 +5,9 @@ using Microsoft.Xna.Framework.Content;
 public class RvUiDrawer : RvAbstractDrawer
 {
     //drawing layer
-    public static readonly float DEFAULT_UI_DRAWING_LAYER = 0.1f;
+    public static readonly float DEFAULT_UI_DRAWING_LAYER = 0.2f;
+    public static readonly float DEFAULT_UI_BORDER_LAYER = 0.1f;
+    public static readonly float DEFAULT_UI_STRING_LAYER = 0.00f;
 
     //this is a singleton
     private static RvUiDrawer instance = null;
@@ -29,5 +31,14 @@ public class RvUiDrawer : RvAbstractDrawer
             }
         }
         return instance;
+    }
+
+    public override void DrawRectangleBorder(Rectangle destinationRectangle, Color color)
+    {
+        base.DrawRectangleBorder(destinationRectangle, color, DEFAULT_UI_BORDER_LAYER);
+    }
+    public override void DrawString(string text, Vector2 position, float size)
+    {
+        base.DrawString(text, position, size, DEFAULT_UI_STRING_LAYER);
     }
 }

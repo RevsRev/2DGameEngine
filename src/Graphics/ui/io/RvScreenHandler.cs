@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
@@ -7,7 +9,7 @@ public sealed class RvScreenHandler
     private static RvScreenHandler instance;
     private static readonly object padlock = new object();
 
-    private List<RvScreenI> screens = new List<RvScreenI>();
+    private List<RvSAbstractScreen> screens = new List<RvSAbstractScreen>();
 
     private RvScreenHandler()
     {
@@ -29,28 +31,46 @@ public sealed class RvScreenHandler
         return instance;
     }
 
-    public void addScreen(RvScreenI screen)
+    public void Update(GameTime gameTime)
     {
-        screens.Add(screen);
-    }
-    public void removeScreen(RvScreenI screen)
-    {
-        screens.Remove(screen);
+        for (int i=screens.Count-1; i>=0; i--)
+        {
+            RvSAbstractScreen screen = screens[i];
+            screen.Update(gameTime);
+            if (screen.isOkToFinish())
+            {
+                screen.doFinish();
+                removeScreen(screen);
+            }
+        }
     }
     public void Draw()
     {
-        foreach (var screen in screens)
+        
+        RvUiDrawer.the().Begin(SpriteSortMode.BackToFront, null);
+
+        for (int i=screens.Count-1; i>=0; i--)
         {
-            screen.Draw();
+            RvScreenI screen = screens[i];
+            screen.Draw(RvUiDrawer.the());
         }
+
+        RvUiDrawer.the().End();
     }
 
-    public static T doPopup<T>(String screenName)
+    public void addScreen(RvSAbstractScreen screen)
     {
-        RvScreenTypeI<T> screen = (RvScreenTypeI<T>)RvClassLoader.createByName(screenName);
+        screens.Add(screen);
+    }
+    public void removeScreen(RvSAbstractScreen screen)
+    {
+        screens.Remove(screen);
+    }
+
+    public void doPopup(String screenName)
+    {
+        RvSAbstractScreen screen = (RvSAbstractScreen)RvClassLoader.createByName(screenName);
+        screen.init();
         RvScreenHandler.the().addScreen(screen);
-        Task<T> task = screen.doPoupAsync();
-        task.Wait();
-        return task.Result;
     }
 }

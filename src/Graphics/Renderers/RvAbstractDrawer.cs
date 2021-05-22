@@ -207,7 +207,7 @@ public abstract class RvAbstractDrawer : SpriteBatch
         base.Draw(pens[PEN_WHITE_PIXEL], destinationRectangle, null, color, 0.0f, Vector2.Zero, SpriteEffects.None, layerDepth);
     }
 
-    public void DrawRectangleBorder(Rectangle destinationRectangle, Color color)
+    public virtual void DrawRectangleBorder(Rectangle destinationRectangle, Color color)
     {
         DrawRectangle(destinationRectangle, color, drawingLayer);
     }
@@ -224,7 +224,7 @@ public abstract class RvAbstractDrawer : SpriteBatch
         DrawRectangle(bottom, color, layerDepth);
     }
 
-    public void DrawString(string text, Vector2 position, float size)
+    public virtual void DrawString(string text, Vector2 position, float size)
     {
         DrawString(text, position, size, drawingLayer);
     }

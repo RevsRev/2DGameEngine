@@ -129,14 +129,11 @@ public class RvGame : Game
         //testing
         RvKeyboard.the().Update(gameTime);
         RvMouse.the().Update(gameTime);
+        RvScreenHandler.the().Update(gameTime);
 
         if (Keyboard.GetState().IsKeyDown(Keys.F1))
         {
-            RvPhysicalObject newObj = RvScreenHandler.doPopup<RvPhysicalObject>("RvPhysicalObjectCreator");
-            if (newObj != null)
-            {
-                levels[currentLevel].addToObjectHandler(newObj);
-            }
+            RvScreenHandler.the().doPopup("RvPhysicalObjectCreator");
         }
 
         base.Update(gameTime);
@@ -165,16 +162,16 @@ public class RvGame : Game
             || gameState == GAME_STATE_EDIT)
         {
             //do playing
-            //drawCurrentLevel();
+            drawCurrentLevel();
         }
 
-        //testing
-        RvSpriteBatch.the().Begin();
+        RvScreenHandler.the().Draw();
 
-        //test drawing goes here.
+        base.Draw(gameTime);
+    }
 
-        RvSpriteBatch.the().End();
-
+    public void drawGame(GameTime gameTime)
+    {
         base.Draw(gameTime);
     }
 

@@ -71,7 +71,10 @@ public class RvEditor : IObserver<string>
 
     public void Draw()
     {
-        editorMenu.Draw();
+        //todo - need to fix this and draw using the screen handler...
+        RvUiDrawer.the().Begin(Microsoft.Xna.Framework.Graphics.SpriteSortMode.BackToFront, null);
+        editorMenu.Draw(RvUiDrawer.the());
+        RvUiDrawer.the().End();
     }
 
     private Vector2 mapScreenCoordsToGameCoords(MouseState mouseState)

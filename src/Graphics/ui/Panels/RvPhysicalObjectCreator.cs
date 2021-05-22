@@ -30,6 +30,12 @@ public class RvPhysicalObjectCreator : RvSDialog<RvPhysicalObject>
 
     }
 
+    public override void init()
+    {
+        base.init();
+        initComponents();
+    }
+
     private void initComponents()
     {
         tipText = new RvText("Enter object class", getTipTextBounds());
