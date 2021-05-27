@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections.Generic;
 using System;
 
-public class RvTextField : RvAbstractComponent, RvKeyboardListenerI, RvMouseListenerI, RvFocusableI
+public class RvTextField : RvAbstractPanel, RvKeyboardListenerI, RvMouseListenerI, RvFocusableI
 {
     public const int MODE_DEFAULT = 0;
     public const int MODE_NUMBERS = 1;
@@ -19,6 +19,7 @@ public class RvTextField : RvAbstractComponent, RvKeyboardListenerI, RvMouseList
     public RvTextField(Rectangle bounds, int mode) : base(bounds)
     {
         this.mode = mode;
+        setPanelColor(Color.White);
         RvKeyboard.the().addKeyboardListener(this);
         RvMouse.the().addMouseListener(this);
         initKeysToChars();
@@ -63,14 +64,14 @@ public class RvTextField : RvAbstractComponent, RvKeyboardListenerI, RvMouseList
     {
         if (bounds.Contains(mouseEvent.X, mouseEvent.Y))
         {
-            if (mouseEvent.pressed == RvMouseEvent.LEFT_MOUSE_BUTTON_PRESSED)
+            if (mouseEvent.clicked == RvMouseEvent.LEFT_MOUSE_BUTTON_CLICKED)
             {
                 setFocused();
                 return;
             }
         }
 
-        if (mouseEvent.pressed != RvMouseEvent.NO_MOUSE_BUTTON_PRESSED)
+        if (mouseEvent.clicked != RvMouseEvent.NO_MOUSE_BUTTON_CLICKED)
         {
             removeFocus();
         }

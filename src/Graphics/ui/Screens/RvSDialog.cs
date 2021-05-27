@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Threading.Tasks;
 
-public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>
+public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>, RvMouseListenerI
 {
     private const int BANNER_HEIGHT = 20;
 
@@ -23,10 +23,12 @@ public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>
     {
         base.init();
         
+        RvMouse.the().addMouseListener(this);
+
         //I'm going to assume we put in sensible dimensions for the time being...
         Rectangle bannerRect = new Rectangle(bounds.X, bounds.Y, bounds.Width, BANNER_HEIGHT);
         banner = new RvPanel(bannerRect);
-        banner.setColor(Color.DarkGray);
+        banner.setPanelColor(Color.DarkGray);
         RvButtonImage xButton = new RvButtonImage("close", new Rectangle(bounds.Width - BANNER_HEIGHT, 0, BANNER_HEIGHT, BANNER_HEIGHT), RvContentFiles.UI + "XButton");
         xButton.Subscribe(this);
         banner.addComponent(xButton);
@@ -67,5 +69,17 @@ public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>
     public void OnError(Exception exception)
     {
         //do nothing
+    }
+
+    //stuff for mouse listener
+    public Rectangle getAnchorRegion()
+    {
+        return getBounds();
+    }
+    public void doDrag(Vector2 mouseCoords, Vector2 anchorPoint)
+    {
+        Vector2 del = mouseCoords - anchorPoint;
+        bounds.X = (int)del.X;
+        bounds.Y = (int)del.Y;
     }
 }

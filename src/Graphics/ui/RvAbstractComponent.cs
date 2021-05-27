@@ -40,7 +40,7 @@ public abstract class RvAbstractComponent
 
     public float getDrawingLayer()
     {
-        return initialDrawingLayer - (float)RvSequencesAndSeries.geometricSum(0.1f, 0.1f, layerNum);
+        return initialDrawingLayer - (float)RvSequencesAndSeries.geometricSum(0.01f, 0.1f, layerNum);
     }
     
     public virtual void Update(GameTime gameTime) {}

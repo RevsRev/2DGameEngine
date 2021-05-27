@@ -4,7 +4,8 @@ using System.Collections.Generic;
 public abstract class RvAbstractPanel : RvAbstractComponent
 {
     protected List<RvAbstractComponent> components = new List<RvAbstractComponent>();
-    private Color color = Color.LightGray;
+    private Color panelColor = Color.LightGray;
+    private Color borderColor = Color.Black;
 
     public RvAbstractPanel(Rectangle bounds) : base(bounds)
     {
@@ -12,7 +13,8 @@ public abstract class RvAbstractPanel : RvAbstractComponent
 
     public override void Draw(RvAbstractDrawer drawer)
     {
-        drawer.DrawRectangle(bounds, color, getDrawingLayer());
+        drawer.DrawRectangle(bounds, panelColor, getDrawingLayer());
+        drawer.DrawRectangleBorder(bounds, borderColor);
         for (int i=0; i<components.Count; i++)
         {
             components[i].Draw(drawer);
@@ -39,8 +41,8 @@ public abstract class RvAbstractPanel : RvAbstractComponent
         components.Add(component);
     }
 
-    public void setColor(Color color)
+    public void setPanelColor(Color panelColor)
     {
-        this.color = color;
+        this.panelColor = panelColor;
     }
 }
