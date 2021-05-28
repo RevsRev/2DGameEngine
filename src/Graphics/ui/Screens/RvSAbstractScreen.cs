@@ -7,8 +7,8 @@ public abstract class RvSAbstractScreen : RvAbstractPanel, RvScreenI
     public static readonly int SCREEN_REFRESH_PERIOD = 50;
 
     //FOR TESTING
-    public static readonly int DEFAULT_X = 200;
-    public static readonly int DEFAULT_Y = 200;
+    public static readonly int DEFAULT_X = 500;
+    public static readonly int DEFAULT_Y = 300;
 
     bool okToFinish = false;
 

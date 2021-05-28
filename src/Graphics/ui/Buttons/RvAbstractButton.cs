@@ -30,14 +30,16 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>
     public override void Draw(RvAbstractDrawer drawer)
     {
         //just the rectangle of the button.
-        drawer.DrawRectangle(bounds, Color.Gray);
-        drawer.DrawRectangleBorder(bounds, Color.Black);
+        drawer.DrawRectangle(getDrawingRegion(), Color.Gray);
+        drawer.DrawRectangleBorder(getDrawingRegion(), Color.Black);
     }
 
     public bool enteredButton(int cursorX, int cursorY)
     {
-        return bounds.X < cursorX && cursorX < bounds.X + bounds.Width
-            && bounds.Y < cursorY && cursorY < bounds.Y + bounds.Height;
+        Rectangle visibleRegion = getDrawingRegion();
+
+        return visibleRegion.X < cursorX && cursorX < visibleRegion.X + visibleRegion.Width
+            && visibleRegion.Y < cursorY && cursorY < visibleRegion.Y + visibleRegion.Height;
     }
 
     public override void Update(GameTime gameTime)

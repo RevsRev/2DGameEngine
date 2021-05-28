@@ -15,6 +15,14 @@ public class RvMouse
     private RvMouseListenerI boundObject = null;
     private Vector2 anchorPoint = Vector2.Zero;
 
+    public const int BTN_MOUSE_IDLE = 0;
+    public const int BTN_MOUSE_CLICK_DOWN = 1;
+    public const int BTN_MOUSE_HELD = 2;
+    public const int BTN_MOUSE_CLICK_RELEASE = 3;
+
+    public int leftButton = BTN_MOUSE_IDLE;
+    public int rightButton = BTN_MOUSE_IDLE;
+
     //singleton.
     private RvMouse() 
     {
@@ -35,6 +43,35 @@ public class RvMouse
         return instance;
     }
 
+    private void click(ButtonState buttonState, ref int btn)
+    {
+        if (buttonState == ButtonState.Pressed)
+        {
+            if (btn == BTN_MOUSE_IDLE
+              || btn == BTN_MOUSE_CLICK_RELEASE)
+            {
+                btn = BTN_MOUSE_CLICK_DOWN;
+            }
+            else
+            {
+                btn = BTN_MOUSE_HELD;
+            }
+        }
+
+        else if (buttonState == ButtonState.Released)
+        {
+            if (btn == BTN_MOUSE_CLICK_DOWN
+              || btn == BTN_MOUSE_HELD)
+            {
+                btn = BTN_MOUSE_CLICK_RELEASE;
+            }
+            else
+            {
+                btn = BTN_MOUSE_IDLE;
+            }
+        }
+    }
+
     public void addMouseListener(RvMouseListenerI listener)
     {
         if (!listeners.Contains(listener))
@@ -45,19 +82,34 @@ public class RvMouse
 
     public void Update(GameTime gameTime)
     {
-        RvMouseEvent e = new RvMouseEvent(Mouse.GetState());
+        MouseState mouseState = Mouse.GetState();
+        click(mouseState.LeftButton, ref leftButton);
+        updateBoundObject(mouseState);
 
-        updateBoundObject(e);
+        fireEvents(mouseState);
+    }   
+
+    private void fireEvents(MouseState mouseState)
+    {
+        //TODO - Build on this for firing right button events, etc.
+
+        if (leftButton != BTN_MOUSE_CLICK_DOWN && leftButton != BTN_MOUSE_CLICK_RELEASE)
+        {
+            //not interested in holding/idle mouse.
+            return;
+        }
+
+        RvMouseEvent e = new RvMouseEvent(this, mouseState.X, mouseState.Y);
 
         for (int i=0; i<listeners.Count; i++)
         {
             listeners[i].mouseEvent(e);
         }
-    }   
+    }
 
-    private void updateBoundObject(RvMouseEvent e)
+    private void updateBoundObject(MouseState mouseState)
     {
-        if (e.held == RvMouseEvent.NO_MOUSE_BUTTON_HELD)
+        if (leftButton == BTN_MOUSE_CLICK_RELEASE || leftButton == BTN_MOUSE_IDLE)
         {
             unBind();
         }
@@ -66,7 +118,7 @@ public class RvMouse
         {
             return;
         }
-        boundObject.doDrag(new Vector2(e.X, e.Y), anchorPoint);
+        boundObject.doDrag(new Vector2(mouseState.X, mouseState.Y), anchorPoint);
     }
 
     public bool isBound()

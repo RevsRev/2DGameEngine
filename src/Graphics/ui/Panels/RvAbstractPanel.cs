@@ -13,8 +13,8 @@ public abstract class RvAbstractPanel : RvAbstractComponent
 
     public override void Draw(RvAbstractDrawer drawer)
     {
-        drawer.DrawRectangle(bounds, panelColor, getDrawingLayer());
-        drawer.DrawRectangleBorder(bounds, borderColor);
+        drawer.DrawRectangle(getDrawingRegion(), panelColor, getDrawingLayer());
+        drawer.DrawRectangleBorder(getDrawingRegion(), borderColor);
         for (int i=0; i<components.Count; i++)
         {
             components[i].Draw(drawer);
@@ -27,15 +27,24 @@ public abstract class RvAbstractPanel : RvAbstractComponent
             components[i].Update(gameTime);
         }
     }
+    public override void move(Vector2 pos)
+    {
+        base.move(pos);
+        for (int i=0; i<components.Count; i++)
+        {
+            components[i].move(pos);
+        }
+    }
 
     public abstract override void unInit();
 
     public virtual void addComponent(RvAbstractComponent component)
     {
-        //Make sure that adding components is relative.
-        Rectangle absoluteBounds = component.getBounds();
-        Rectangle relativeBounds = new Rectangle(absoluteBounds.X + bounds.X, absoluteBounds.Y + bounds.Y, absoluteBounds.Width, absoluteBounds.Height);
-        component.setBounds(relativeBounds);
+        //Make sure that adding components is relative. CHANGED THIS 
+        //Rectangle absoluteBounds = component.getBounds();
+        //Rectangle relativeBounds = new Rectangle(absoluteBounds.X + bounds.X, absoluteBounds.Y + bounds.Y, absoluteBounds.Width, absoluteBounds.Height);
+        //component.setBounds(relativeBounds);
+        component.setOffset(component.getOffset() + getOffset()); //components offset + parents offset.
         component.setLayerNum(layerNum + 1);
 
         components.Add(component);

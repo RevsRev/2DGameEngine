@@ -12,6 +12,6 @@ public class RvButtonImage : RvAbstractButton<string>
 
     public override void Draw(RvAbstractDrawer drawer)
     {
-        drawer.Draw(image, bounds, Color.White);
+        drawer.Draw(image, getDrawingRegion(), Color.White);
     }
 }

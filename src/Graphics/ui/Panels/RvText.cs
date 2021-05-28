@@ -17,7 +17,7 @@ public class RvText : RvAbstractComponent
     {
         //at the moment, this is just to text.
         base.Draw(drawer);
-        drawer.DrawString(text, new Vector2(bounds.X, bounds.Y), 20, RvUiConstantsI.DRAWING_LAYER_TEXT);
+        drawer.DrawString(text, new Vector2(getDrawingRegion().X, getDrawingRegion().Y), 20, RvUiConstantsI.DRAWING_LAYER_TEXT);
     }
 
     public override void unInit()

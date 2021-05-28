@@ -29,12 +29,14 @@ public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>, RvMou
         Rectangle bannerRect = new Rectangle(bounds.X, bounds.Y, bounds.Width, BANNER_HEIGHT);
         banner = new RvPanel(bannerRect);
         banner.setPanelColor(Color.DarkGray);
-        RvButtonImage xButton = new RvButtonImage("close", new Rectangle(bounds.Width - BANNER_HEIGHT, 0, BANNER_HEIGHT, BANNER_HEIGHT), RvContentFiles.UI + "XButton");
+        RvButtonImage xButton = new RvButtonImage("close", new Rectangle(0, 0, BANNER_HEIGHT, BANNER_HEIGHT), RvContentFiles.UI + "XButton");
+        xButton.setOffset(new Vector2(bounds.Width - BANNER_HEIGHT, 0));
         xButton.Subscribe(this);
         banner.addComponent(xButton);
 
-        Rectangle contentRect = new Rectangle(bounds.X, bounds.Y + BANNER_HEIGHT, bounds.Width, bounds.Height - BANNER_HEIGHT);
+        Rectangle contentRect = new Rectangle(0,0, bounds.Width, bounds.Height - BANNER_HEIGHT);
         contentPanel = new RvPanel(contentRect);
+        contentPanel.setOffset(new Vector2(0, BANNER_HEIGHT));
 
         base.addComponent(contentPanel);
         base.addComponent(banner);
@@ -78,8 +80,7 @@ public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>, RvMou
     }
     public void doDrag(Vector2 mouseCoords, Vector2 anchorPoint)
     {
-        Vector2 del = mouseCoords - anchorPoint;
-        bounds.X = (int)del.X;
-        bounds.Y = (int)del.Y;
+        Vector2 pos = mouseCoords - anchorPoint;
+        move(pos);
     }
 }

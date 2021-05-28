@@ -5,7 +5,7 @@ public class RvPhysicalObjectCreator : RvSDialog<RvPhysicalObject>
 {
     private const int DEFAULT_X = 200;
     private const int DEFAULT_Y = 200;
-    private const int DEFAULT_WIDTH = 400;
+    private const int DEFAULT_WIDTH = 600;
     private const int DEFAULT_HEIGHT = 200;
 
     //This is not ideal but will do for now.
@@ -38,8 +38,8 @@ public class RvPhysicalObjectCreator : RvSDialog<RvPhysicalObject>
 
     private void initComponents()
     {
-        tipText = new RvText("Enter object class", getTipTextBounds());
-        textField = new RvTextField(getTextFieldBounds());
+        tipText = createRvText();
+        textField = createRvTextField();
 
         addComponent(tipText);
         addComponent(textField);
@@ -50,16 +50,33 @@ public class RvPhysicalObjectCreator : RvSDialog<RvPhysicalObject>
         Rectangle contentBounds = getContentBounds();
         int width = (int)(contentBounds.Width * (boundsToAdjust.Width/(double)100));
         int height = (int)(contentBounds.Height * (boundsToAdjust.Height/(double)100));
+        return new Rectangle(0, 0, width, height);
+    }
+    private Vector2 getOffset(Rectangle boundsToAdjust)
+    {
+        Rectangle contentBounds = getContentBounds();
         int x = (int)(contentBounds.Width * boundsToAdjust.X/(double)100);
         int y = (int)(contentBounds.Height * boundsToAdjust.Y/(double)100);
-        return new Rectangle(x, y, width, height);
+
+        return new Vector2(x, y);
     }
-    private Rectangle getTipTextBounds()
+    private RvText createRvText()
     {        
-        return getAdjustedBounds(TIP_TEXT_POSITIONING);
+        Rectangle adjustedBounds = getAdjustedBounds(TIP_TEXT_POSITIONING);
+        Vector2 offset = getOffset(TIP_TEXT_POSITIONING);
+
+        tipText = new RvText("Enter object class", adjustedBounds);
+        tipText.setOffset(offset);
+        return tipText;
     }
-    private Rectangle getTextFieldBounds()
+    private RvTextField createRvTextField()
     {
-        return getAdjustedBounds(TEXT_FIELD_POSITIONING);
+        Rectangle adjustedBounds = getAdjustedBounds(TEXT_FIELD_POSITIONING);
+        Vector2 offset = getOffset(TEXT_FIELD_POSITIONING);
+
+        RvTextField textField = new RvTextField(adjustedBounds);
+        textField.setOffset(offset);
+
+        return textField;
     }
 }

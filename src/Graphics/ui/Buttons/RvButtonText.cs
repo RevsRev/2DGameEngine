@@ -14,7 +14,7 @@ public class RvButtonText : RvAbstractButton<string>
 
     public override void Draw(RvAbstractDrawer drawer)
     {
-        drawer.DrawString(message, new Vector2(bounds.X, bounds.Y), fontSize);
+        drawer.DrawString(message, new Vector2(getDrawingRegion().X, getDrawingRegion().Y), fontSize);
         base.Draw(drawer);
     }
 }

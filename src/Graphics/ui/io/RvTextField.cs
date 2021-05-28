@@ -51,7 +51,7 @@ public class RvTextField : RvAbstractPanel, RvKeyboardListenerI, RvMouseListener
     {
         //at the moment, this is just to text.
         base.Draw(drawer);
-        drawer.DrawString(sb.ToString(), new Vector2(bounds.X, bounds.Y), 20, RvUiConstantsI.DRAWING_LAYER_TEXT);
+        drawer.DrawString(sb.ToString(), new Vector2(getDrawingRegion().X, getDrawingRegion().Y), 20, RvUiConstantsI.DRAWING_LAYER_TEXT);
     }
 
     public void keyPressed(Keys key)
@@ -62,17 +62,13 @@ public class RvTextField : RvAbstractPanel, RvKeyboardListenerI, RvMouseListener
 
     public void mouseEvent(RvMouseEvent mouseEvent)
     {
-        if (bounds.Contains(mouseEvent.X, mouseEvent.Y))
+        if (mouseEvent.leftButton)
         {
-            if (mouseEvent.clicked == RvMouseEvent.LEFT_MOUSE_BUTTON_CLICKED)
+            if (bounds.Contains(mouseEvent.X, mouseEvent.Y))
             {
                 setFocused();
                 return;
             }
-        }
-
-        if (mouseEvent.clicked != RvMouseEvent.NO_MOUSE_BUTTON_CLICKED)
-        {
             removeFocus();
         }
     }
