@@ -79,21 +79,36 @@ public class RvMouse
             listeners.Add(listener);
         }
     }
+    public void removeMouseListener(RvMouseListenerI listenerI)
+    {
+        listeners.Remove(listenerI);
+    }
 
     public void Update(GameTime gameTime)
     {
         MouseState mouseState = Mouse.GetState();
         click(mouseState.LeftButton, ref leftButton);
+        click(mouseState.RightButton, ref rightButton);
         updateBoundObject(mouseState);
 
         fireEvents(mouseState);
+        updatePosition(mouseState);
     }   
+
+    private void updatePosition(MouseState mouseState)
+    {
+        for (int i=0; i<listeners.Count; i++)
+        {
+            listeners[i].mousePosition(mouseState.X, mouseState.Y);
+        }
+    }
 
     private void fireEvents(MouseState mouseState)
     {
         //TODO - Build on this for firing right button events, etc.
 
-        if (leftButton != BTN_MOUSE_CLICK_DOWN && leftButton != BTN_MOUSE_CLICK_RELEASE)
+        if ((leftButton != BTN_MOUSE_CLICK_DOWN && leftButton != BTN_MOUSE_CLICK_RELEASE)
+          && (rightButton != BTN_MOUSE_CLICK_DOWN && rightButton != BTN_MOUSE_CLICK_RELEASE))
         {
             //not interested in holding/idle mouse.
             return;

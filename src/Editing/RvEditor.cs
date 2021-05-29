@@ -3,40 +3,35 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System;
 
-public class RvEditor : IObserver<string>
+public class RvEditor : RvPopupMenuListenerI
 {
     //The game
     RvGame game;
 
-    private RvMenu editorMenu;
-
     public RvEditor(RvGame game)
     {
         this.game = game;
-        initEditorMenu();
+        RvMouse.the().addMouseListener(this);
     }
 
-    private void initEditorMenu()
+    public void doClick(RvMouseEvent e)
     {
-        editorMenu = new RvMenu();
-        editorMenu.addButton("Save");
-        editorMenu.addButton("Remove");
-        editorMenu.addButton("Knight");
-        editorMenu.addButton("fEye");
-        editorMenu.Subscribe(this);
+        RvPopupMenuListenerI.onClick(e, this);
     }
 
-    public void Update(GameTime gameTime)
+    public RvPopupMenu buildPopupMenu()
     {
-        editorMenu.Update(gameTime);
+        RvPopupMenu retval = new RvPopupMenu();
+        retval.addPopupMenuItem("Save");
+        retval.addPopupMenuItem("Remove");
+        retval.addPopupMenuItem("Knight");
+        retval.addPopupMenuItem("fEye");
+        return retval;
     }
 
-    public void Draw()
+    public void performPopupMenuAction(String actionStr)
     {
-        //todo - need to fix this and draw using the screen handler...
-        RvUiDrawer.the().Begin(Microsoft.Xna.Framework.Graphics.SpriteSortMode.BackToFront, null);
-        editorMenu.Draw(RvUiDrawer.the());
-        RvUiDrawer.the().End();
+        doAction(actionStr);
     }
 
     public static Vector2 mapScreenCoordsToGameCoords(MouseState mouseState)
@@ -49,21 +44,6 @@ public class RvEditor : IObserver<string>
         return new Vector2(position.X + topLeftGameCoords.X, position.Y + topLeftGameCoords.Y);
     }
 
-    //fire the action command all the way to the object we add the menu to (at the moment, this is just the editor!)
-    public virtual void OnNext(String actionCommand)
-    {
-        doAction(actionCommand);
-    }
-
-    public virtual void OnError(Exception exception)
-    {
-        //no implementation (yet)
-    }
-    public virtual void OnCompleted()
-    {
-        //also unimplemented!
-    }
-
     private void doAction(string actionCommand)
     {
         if (actionCommand.Equals("Save"))
@@ -72,15 +52,15 @@ public class RvEditor : IObserver<string>
         }
         if (actionCommand.Equals("Remove"))
         {
-            doRemove();
+            //doRemove();
         }
         else if (actionCommand.Equals("Knight"))
         {
-            addObject(actionCommand, editorMenu.getPosition());
+            //addObject(actionCommand, editorMenu.getPosition());
         }
         else if (actionCommand.Equals("fEye"))
         {
-            addObject(actionCommand, editorMenu.getPosition());
+            //addObject(actionCommand, editorMenu.getPosition());
         }
     }
 
@@ -89,12 +69,12 @@ public class RvEditor : IObserver<string>
         game.saveCurrentLevel();
     }
 
-    private void doRemove()
-    {
-        Vector2 position = editorMenu.getPosition();
-        Vector2 point = mapScreenCoordsToGameCoords(position);
-        game.getCurrentLevel().removeFromObjectHandler(point);
-    }
+    // private void doRemove()
+    // {
+    //     Vector2 position = editorMenu.getPosition();
+    //     Vector2 point = mapScreenCoordsToGameCoords(position);
+    //     game.getCurrentLevel().removeFromObjectHandler(point);
+    // }
 
     private void addObject(string objectName, Vector2 position)
     {

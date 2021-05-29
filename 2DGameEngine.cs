@@ -147,7 +147,7 @@ public class RvGame : Game
     private void updateGameStateEdit(GameTime gameTime)
     {
         RvLevel level = levels[currentLevel];
-        level.Update(gameTime, editor);
+        //level.Update(gameTime, editor);
     }
 
     protected override void Draw(GameTime gameTime)
@@ -166,6 +166,7 @@ public class RvGame : Game
         }
 
         RvScreenHandler.the().Draw();
+        RvMiscDrawableHandler.the().Draw();
 
         base.Draw(gameTime);
     }
@@ -184,7 +185,7 @@ public class RvGame : Game
 
         if (gameState == GAME_STATE_EDIT)
         {
-            editor.Draw();
+            //editor.Draw();
         }
         RvSpriteBatch.the().End();
     }

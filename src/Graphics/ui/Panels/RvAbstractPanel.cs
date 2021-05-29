@@ -36,7 +36,13 @@ public abstract class RvAbstractPanel : RvAbstractComponent
         }
     }
 
-    public abstract override void unInit();
+    public override void dispose()
+    {
+        for (int i=0; i<components.Count; i++)
+        {
+            components[i].dispose();
+        }
+    }
 
     public virtual void addComponent(RvAbstractComponent component)
     {

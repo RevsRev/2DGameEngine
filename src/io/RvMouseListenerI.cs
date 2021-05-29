@@ -2,15 +2,16 @@ using Microsoft.Xna.Framework;
 
 public interface RvMouseListenerI
 {
-    public void mouseEvent(RvMouseEvent e)
+    public void mouseEvent(RvMouseEvent e) //for mouse click/held events (in future do scroll as well)
     {
         doClick(e);
         doBinding(e);
     }
 
-    public virtual Rectangle getAnchorRegion() {return Rectangle.Empty;}
-    public virtual void doDrag(Vector2 mouseCoords, Vector2 anchorPoint) {}
-    public virtual void doClick(RvMouseEvent e) {}
+    public virtual void mousePosition(int x, int y) {} //for things that always need to know where the mouse is
+    public virtual Rectangle getAnchorRegion() {return Rectangle.Empty;} //region to click in
+    public virtual void doDrag(Vector2 mouseCoords, Vector2 anchorPoint) {} //given the mouse coords and where we clicked in relation to the anchor region, drag the mouseListenerI
+    public virtual void doClick(RvMouseEvent e) {} //if we click, then do stuff.
 
     private void doBinding(RvMouseEvent e)
     {

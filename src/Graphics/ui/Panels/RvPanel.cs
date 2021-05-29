@@ -7,9 +7,4 @@ public class RvPanel : RvAbstractPanel
     {
 
     }
-
-    public override void unInit()
-    {
-
-    }
 }

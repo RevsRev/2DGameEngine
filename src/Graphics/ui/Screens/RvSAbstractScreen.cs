@@ -21,8 +21,6 @@ public abstract class RvSAbstractScreen : RvAbstractPanel, RvScreenI
         setBounds(new Rectangle(0,0, DEFAULT_X, DEFAULT_Y));
     }
 
-    public abstract override void unInit();
-
     protected void setOkToFinish(bool okToFinish)
     {
         this.okToFinish = okToFinish;
@@ -34,6 +32,6 @@ public abstract class RvSAbstractScreen : RvAbstractPanel, RvScreenI
     }
     public virtual void doFinish()
     {
-
+        dispose();
     }
 }

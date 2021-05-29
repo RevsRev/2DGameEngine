@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 
-public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>
+public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>, RvMouseListenerI
 {
     //statics
     private static readonly float CLICK_INCREMENT = 1.0f;
@@ -20,11 +20,23 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>
     public RvAbstractButton(T message, Rectangle bounds) : base(bounds)
     {
         this.message = message;
+        RvMouse.the().addMouseListener(this);
     }
 
-    public override void unInit()
+    public override void dispose()
     {
-        //to do
+        RvMouse.the().removeMouseListener(this);
+    }
+
+    public void doClick(RvMouseEvent e)
+    {
+        if (e.leftButton)
+        {
+            if (enteredButton(e.X, e.Y))
+            {
+                buttonPressed();
+            }
+        }
     }
 
     public override void Draw(RvAbstractDrawer drawer)
@@ -68,6 +80,15 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>
     {
         bounds.X = x;
         bounds.Y = y;
+    }
+
+    public int getHeight()
+    {
+        return bounds.Height;
+    }
+    public int getWidth()
+    {
+        return bounds.Width;
     }
 
     public IDisposable Subscribe(IObserver<T> observer)

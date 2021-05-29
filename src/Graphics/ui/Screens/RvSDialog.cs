@@ -14,9 +14,10 @@ public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>, RvMou
         init();
     }
 
-    public override void unInit()
+    public override void dispose()
     {
-        //unimplemented.
+        RvMouse.the().removeMouseListener(this);
+        base.dispose();
     }
 
     public override void init()

@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-public abstract class RvAbstractComponent
+public abstract class RvAbstractComponent : RvDisposable
 {
     protected Rectangle bounds;
     protected Vector2 offest = Vector2.Zero;
@@ -12,7 +12,7 @@ public abstract class RvAbstractComponent
         this.bounds = bounds;
     }
 
-    public abstract void unInit();
+    public abstract void dispose();
 
     public Rectangle getBounds()
     {

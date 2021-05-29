@@ -24,9 +24,10 @@ public class RvTextField : RvAbstractPanel, RvFocusableI
         RvFocusHandler.the().addFocusable(this);
     }
 
-    public override void unInit()
+    public override void dispose()
     {
-        //to do.
+        RvFocusHandler.the().removeFocus(this);
+        base.dispose();
     }
 
     private void initKeysToChars()

@@ -52,10 +52,6 @@ public class RvLevel
         objectHandler.Update(gameTime);
         sceneryHandler.Update(gameTime);
     }
-    public void Update(GameTime gameTime, RvEditor editor)
-    {
-        editor.Update(gameTime);
-    }
     public void Draw()
     {
         objectHandler.Draw();
