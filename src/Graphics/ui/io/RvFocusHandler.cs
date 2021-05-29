@@ -1,14 +1,19 @@
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Input;
 
-public class RvFocusHandler
+public class RvFocusHandler : RvKeyboardListenerI, RvMouseListenerI
 {
     private static RvFocusHandler instance;
     private static readonly object padlock = new object();
 
     RvFocusableI focused = null;
+    List<RvFocusableI> focusables = new List<RvFocusableI>();
+    List<RvFocusableI> focusRequests = new List<RvFocusableI>();
 
     private RvFocusHandler()
     {
+        RvMouse.the().addMouseListener(this);
+        RvKeyboard.the().addKeyboardListener(this);
     }
 
     public static RvFocusHandler the()
@@ -26,7 +31,50 @@ public class RvFocusHandler
         return instance;
     }
 
-    public void setFocused(RvFocusableI focusable)
+    public void addFocusable(RvFocusableI focusable)
+    {
+        if (!focusables.Contains(focusable))
+        {
+            focusables.Add(focusable);
+        }
+    }
+
+    public void keyPressed(Keys key)
+    {
+        if (focused != null)
+        {
+            focused.focusKeyEvent(key);
+        }
+    }
+
+    public void doClick(RvMouseEvent e)
+    {
+        for (int i=0; i<focusables.Count; i++)
+        {
+            focusables[i].focusMouseEvent(e);
+        }
+        doFocusRequests();
+    }
+
+    public void addFocusRequest(RvFocusableI focusable)
+    {
+        if (!focusRequests.Contains(focusable))
+        {
+            focusRequests.Add(focusable);
+        }
+    }
+    private void doFocusRequests()
+    {
+        if (focusRequests.Count>0)
+        {
+            focused = focusRequests[0];
+            focusRequests = new List<RvFocusableI>();
+            return;
+        }
+        focused = null;
+    }
+
+    private void setFocused(RvFocusableI focusable)
     {
         focused = focusable;
     }

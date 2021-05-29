@@ -92,11 +92,11 @@ public class RvGame : Game
         {
             Exit();
         }
-        if (Keyboard.GetState().IsKeyDown(Keys.K))
+        if (Keyboard.GetState().IsKeyDown(Keys.F3))
         {
             RvDebug.toggleDebugMode();
         }
-        if (Keyboard.GetState().IsKeyDown(Keys.M))
+        if (Keyboard.GetState().IsKeyDown(Keys.Enter))
         {
             if (gameState == GAME_STATE_EDIT)
             {

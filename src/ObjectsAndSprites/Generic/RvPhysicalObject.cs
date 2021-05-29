@@ -5,7 +5,7 @@ using Shapes;
 using System;
 using Newtonsoft.Json;
 
-public class RvPhysicalObject : GameComponent
+public class RvPhysicalObject : GameComponent, RvMouseListenerI
 {
     public static readonly float EPSILON                    = 0.01f; //for dealing with small floats.
     public static readonly float OBJECT_DEPTH               = 1.0f; //for collision detection
@@ -32,6 +32,8 @@ public class RvPhysicalObject : GameComponent
         this.velocity = velocity;
         this.mass = mass;
         this.hitBox = hitBox;
+
+        RvMouse.the().addMouseListener(this);
     }
 
     public RvPhysicalObject(Game game, Vector2 position, Vector2 velocity, RvDrawableObject sprite, float mass, bool immovable, RvHorizontalRectangle hitBox = null) : base(game)
@@ -42,6 +44,8 @@ public class RvPhysicalObject : GameComponent
         this.mass = mass;
         this.immovable = immovable;
         this.hitBox = hitBox;
+
+        RvMouse.the().addMouseListener(this);
     }
 
     public static RvPhysicalObject factory(Game game, RvPhysicalObjectWrapper w)
@@ -53,6 +57,17 @@ public class RvPhysicalObject : GameComponent
     {
         //haven't handled null sprite here. Not sure if it'll be a problem or not...
         return new RvPhysicalObjectWrapper(position, velocity, sprite.createWrapper(), mass, immovable, hitBox);
+    }
+
+    public Rectangle getAnchorRegion()
+    {
+        return hitBox.getRectangle();
+    }
+    public void doDrag(Vector2 mouseCoords, Vector2 anchorPoint)
+    {
+        Vector2 screenPosition = mouseCoords - anchorPoint;
+        position = RvEditor.mapScreenCoordsToGameCoords(screenPosition);
+        hitBox.setTranslation(position);
     }
 
     public void setSprite(RvDrawableObject sprite)
@@ -149,7 +164,7 @@ public class RvPhysicalObject : GameComponent
 
     public void draw()
     {
-        sprite.Draw(hitBox.getTextureRectangle());
+        sprite.Draw(hitBox.getRectangle());
 
         if (RvDebug.isDebugMode())
         {

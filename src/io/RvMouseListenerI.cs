@@ -5,15 +5,12 @@ public interface RvMouseListenerI
     public void mouseEvent(RvMouseEvent e)
     {
         doClick(e);
+        doBinding(e);
     }
 
     public virtual Rectangle getAnchorRegion() {return Rectangle.Empty;}
     public virtual void doDrag(Vector2 mouseCoords, Vector2 anchorPoint) {}
-
-    private void doClick(RvMouseEvent e)
-    {
-        doBinding(e);
-    }
+    public virtual void doClick(RvMouseEvent e) {}
 
     private void doBinding(RvMouseEvent e)
     {
@@ -22,7 +19,7 @@ public interface RvMouseListenerI
             return;
         }
 
-        if (!withinBindingRegion(e.X, e.Y))
+        if (!withinAnchorRegion(e.X, e.Y))
         {
             return;
         }
@@ -38,7 +35,7 @@ public interface RvMouseListenerI
         RvMouse.the().bind(this, anchorPoint);
     }
 
-    private bool withinBindingRegion(int mouseX, int mouseY)
+    private bool withinAnchorRegion(int mouseX, int mouseY)
     {
         Rectangle anchorRegion = getAnchorRegion();
         if (anchorRegion == Rectangle.Empty)

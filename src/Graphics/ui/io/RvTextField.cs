@@ -4,7 +4,7 @@ using System.Text;
 using System.Collections.Generic;
 using System;
 
-public class RvTextField : RvAbstractPanel, RvKeyboardListenerI, RvMouseListenerI, RvFocusableI
+public class RvTextField : RvAbstractPanel, RvFocusableI
 {
     public const int MODE_DEFAULT = 0;
     public const int MODE_NUMBERS = 1;
@@ -20,9 +20,8 @@ public class RvTextField : RvAbstractPanel, RvKeyboardListenerI, RvMouseListener
     {
         this.mode = mode;
         setPanelColor(Color.White);
-        RvKeyboard.the().addKeyboardListener(this);
-        RvMouse.the().addMouseListener(this);
         initKeysToChars();
+        RvFocusHandler.the().addFocusable(this);
     }
 
     public override void unInit()
@@ -54,32 +53,18 @@ public class RvTextField : RvAbstractPanel, RvKeyboardListenerI, RvMouseListener
         drawer.DrawString(sb.ToString(), new Vector2(getDrawingRegion().X, getDrawingRegion().Y), 20, RvUiConstantsI.DRAWING_LAYER_TEXT);
     }
 
-    public void keyPressed(Keys key)
+    public Rectangle getFocusRegion()
+    {
+        return getDrawingRegion();
+    }
+    public void focusKeyEvent(Keys keys)
     {
         bool shiftModifier = RvKeyboard.the().getShift();
-        processKey(key, shiftModifier);
-    }
-
-    public void mouseEvent(RvMouseEvent mouseEvent)
-    {
-        if (mouseEvent.leftButton)
-        {
-            if (bounds.Contains(mouseEvent.X, mouseEvent.Y))
-            {
-                setFocused();
-                return;
-            }
-            removeFocus();
-        }
+        processKey(keys, shiftModifier);
     }
 
     private void processKey(Keys key, bool shiftModifier)
     {
-        if (!isFocused())
-        {
-            return;
-        }
-
         if (key == Keys.Back && sb.Length > 0)
         {
             sb.Remove(sb.Length-1 ,1);
@@ -165,20 +150,5 @@ public class RvTextField : RvAbstractPanel, RvKeyboardListenerI, RvMouseListener
     private void addKeyToChar(Keys key, char charNoShift, char charShift)
     {
         keysToChars[key] = new Tuple<char, char>(charNoShift, charShift);
-    }
-
-    public void setFocused()
-    {
-        RvFocusHandler.the().setFocused(this);
-    }
-
-    public void removeFocus()
-    {
-        RvFocusHandler.the().removeFocus(this);
-    }
-
-    public bool isFocused()
-    {
-        return RvFocusHandler.the().isFocused(this);
     }
 }

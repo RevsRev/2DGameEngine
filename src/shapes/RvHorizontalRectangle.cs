@@ -125,7 +125,7 @@ namespace Shapes
             RvSpriteBatch.the().Draw(pixel, left, Color.LimeGreen);
         }
 
-        public override Rectangle getTextureRectangle()
+        public override Rectangle getRectangle()
         {
             return new Rectangle((int)bottomLeftCorner.X, (int)bottomLeftCorner.Y, (int)width, (int)height);
         }

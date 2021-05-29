@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 public abstract class RvAbstractShape : RvShapeI
 {
-    public abstract Rectangle getTextureRectangle();
+    public abstract Rectangle getRectangle();
 
     /*
      * RvShapeI methods

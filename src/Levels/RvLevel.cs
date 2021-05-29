@@ -54,7 +54,6 @@ public class RvLevel
     }
     public void Update(GameTime gameTime, RvEditor editor)
     {
-        editor.bindObject(objectHandler);
         editor.Update(gameTime);
     }
     public void Draw()

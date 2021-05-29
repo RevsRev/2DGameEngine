@@ -1,8 +1,16 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+
 public interface RvFocusableI
 {
-    public void setFocused();
+    public Rectangle getFocusRegion();
+    public void focusKeyEvent(Keys keys);
 
-    public void removeFocus();
-
-    public bool isFocused();
+    public void focusMouseEvent(RvMouseEvent e)
+    {
+        if (getFocusRegion().Contains(e.X, e.Y))
+        {
+            RvFocusHandler.the().addFocusRequest(this);
+        }
+    }
 }
