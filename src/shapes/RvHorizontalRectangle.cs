@@ -130,11 +130,11 @@ namespace Shapes
             return new Rectangle((int)bottomLeftCorner.X, (int)bottomLeftCorner.Y, (int)width, (int)height);
         }
 
-        public float getWidth()
+        public override float getWidth()
         {
             return width;
         }
-        public float getHeight()
+        public override float getHeight()
         {
             return height;
         }

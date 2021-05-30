@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 
-public class RvObjectHandler
+public class RvObjectHandler : RvAbstractWrappable, RvUpdatableI
 {
     private List<RvPhysicalObject> objects; //probably should live somewhere else, but this will do for now!
 
@@ -12,28 +12,17 @@ public class RvObjectHandler
         this.objects = objects;
     }
 
-    public static RvObjectHandler factory(Game game, RvObjectHandlerWrapper w)
-    {
-        List<RvPhysicalObjectWrapper> objectWrappers = w.objects;
-        List<RvPhysicalObject> objects = new List<RvPhysicalObject>();
-        for (int i=0; i<objectWrappers.Count; i++)
-        {
-            objects.Add(RvPhysicalObject.factory(game, objectWrappers[i]));
-        }
-        return new RvObjectHandler(objects);
-    }
-
-    public RvObjectHandlerWrapper createWrapper()
+    public override RvObjectHandlerWrapper wrap()
     {
         List<RvPhysicalObjectWrapper> objectWrappers = new List<RvPhysicalObjectWrapper>();
         for (int i=0; i<objects.Count; i++)
         {
-            objectWrappers.Add(objects[i].createWrapper());
+            objectWrappers.Add(objects[i].wrap());
         }
         return new RvObjectHandlerWrapper(objectWrappers);
     }
 
-    public void Update(GameTime gameTime)
+    public void update(GameTime gameTime)
     {
         updateObjects(gameTime);
         doPhysics(gameTime);
@@ -93,7 +82,7 @@ public class RvObjectHandler
     {
         for (int i=0; i<objects.Count; i++)
         {
-            objects[i].Update(gameTime);
+            objects[i].update(gameTime);
         }
     }
 
@@ -126,12 +115,22 @@ public class RvObjectHandler
     }
 }
 
-public class RvObjectHandlerWrapper
+public class RvObjectHandlerWrapper : RvAbstractWrapper
 {
-    [JsonProperty] public List<RvPhysicalObjectWrapper> objects;
+    [JsonProperty] public List<RvPhysicalObjectWrapper> objectWrappers;
 
     public RvObjectHandlerWrapper(List<RvPhysicalObjectWrapper> objects)
     {
-        this.objects = objects;
+        this.objectWrappers = objects;
+    }
+
+    public override RvObjectHandler unWrap()
+    {
+        List<RvPhysicalObject> objects = new List<RvPhysicalObject>();
+        for (int i=0; i<objectWrappers.Count; i++)
+        {
+            objects.Add(objectWrappers[i].unWrap());
+        }
+        return new RvObjectHandler(objects);
     }
 }

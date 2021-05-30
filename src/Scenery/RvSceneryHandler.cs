@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 
-public class RvSceneryHandler
+public class RvSceneryHandler : RvAbstractWrappable, RvUpdatableI
 {
     public static readonly int SCENE_ID_SPOOKY = 0;
     public static readonly int SCENE_ID_FOREST = 1;
@@ -19,24 +19,13 @@ public class RvSceneryHandler
         this.sceneryVec = sceneryVec;
     }
 
-    public static RvSceneryHandler factory(Game game, RvSceneryHandlerWrapper w)
-    {
-        List<RvSceneryWrapper> sceneryWrappers = w.sceneryWrappersVec;
-        List<RvScenery> sceneryVec = new List<RvScenery>();
-        for (int i=0; i<sceneryWrappers.Count; i++)
-        {
-            sceneryVec.Add(RvScenery.factory(game, sceneryWrappers[i]));
-        }
-        return new RvSceneryHandler(sceneryVec);
-    }
-
-    public RvSceneryHandlerWrapper createWrapper()
+    public override RvSceneryHandlerWrapper wrap()
     {
         List<RvSceneryWrapper> sceneryWrappers = new List<RvSceneryWrapper>();
         for (int i=0; i<sceneryVec.Count; i++)
         {
             RvScenery scenery = sceneryVec[i];
-            sceneryWrappers.Add(scenery.createWrapper());
+            sceneryWrappers.Add(scenery.wrap());
         }
         return new RvSceneryHandlerWrapper(sceneryWrappers);
     }
@@ -47,11 +36,11 @@ public class RvSceneryHandler
         sceneryVec.Add(RvScenery.factory(game, RvContentFiles.SCENRY + "dark_forest", Vector2.Zero, RvSystem.SCR_WIDTH, RvSystem.SCR_HEIGHT, SCENE_ID_FOREST));
     }
 
-    public void Update(GameTime gameTime)
+    public void update(GameTime gameTime)
     {
         for (int i=0; i<sceneryVec.Count; i++)
         {
-            sceneryVec[i].Update(gameTime);
+            sceneryVec[i].update(gameTime);
         }
     }
     public void Draw()
@@ -65,12 +54,22 @@ public class RvSceneryHandler
     }
 }
 
-public class RvSceneryHandlerWrapper
+public class RvSceneryHandlerWrapper : RvAbstractWrapper
 {
-    [JsonProperty] public List<RvSceneryWrapper> sceneryWrappersVec = new List<RvSceneryWrapper>();
+    [JsonProperty] public List<RvSceneryWrapper> sceneryWrappers = new List<RvSceneryWrapper>();
 
     public RvSceneryHandlerWrapper(List<RvSceneryWrapper> sceneryWrappersVec)
     {
-        this.sceneryWrappersVec = sceneryWrappersVec;
+        this.sceneryWrappers = sceneryWrappersVec;
+    }
+
+    public override RvSceneryHandler unWrap()
+    {
+        List<RvScenery> sceneryVec = new List<RvScenery>();
+        for (int i=0; i<sceneryWrappers.Count; i++)
+        {
+            sceneryVec.Add(sceneryWrappers[i].unWrap());
+        }
+        return new RvSceneryHandler(sceneryVec);
     }
 }

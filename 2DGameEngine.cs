@@ -142,7 +142,7 @@ public class RvGame : Game
     private void updateGameStatePlaying(GameTime gameTime)
     {
         RvLevel level = levels[currentLevel];
-        level.Update(gameTime);
+        level.update(gameTime);
     }
     private void updateGameStateEdit(GameTime gameTime)
     {

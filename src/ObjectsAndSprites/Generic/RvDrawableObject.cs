@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-public class RvDrawableObject
+public class RvDrawableObject : RvAbstractWrappable
 {
     protected List<RvAnimation> animations;
     int currentAnimation = 0;
@@ -18,27 +18,16 @@ public class RvDrawableObject
         this.visible = visible;
     }
 
-    public static RvDrawableObject factory(Game game, RvDrawableObjectWrapper w)
-    {
-        List<RvAnimation> rvAnims = new List<RvAnimation>();
-        for (int i=0; i<w.animations.Count; i++)
-        {
-            RvAnimation animation = RvAnimation.factory(game, w.animations[i]);
-            rvAnims.Add(animation);
-        }
-        return new RvDrawableObject(rvAnims, w.layer, w.visible);
-    }
-
-    public RvDrawableObjectWrapper createWrapper()
+    public override RvDrawableObjectWrapper wrap()
     {
         List<RvAnimationWrapper> animationWrappers = new List<RvAnimationWrapper>();
         for (int i=0; i<animations.Count; i++)
         {
             RvAnimation animation = animations[i];
-            animationWrappers.Add(animation.createWrapper());
+            animationWrappers.Add(animation.wrap());
         }
 
-        return new RvDrawableObjectWrapper(animationWrappers, visible, layer);
+        return new RvDrawableObjectWrapper(animationWrappers, layer, visible);
     }
 
     public void setCurrentAnimation(int animationId)
@@ -64,9 +53,9 @@ public class RvDrawableObject
         currentAnimation = (currentAnimation + 1)%animations.Count;
     }
 
-    public virtual void Update(GameTime gameTime)
+    public virtual void update(GameTime gameTime)
     {
-        animations[currentAnimation].Update(gameTime);
+        animations[currentAnimation].update(gameTime);
     }
 
     public virtual void Draw(Rectangle destinationRectangle)
@@ -94,17 +83,27 @@ public class RvDrawableObject
     }
 }
 
-public class RvDrawableObjectWrapper
+public class RvDrawableObjectWrapper : RvAbstractWrapper
 {
-    [JsonProperty] public  List<RvAnimationWrapper> animations;
+    [JsonProperty] public  List<RvAnimationWrapper> animationWrappers;
 
     [JsonProperty] public bool visible = true;
     [JsonProperty] public float layer = 0.0f;
 
-    public RvDrawableObjectWrapper(List<RvAnimationWrapper> animations, bool visible, float layer)
+    public RvDrawableObjectWrapper(List<RvAnimationWrapper> animations, float layer = 0.0f, bool visible = true)
     {
-        this.animations = animations;
+        this.animationWrappers = animations;
         this.visible = visible;
         this.layer = layer;
+    }
+
+    public override RvDrawableObject unWrap()
+    {
+        List<RvAnimation> animations = new List<RvAnimation>();
+        for (int i=0; i<animationWrappers.Count; i++)
+        {
+            animations.Add(animationWrappers[i].unWrap());
+        }
+        return new RvDrawableObject(animations, layer, visible);
     }
 }

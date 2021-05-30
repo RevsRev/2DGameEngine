@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 
-public class RvAnimation
+public class RvAnimation : RvAbstractWrappable, RvUpdatableI
 {
     private Texture2D atlas;
     private int id;
@@ -19,17 +19,23 @@ public class RvAnimation
     private double framesPerSecond = 20; //turn this into a parameter we pass in.
     private double frameTimer = 0.0f;
 
-    public RvAnimation(Texture2D atlas, int rows, int columns, bool recentre, Rectangle imageCentre, int id = 0)
+    public RvAnimation(string atlasName, int rows, int columns, bool recentre, Rectangle imageCentre, int id = 0)
+    : this(atlasName, rows, columns, 0, rows*columns, recentre, imageCentre, id)
     {
+    }
+
+    public RvAnimation(string atlasName, int rows, int columns, int currentFrame, int totalFrames, bool recentre, Rectangle imageCentre, int id=0)
+    {
+        Texture2D atlas = RvGame.the().Content.Load<Texture2D>("atlasName");
+
         this.atlas = atlas;
         this.rows = rows;
         this.columns = columns;
         this.id = id;
         this.recentre = recentre;
         this.imageCentre = imageCentre;
-
-        currentFrame = 0;
-        totalFrames = rows*columns;
+        this.currentFrame = currentFrame;
+        this.totalFrames = totalFrames;
     }
 
     public void reset()
@@ -38,28 +44,22 @@ public class RvAnimation
         frameTimer = 0.0f;
     }
 
-    public static RvAnimation factory(Game game, string name, int rows, int columns ,int id, bool recentre, Rectangle imageCentre)
+    public static RvAnimation factory(string name, int rows, int columns ,int id, bool recentre, Rectangle imageCentre)
     {
-        Texture2D atlas = game.Content.Load<Texture2D>(name);
-        return new RvAnimation(atlas, rows, columns, recentre, imageCentre, id);
+        return new RvAnimation(name, rows, columns, recentre, imageCentre, id);
     }
 
-    public static RvAnimation factory(Game game, string name, int rows, int columns ,int id)
+    public static RvAnimation factory(string name, int rows, int columns ,int id)
     {
-        return factory(game, name, rows, columns, id, false, new Rectangle(0, 0, 1, 1));
+        return factory(name, rows, columns, id, false, new Rectangle(0, 0, 1, 1));
     }
 
-    public static RvAnimation factory(Game game, RvAnimationWrapper w)
-    {
-        return factory(game, w.atlasName, w.rows, w.columns, w.id, w.recentre, w.imageCentre);
-    }
-
-    public RvAnimationWrapper createWrapper()
+    public override RvAnimationWrapper wrap()
     {
         return new RvAnimationWrapper(atlas.Name, id, columns, rows, currentFrame, totalFrames, recentre, imageCentre);
     }
 
-    public void Update(GameTime gameTime)
+    public void update(GameTime gameTime)
     {
         frameTimer += gameTime.ElapsedGameTime.TotalSeconds;
         if (frameTimer > 1/framesPerSecond)
@@ -109,7 +109,7 @@ public class RvAnimation
 }
 
 //used for saving
-public class RvAnimationWrapper
+public class RvAnimationWrapper : RvAbstractWrapper
 {
     [JsonProperty] public string atlasName;
     [JsonProperty] public int id;
@@ -132,5 +132,10 @@ public class RvAnimationWrapper
         this.totalFrames = totalFrames;
         this.recentre = recentre;
         this.imageCentre = imageCentre;
+    }
+
+    public override RvAnimation unWrap()
+    {
+        return new RvAnimation(atlasName, columns, rows, currentFrame, totalFrames, recentre, imageCentre, id);
     }
 }

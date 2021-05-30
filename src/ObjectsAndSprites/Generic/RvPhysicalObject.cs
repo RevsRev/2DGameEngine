@@ -5,7 +5,7 @@ using Shapes;
 using System;
 using Newtonsoft.Json;
 
-public class RvPhysicalObject : GameComponent, RvMouseListenerI, RvPopupMenuListenerI, RvDisposableI
+public class RvPhysicalObject : RvAbstractGameObject, RvMouseListenerI, RvPopupMenuListenerI, RvDisposableI
 {
     public static readonly float EPSILON                    = 0.01f; //for dealing with small floats.
     public static readonly float OBJECT_DEPTH               = 1.0f; //for collision detection
@@ -13,10 +13,7 @@ public class RvPhysicalObject : GameComponent, RvMouseListenerI, RvPopupMenuList
     public static readonly float MINIMUM_HORIZONTAL_VELOCITY = 10.0f;
     public static readonly float DEFAULT_JUMP_IMPULSE       = 10.0f;
 
-    //Physical variables
-    protected Vector2 position;
     protected float mass;
-    protected RvHorizontalRectangle hitBox;
     protected Vector2 velocity;
     protected RvDrawableObject sprite;
     protected bool immovable = false; //for platforms and suchlike.
@@ -26,48 +23,35 @@ public class RvPhysicalObject : GameComponent, RvMouseListenerI, RvPopupMenuList
     private float timeSinceLastCollision = 0.0f;
 
 
-    public RvPhysicalObject(Game game, Vector2 position, Vector2 velocity, float mass, RvHorizontalRectangle hitBox = null) : base(game)
+    public RvPhysicalObject(Vector2 position, Vector2 velocity, float mass, RvAbstractShape hitBox = null) : this(position, velocity, null, mass, false, hitBox)
     {
-        this.position = position;
-        this.velocity = velocity;
-        this.mass = mass;
-        this.hitBox = hitBox;
-
-        RvMouse.the().addMouseListener(this);
     }
 
-    public RvPhysicalObject(Game game, Vector2 position, Vector2 velocity, RvDrawableObject sprite, float mass, bool immovable, RvHorizontalRectangle hitBox = null) : base(game)
+    public RvPhysicalObject(Vector2 position, Vector2 velocity, RvDrawableObject sprite, float mass, bool immovable, RvAbstractShape hitBox = null) : base(position, hitBox)
     {
-        this.position = position;
         this.velocity = velocity;
         this.sprite = sprite;
         this.mass = mass;
         this.immovable = immovable;
-        this.hitBox = hitBox;
 
         RvMouse.the().addMouseListener(this);
     }
 
-    public static RvPhysicalObject factory(Game game, RvPhysicalObjectWrapper w)
-    {
-        return w.createObject(game);
-    }
-
-    public virtual RvPhysicalObjectWrapper createWrapper()
+    public override RvPhysicalObjectWrapper wrap()
     {
         //haven't handled null sprite here. Not sure if it'll be a problem or not...
-        return new RvPhysicalObjectWrapper(position, velocity, sprite.createWrapper(), mass, immovable, hitBox);
+        return new RvPhysicalObjectWrapper(position, velocity, sprite.wrap(), mass, immovable, shape);
     }
 
     public Rectangle getClickableRegion()
     {
-        return hitBox.getRectangle();
+        return shape.getRectangle();
     }
     public void doDrag(Vector2 mouseCoords, Vector2 anchorPoint)
     {
         Vector2 screenPosition = mouseCoords - anchorPoint;
         position = RvEditor.mapScreenCoordsToGameCoords(screenPosition);
-        hitBox.setTranslation(position);
+        shape.setTranslation(position);
     }
 
     public void doClick(RvMouseEvent e)
@@ -104,13 +88,11 @@ public class RvPhysicalObject : GameComponent, RvMouseListenerI, RvPopupMenuList
 
     public void setHitbox(RvHorizontalRectangle hitBox)
     {
-        this.hitBox = hitBox;
+        this.shape = shape;
     }
 
-    public override void Update(GameTime gameTime)
+    public override void update(GameTime gameTime)
     {
-        base.Update(gameTime);
-
         updateKinematics(gameTime, getForceDueToFriction());
 
         if (isDoingACollision)
@@ -128,8 +110,8 @@ public class RvPhysicalObject : GameComponent, RvMouseListenerI, RvPopupMenuList
         }
 
         position += Vector2.Multiply(velocity, (float)gameTime.ElapsedGameTime.TotalSeconds);
-        hitBox.setTranslation(position);
-        sprite.Update(gameTime);
+        shape.setTranslation(position);
+        sprite.update(gameTime);
     }
 
     public bool isAirborne()
@@ -177,21 +159,22 @@ public class RvPhysicalObject : GameComponent, RvMouseListenerI, RvPopupMenuList
 
     public bool collidesWith(RvPhysicalObject otherObject)
     {
-        return ((RvShapeI)hitBox).overlapping(otherObject.hitBox);
+        return ((RvShapeI)shape).overlapping(otherObject.shape);
     }
 
     public Vector2 getRestoringDirection(RvPhysicalObject otherObject)
     {
-        return otherObject.hitBox.getRestoringDirection(hitBox.sampleEdgePoints());
+        return otherObject.shape.getRestoringDirection(shape.sampleEdgePoints());
     }
 
     public void draw()
     {
-        sprite.Draw(hitBox.getRectangle());
+        sprite.Draw(shape.getRectangle());
 
         if (RvDebug.isDebugMode())
         {
-            hitBox.drawBoundary();
+            //todo - fix this
+            //shape.drawBoundary();
         }
     }
 
@@ -253,15 +236,15 @@ public class RvPhysicalObject : GameComponent, RvMouseListenerI, RvPopupMenuList
     }
     public float getHitboxWidth()
     {
-        return hitBox.getWidth();
+        return shape.getWidth();
     }
     public float getHitboxHeight()
     {
-        return hitBox.getHeight();
+        return shape.getHeight();
     }
-    public RvHorizontalRectangle getHitbox()
+    public RvShapeI getHitbox()
     {
-        return hitBox;
+        return shape;
     }
     public void setPosition(Vector2 position)
     {
@@ -270,33 +253,29 @@ public class RvPhysicalObject : GameComponent, RvMouseListenerI, RvPopupMenuList
     public void setPositionAndHitbox(Vector2 position)
     {
         this.position = position;
-        hitBox.setTranslation(position);
+        shape.setTranslation(position);
     }
 }
 
-public class RvPhysicalObjectWrapper
+public class RvPhysicalObjectWrapper : RvAbstractGameObjectWrapper
 {
-    [JsonProperty] public Vector2 position;
     [JsonProperty] public float mass;
-    [JsonProperty] public RvHorizontalRectangle hitBox;
     [JsonProperty] public Vector2 velocity;
     [JsonProperty] public RvDrawableObjectWrapper spriteWrapper;
 
     [JsonProperty] public bool immovable = false;
 
-    public RvPhysicalObjectWrapper(Vector2 position, Vector2 velocity, RvDrawableObjectWrapper spriteWrapper, float mass, bool immovable, RvHorizontalRectangle hitBox)
+    public RvPhysicalObjectWrapper(Vector2 position, Vector2 velocity, RvDrawableObjectWrapper spriteWrapper, float mass, bool immovable, RvAbstractShape hitBox) : base(position, hitBox)
     {
-        this.position = position;
         this.mass = mass;
-        this.hitBox = hitBox;
         this.velocity = velocity;
         this.spriteWrapper = spriteWrapper;
         this.immovable = immovable;
     }
 
-    public virtual RvPhysicalObject createObject(Game game)
+    public override RvPhysicalObject unWrap()
     {
-        RvDrawableObject sprite = RvDrawableObject.factory(game, spriteWrapper);
-        return new RvPhysicalObject(game, position, velocity, sprite, mass, immovable, hitBox);
+        RvDrawableObject sprite = spriteWrapper.unWrap();
+        return new RvPhysicalObject(position, velocity, sprite, mass, immovable, shape);
     }
 }

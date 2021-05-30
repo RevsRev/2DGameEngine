@@ -91,11 +91,11 @@ public class RvEditor : RvPopupMenuListenerI
         Vector2 physicalPosition = mapScreenCoordsToGameCoords(position);
         if (objectName.Equals("Knight"))
         {
-            game.getCurrentLevel().addToObjectHandler(new RvKnight(game, physicalPosition, Vector2.Zero));
+            game.getCurrentLevel().addToObjectHandler(new RvKnight(physicalPosition, Vector2.Zero));
         }
         else if (objectName.Equals("fEye"))
         {
-            game.getCurrentLevel().addToObjectHandler(new RvFlyingEye(game, physicalPosition, Vector2.Zero));
+            game.getCurrentLevel().addToObjectHandler(new RvFlyingEye(physicalPosition, Vector2.Zero));
         }
     }
 }

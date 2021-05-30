@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System.IO;
 
-public class RvLevel
+public class RvLevel : RvAbstractWrappable, RvUpdatableI
 {
     private RvObjectHandler objectHandler;
     private RvSceneryHandler sceneryHandler;
@@ -16,10 +16,7 @@ public class RvLevel
         this.sceneryHandler = sceneryHandler;
     }
 
-    public static RvLevel factory(Game game, RvLevelWrapper w)
-    {
-        return new RvLevel(w.levelName, RvObjectHandler.factory(game, w.objectHandlerWrapper), RvSceneryHandler.factory(game, w.sceneryHandlerWrapper));
-    }
+    
 
     public static RvLevel loadLevel(string levelName, Game game)
     {
@@ -27,30 +24,29 @@ public class RvLevel
         JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
         RvLevelWrapper w =  JsonConvert.DeserializeObject<RvLevelWrapper>(levelAsJson, settings);
 
-        return factory(game, w);
+        return w.unWrap();
     }
 
-    public RvLevelWrapper createLevelWrapper()
+    public override RvLevelWrapper wrap()
     {
-        RvObjectHandlerWrapper objectHandlerWrapper = objectHandler.createWrapper();
-        RvSceneryHandlerWrapper sceneryHandlerWrapper = sceneryHandler.createWrapper();
-
+        RvObjectHandlerWrapper objectHandlerWrapper = objectHandler.wrap();
+        RvSceneryHandlerWrapper sceneryHandlerWrapper = sceneryHandler.wrap();
         return new RvLevelWrapper(levelName, objectHandlerWrapper, sceneryHandlerWrapper);
     }
 
     public async void saveLevel()
     {
-        RvLevelWrapper wrapperToSave = createLevelWrapper();
+        RvLevelWrapper wrapperToSave = wrap();
         JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
         string output = JsonConvert.SerializeObject(wrapperToSave, settings);
 
         await File.WriteAllTextAsync(RvContentFiles.LEVELS + levelName + ".txt", output);
     }
 
-    public void Update(GameTime gameTime)
+    public void update(GameTime gameTime)
     {
-        objectHandler.Update(gameTime);
-        sceneryHandler.Update(gameTime);
+        objectHandler.update(gameTime);
+        sceneryHandler.update(gameTime);
     }
     public void Draw()
     {
@@ -82,11 +78,10 @@ public class RvLevel
     }
 }
 
-public struct RvLevelWrapper
+public class RvLevelWrapper : RvAbstractWrapper
 {
     [JsonProperty] public RvObjectHandlerWrapper objectHandlerWrapper;
     [JsonProperty] public RvSceneryHandlerWrapper sceneryHandlerWrapper;
-
     [JsonProperty] public string levelName;
 
     public RvLevelWrapper(string levelName, RvObjectHandlerWrapper objectHandlerWrapper, RvSceneryHandlerWrapper sceneryHandlerWrapper)
@@ -94,5 +89,10 @@ public struct RvLevelWrapper
         this.objectHandlerWrapper = objectHandlerWrapper;
         this.sceneryHandlerWrapper = sceneryHandlerWrapper;
         this.levelName = levelName;
+    }
+
+    public override RvLevel unWrap()
+    {
+        return new RvLevel(levelName, objectHandlerWrapper.unWrap(), sceneryHandlerWrapper.unWrap());
     }
 }

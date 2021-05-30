@@ -17,4 +17,8 @@ public abstract class RvAbstractShape : RvShapeI
 
     //This is a method to work out e.g. normal forces. If shapes overlap, the restoring direction should tell them which way to move to become seperate again.
     public abstract Vector2 getRestoringDirection(List<Vector2> edgePoints);
+
+    //not ideal, but will do for now.
+    public abstract float getWidth();
+    public abstract float getHeight();
 }

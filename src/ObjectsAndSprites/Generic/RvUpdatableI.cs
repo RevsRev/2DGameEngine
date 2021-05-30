@@ -1,4 +1,6 @@
+using Microsoft.Xna.Framework;
+
 public interface RvUpdatableI
 {
-    void update();
+    void update(GameTime gameTime);
 }

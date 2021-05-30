@@ -23,34 +23,34 @@ public class RvKnight : RvPhysicalObject
 
     //private bool facingRight = true; //to do.
 
-    public RvKnight(Game game, Vector2 position, Vector2 velocity, RvDrawableObject sprite, float mass, bool immovable, RvHorizontalRectangle hitBox)
-    : base(game, position, velocity, sprite, mass, immovable, hitBox)
+    public RvKnight(Vector2 position, Vector2 velocity, RvDrawableObject sprite, float mass, bool immovable, RvAbstractShape shape)
+    : base(position, velocity, sprite, mass, immovable, shape)
     {
     }
 
-    public RvKnight(Game game, Vector2 position, Vector2 velocity, float mass = 0.1f) : this(game, position, velocity, getKnightSprites(game), mass, false, new Shapes.RvHorizontalRectangle(position, 50, 75))
+    public RvKnight(Vector2 position, Vector2 velocity, float mass = 0.1f) : this(position, velocity, getKnightSprites(), mass, false, new Shapes.RvHorizontalRectangle(position, 50, 75))
     {
     }
 
-    public override RvPhysicalObjectWrapper createWrapper()
+    public override RvPhysicalObjectWrapper wrap()
     {
         //haven't handled null sprite here. Not sure if it'll be a problem or not...
-        return new RvKnightWrapper(position, velocity, sprite.createWrapper(), mass, immovable, hitBox);
+        return new RvKnightWrapper(position, velocity, sprite.wrap(), mass, immovable, shape);
     }
 
-    public static RvDrawableObject getKnightSprites(Game game)
+    public static RvDrawableObject getKnightSprites()
     {
         List<RvAnimation> animations = new List<RvAnimation>();
 
-        animations.Add(RvAnimation.factory(game, RvContentFiles.KNIGHT + "noBKG_KnightRun_strip", 1, 8, ANIMATION_ID_KNIGHT_RUN, true, new Rectangle(0,25, 50, 75)));
-        animations.Add(RvAnimation.factory(game, RvContentFiles.KNIGHT + "noBKG_KnightIdle_strip", 1, 15, ANIMATION_ID_KNIGHT_IDLE, true, new Rectangle(0, 25, 80, 75)));
-        animations.Add(RvAnimation.factory(game, RvContentFiles.KNIGHT + "noBKG_KnightJab_strip", 1, 4, ANIMATION_ID_KNIGHT_JAB, true, new Rectangle(0,25, 50, 75)));
-        animations.Add(RvAnimation.factory(game, RvContentFiles.KNIGHT + "noBKG_KnightSwipe_strip", 1, 5, ANIMATION_ID_KNIGHT_SWIPE, true, new Rectangle(20, 25, 40, 75)));
-        animations.Add(RvAnimation.factory(game, RvContentFiles.KNIGHT + "noBKG_KnightSmash_strip", 1, 6, ANIMATION_ID_KNIGHT_SMASH, true, new Rectangle(17, 25, 33, 75)));
-        animations.Add(RvAnimation.factory(game, RvContentFiles.KNIGHT + "noBKG_KnightJump_strip", 1, 2, ANIMATION_ID_KNIGHT_JUMP, true, new Rectangle(0, 25, 100, 75)));
-        animations.Add(RvAnimation.factory(game, RvContentFiles.KNIGHT + "noBKG_KnightLanding_strip", 1, 3, ANIMATION_ID_KNIGHT_LANDING, true, new Rectangle(25, 0, 50, 100)));
-        animations.Add(RvAnimation.factory(game, RvContentFiles.KNIGHT + "noBKG_KnightFalling_strip", 1, 1, ANIMATION_ID_KNIGHT_FALLING));
-        animations.Add(RvAnimation.factory(game, RvContentFiles.KNIGHT + "noBKG_KnightRising_strip", 1, 1, ANIMATION_ID_KNIGHT_RISING, true, new Rectangle(0, 25, 50, 75)));
+        animations.Add(RvAnimation.factory(RvContentFiles.KNIGHT + "noBKG_KnightRun_strip", 1, 8, ANIMATION_ID_KNIGHT_RUN, true, new Rectangle(0,25, 50, 75)));
+        animations.Add(RvAnimation.factory(RvContentFiles.KNIGHT + "noBKG_KnightIdle_strip", 1, 15, ANIMATION_ID_KNIGHT_IDLE, true, new Rectangle(0, 25, 80, 75)));
+        animations.Add(RvAnimation.factory(RvContentFiles.KNIGHT + "noBKG_KnightJab_strip", 1, 4, ANIMATION_ID_KNIGHT_JAB, true, new Rectangle(0,25, 50, 75)));
+        animations.Add(RvAnimation.factory(RvContentFiles.KNIGHT + "noBKG_KnightSwipe_strip", 1, 5, ANIMATION_ID_KNIGHT_SWIPE, true, new Rectangle(20, 25, 40, 75)));
+        animations.Add(RvAnimation.factory(RvContentFiles.KNIGHT + "noBKG_KnightSmash_strip", 1, 6, ANIMATION_ID_KNIGHT_SMASH, true, new Rectangle(17, 25, 33, 75)));
+        animations.Add(RvAnimation.factory(RvContentFiles.KNIGHT + "noBKG_KnightJump_strip", 1, 2, ANIMATION_ID_KNIGHT_JUMP, true, new Rectangle(0, 25, 100, 75)));
+        animations.Add(RvAnimation.factory(RvContentFiles.KNIGHT + "noBKG_KnightLanding_strip", 1, 3, ANIMATION_ID_KNIGHT_LANDING, true, new Rectangle(25, 0, 50, 100)));
+        animations.Add(RvAnimation.factory(RvContentFiles.KNIGHT + "noBKG_KnightFalling_strip", 1, 1, ANIMATION_ID_KNIGHT_FALLING));
+        animations.Add(RvAnimation.factory(RvContentFiles.KNIGHT + "noBKG_KnightRising_strip", 1, 1, ANIMATION_ID_KNIGHT_RISING, true, new Rectangle(0, 25, 50, 75)));
 
         RvDrawableObject sprite = new RvDrawableObject(animations);
         sprite.setCurrentAnimation(ANIMATION_ID_KNIGHT_IDLE);
@@ -58,11 +58,11 @@ public class RvKnight : RvPhysicalObject
         return sprite;
     }
 
-    public override void Update(GameTime gameTime)
+    public override void update(GameTime gameTime)
     {
         doControlling(gameTime);
         selectAnimation();
-        base.Update(gameTime);
+        base.update(gameTime);
     }
 
     public override Vector2 getForceDueToFriction()
@@ -138,14 +138,14 @@ public class RvKnight : RvPhysicalObject
 
 public class RvKnightWrapper : RvPhysicalObjectWrapper
 {
-    public RvKnightWrapper(Vector2 position, Vector2 velocity, RvDrawableObjectWrapper spriteWrapper, float mass, bool immovable, RvHorizontalRectangle hitBox)
-    : base(position, velocity, spriteWrapper, mass, immovable, hitBox)
+    public RvKnightWrapper(Vector2 position, Vector2 velocity, RvDrawableObjectWrapper spriteWrapper, float mass, bool immovable, RvAbstractShape shape)
+    : base(position, velocity, spriteWrapper, mass, immovable, shape)
     {
     }
 
-    public override RvPhysicalObject createObject(Game game)
+    public override RvPhysicalObject unWrap()
     {
-        RvDrawableObject sprite = RvDrawableObject.factory(game, spriteWrapper);
-        return new RvKnight(game, position, velocity, sprite, mass, immovable, hitBox);
+        RvDrawableObject sprite = spriteWrapper.unWrap();
+        return new RvKnight(position, velocity, sprite, mass, immovable, shape);
     }
 }

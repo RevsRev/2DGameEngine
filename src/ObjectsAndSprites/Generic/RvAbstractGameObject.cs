@@ -3,8 +3,8 @@ using Newtonsoft.Json;
 
 public abstract class RvAbstractGameObject : RvAbstractWrappable, RvUpdatableI
 {
-    private Vector2 position {get; set;}
-    private RvAbstractShape shape {get; set;}
+    protected Vector2 position {get; set;}
+    protected RvAbstractShape shape {get; set;}
 
     public RvAbstractGameObject(Vector2 position, RvAbstractShape shape)
     {
@@ -14,13 +14,13 @@ public abstract class RvAbstractGameObject : RvAbstractWrappable, RvUpdatableI
 
     public abstract override RvAbstractGameObjectWrapper wrap();
 
-    public abstract void update();
+    public abstract void update(GameTime gameTime);
 }
 
 public abstract class RvAbstractGameObjectWrapper : RvAbstractWrapper
 {
-    [JsonProperty] private Vector2 position {get; set;}
-    [JsonProperty] private RvAbstractShape shape {get; set;}
+    [JsonProperty] protected Vector2 position {get; set;}
+    [JsonProperty] protected RvAbstractShape shape {get; set;}
 
     public RvAbstractGameObjectWrapper(Vector2 position, RvAbstractShape shape)
     {
