@@ -3,7 +3,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-public class RvPopupMenu : RvDisposable, IObserver<string>, RvMouseListenerI, RvDrawableI
+public class RvPopupMenu : RvDisposableI, IObserver<string>, RvMouseListenerI, RvDrawableI
 {
     private List<RvPopupMenuItem> menuItems = new List<RvPopupMenuItem>();
     private RvPopupMenuListenerI actionListener = null;

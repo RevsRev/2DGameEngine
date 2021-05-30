@@ -1,6 +1,6 @@
 
 
-public interface RvDisposable
+public interface RvDisposableI
 {
     public void dispose();
 }

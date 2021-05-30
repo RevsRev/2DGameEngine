@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-public abstract class RvAbstractComponent : RvDisposable
+public abstract class RvAbstractComponent : RvDisposableI
 {
     protected Rectangle bounds;
     protected Vector2 offest = Vector2.Zero;

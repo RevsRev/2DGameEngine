@@ -5,7 +5,7 @@ using Shapes;
 using System;
 using Newtonsoft.Json;
 
-public class RvPhysicalObject : GameComponent, RvMouseListenerI, RvPopupMenuListenerI, RvDisposable
+public class RvPhysicalObject : GameComponent, RvMouseListenerI, RvPopupMenuListenerI, RvDisposableI
 {
     public static readonly float EPSILON                    = 0.01f; //for dealing with small floats.
     public static readonly float OBJECT_DEPTH               = 1.0f; //for collision detection
