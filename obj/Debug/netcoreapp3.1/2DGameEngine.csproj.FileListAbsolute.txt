@@ -47,3 +47,4 @@
 /home/eddie/Documents/2DGameEngine/obj/Debug/netcoreapp3.1/2DGameEngine.pdb
 /home/eddie/Documents/2DGameEngine/obj/Debug/netcoreapp3.1/2DGameEngine.genruntimeconfig.cache
 /home/eddie/Documents/2DGameEngine/bin/Debug/netcoreapp3.1/Content/images/ui/XButton.xnb
+/home/eddie/Documents/2DGameEngine/obj/Debug/netcoreapp3.1/2DGameEngine.csproj.AssemblyReference.cache
