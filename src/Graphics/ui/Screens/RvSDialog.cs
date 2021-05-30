@@ -75,7 +75,7 @@ public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>, RvMou
     }
 
     //stuff for mouse listener
-    public Rectangle getAnchorRegion()
+    public Rectangle getClickableRegion()
     {
         return getBounds();
     }

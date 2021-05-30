@@ -4,14 +4,24 @@ public interface RvMouseListenerI
 {
     public void mouseEvent(RvMouseEvent e) //for mouse click/held events (in future do scroll as well)
     {
-        doClick(e);
+        onClick(e);
         doBinding(e);
     }
 
     public virtual void mousePosition(int x, int y) {} //for things that always need to know where the mouse is
-    public virtual Rectangle getAnchorRegion() {return Rectangle.Empty;} //region to click in
+    public virtual Rectangle getClickableRegion() {return Rectangle.Empty;} //region to click in
     public virtual void doDrag(Vector2 mouseCoords, Vector2 anchorPoint) {} //given the mouse coords and where we clicked in relation to the anchor region, drag the mouseListenerI
     public virtual void doClick(RvMouseEvent e) {} //if we click, then do stuff.
+    public virtual bool respectsClickableRegion() {return true;}
+
+    private void onClick(RvMouseEvent e)
+    {
+        if (!withinClickableRegion(e.X, e.Y))
+        {
+            return;
+        }
+        doClick(e);
+    }
 
     private void doBinding(RvMouseEvent e)
     {
@@ -20,7 +30,13 @@ public interface RvMouseListenerI
             return;
         }
 
-        if (!withinAnchorRegion(e.X, e.Y))
+        //this property should only be used for generic right click options anywhere on the screen. Any object that needs to be dragged must have a clickable region.
+        if (!respectsClickableRegion())
+        {
+            return;
+        }
+
+        if (!withinClickableRegion(e.X, e.Y))
         {
             return;
         }
@@ -31,20 +47,25 @@ public interface RvMouseListenerI
             return;
         }
 
-        Rectangle anchor = getAnchorRegion();
+        Rectangle anchor = getClickableRegion();
         Vector2 anchorPoint = new Vector2(e.X-anchor.X, e.Y-anchor.Y);
         RvMouse.the().bind(this, anchorPoint);
     }
 
-    private bool withinAnchorRegion(int mouseX, int mouseY)
+    private bool withinClickableRegion(int mouseX, int mouseY)
     {
-        Rectangle anchorRegion = getAnchorRegion();
-        if (anchorRegion == Rectangle.Empty)
+        if (!respectsClickableRegion())
+        {
+            return true;
+        }
+
+        Rectangle clickableRegion = getClickableRegion();
+        if (clickableRegion == Rectangle.Empty)
         {
             return false;
         }
 
-        if (!anchorRegion.Contains(mouseX, mouseY))
+        if (!clickableRegion.Contains(mouseX, mouseY))
         {
             return false;
         }

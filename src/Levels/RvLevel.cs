@@ -62,6 +62,10 @@ public class RvLevel
     {
         this.objectHandler = objectHandler;
     }
+    public RvObjectHandler GetObjectHandler()
+    {
+        return objectHandler;
+    }
     public void setSceneryHandler(RvSceneryHandler sceneryHandler)
     {
         this.sceneryHandler = sceneryHandler;

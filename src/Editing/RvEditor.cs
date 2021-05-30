@@ -18,15 +18,25 @@ public class RvEditor : RvPopupMenuListenerI
     {
         RvPopupMenuListenerI.onClick(e, this);
     }
+    public bool respectsClickableRegion()
+    {
+        return false;
+    }
 
     public RvPopupMenu buildPopupMenu()
     {
         RvPopupMenu retval = new RvPopupMenu();
         retval.addPopupMenuItem("Save");
-        retval.addPopupMenuItem("Remove");
+        //retval.addPopupMenuItem("Remove");
         retval.addPopupMenuItem("Knight");
         retval.addPopupMenuItem("fEye");
         return retval;
+    }
+
+    public bool okToBuildMenu(int x, int y)
+    {
+        RvObjectHandler objHandler = game.getCurrentLevel().GetObjectHandler();
+        return (objHandler.getObjectsAt(new Vector2(x,y)).Count == 0);
     }
 
     public void performPopupMenuAction(String actionStr)

@@ -6,16 +6,9 @@ using System.Collections.Generic;
 
 public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>, RvMouseListenerI
 {
-    //statics
-    private static readonly float CLICK_INCREMENT = 1.0f;
-
     //Keep track of who's listening to the button
     protected List<IObserver<T>> observers = new List<IObserver<T>>();
     protected T message;
-
-    //To prevent the button firing too many events
-    private static readonly float MIN_TIME_BETWEEN_CLICKS = 20.0f;
-    private float lastClick = 0.0f;
 
     public RvAbstractButton(T message, Rectangle bounds) : base(bounds)
     {
@@ -28,6 +21,10 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>, RvMouseL
         RvMouse.the().removeMouseListener(this);
     }
 
+    public Rectangle getClickableRegion()
+    {
+        return getDrawingRegion();
+    }
     public void doClick(RvMouseEvent e)
     {
         if (e.leftButton)
@@ -52,20 +49,6 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>, RvMouseL
 
         return visibleRegion.X < cursorX && cursorX < visibleRegion.X + visibleRegion.Width
             && visibleRegion.Y < cursorY && cursorY < visibleRegion.Y + visibleRegion.Height;
-    }
-
-    public override void Update(GameTime gameTime)
-    {
-        MouseState mouse = Mouse.GetState();
-        if (mouse.LeftButton == ButtonState.Pressed && lastClick > MIN_TIME_BETWEEN_CLICKS)
-        {
-            if (enteredButton(mouse.X, mouse.Y))
-            {
-                buttonPressed();
-            }
-            lastClick = 0.0f;
-        }
-        lastClick += CLICK_INCREMENT;
     }
 
     public void buttonPressed()

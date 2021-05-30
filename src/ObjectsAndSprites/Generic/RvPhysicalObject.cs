@@ -5,7 +5,7 @@ using Shapes;
 using System;
 using Newtonsoft.Json;
 
-public class RvPhysicalObject : GameComponent, RvMouseListenerI
+public class RvPhysicalObject : GameComponent, RvMouseListenerI, RvPopupMenuListenerI, RvDisposable
 {
     public static readonly float EPSILON                    = 0.01f; //for dealing with small floats.
     public static readonly float OBJECT_DEPTH               = 1.0f; //for collision detection
@@ -59,7 +59,7 @@ public class RvPhysicalObject : GameComponent, RvMouseListenerI
         return new RvPhysicalObjectWrapper(position, velocity, sprite.createWrapper(), mass, immovable, hitBox);
     }
 
-    public Rectangle getAnchorRegion()
+    public Rectangle getClickableRegion()
     {
         return hitBox.getRectangle();
     }
@@ -68,6 +68,29 @@ public class RvPhysicalObject : GameComponent, RvMouseListenerI
         Vector2 screenPosition = mouseCoords - anchorPoint;
         position = RvEditor.mapScreenCoordsToGameCoords(screenPosition);
         hitBox.setTranslation(position);
+    }
+
+    public void doClick(RvMouseEvent e)
+    {
+        RvPopupMenuListenerI.onClick(e, this);
+    }
+
+    public RvPopupMenu buildPopupMenu()
+    {
+        RvPopupMenu retval = new RvPopupMenu();
+        retval.addPopupMenuItem("Properties");
+        retval.addPopupMenuItem("Remove");
+        return retval;
+    }
+
+    public void performPopupMenuAction(String actionStr)
+    {
+        //not doing anything for now
+    }
+
+    public void dispose()
+    {
+        //need to implement
     }
 
     public void setSprite(RvDrawableObject sprite)
