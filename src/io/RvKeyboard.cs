@@ -77,15 +77,15 @@ public class RvKeyboard
 
     private void initKeyPressedTimes()
     {
-        //there are 254 keys. We will init the dictionary in this method.
-        for (int i=1; i<=NUM_KEYS; i++)
+        //there are 255 keys. We will init the dictionary in this method.
+        for (int i=0; i<=NUM_KEYS; i++)
         {
             keyPressedTimes[i] = 0.0f;
         }
     }
     private void updateKeyPressedTimes(float time)
     {
-        for (int i=1; i<=NUM_KEYS; i++)
+        for (int i=0; i<=NUM_KEYS; i++)
         {
             keyPressedTimes[i] += time;
         }
