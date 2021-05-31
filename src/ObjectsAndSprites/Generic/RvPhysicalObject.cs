@@ -40,7 +40,7 @@ public class RvPhysicalObject : RvAbstractGameObject, RvMouseListenerI, RvPopupM
     public override RvPhysicalObjectWrapper wrap()
     {
         //haven't handled null sprite here. Not sure if it'll be a problem or not...
-        return new RvPhysicalObjectWrapper(position, velocity, sprite.wrap(), mass, immovable, shape);
+        return new RvPhysicalObjectWrapper(position, velocity, sprite.wrap(), mass, immovable, shape.wrap());
     }
 
     public Rectangle getClickableRegion()
@@ -265,7 +265,7 @@ public class RvPhysicalObjectWrapper : RvAbstractGameObjectWrapper
 
     [JsonProperty] public bool immovable = false;
 
-    public RvPhysicalObjectWrapper(Vector2 position, Vector2 velocity, RvDrawableObjectWrapper spriteWrapper, float mass, bool immovable, RvAbstractShape hitBox) : base(position, hitBox)
+    public RvPhysicalObjectWrapper(Vector2 position, Vector2 velocity, RvDrawableObjectWrapper spriteWrapper, float mass, bool immovable, RvAbstractShapeWrapper hitBox) : base(position, hitBox)
     {
         this.mass = mass;
         this.velocity = velocity;
@@ -276,6 +276,6 @@ public class RvPhysicalObjectWrapper : RvAbstractGameObjectWrapper
     public override RvPhysicalObject unWrap()
     {
         RvDrawableObject sprite = spriteWrapper.unWrap();
-        return new RvPhysicalObject(position, velocity, sprite, mass, immovable, shape);
+        return new RvPhysicalObject(position, velocity, sprite, mass, immovable, shapeWrapper.unWrap());
     }
 }

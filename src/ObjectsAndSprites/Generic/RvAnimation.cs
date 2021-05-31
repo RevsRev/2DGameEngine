@@ -26,7 +26,7 @@ public class RvAnimation : RvAbstractWrappable, RvUpdatableI
 
     public RvAnimation(string atlasName, int rows, int columns, int currentFrame, int totalFrames, bool recentre, Rectangle imageCentre, int id=0)
     {
-        Texture2D atlas = RvGame.the().Content.Load<Texture2D>("atlasName");
+        Texture2D atlas = RvGame.the().Content.Load<Texture2D>(atlasName);
 
         this.atlas = atlas;
         this.rows = rows;

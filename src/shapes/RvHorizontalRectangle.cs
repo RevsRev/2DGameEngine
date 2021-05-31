@@ -19,6 +19,11 @@ namespace Shapes
             this.height = height;
         }
 
+        public override RvHorizontalRectangleWrapper wrap()
+        {
+            return new RvHorizontalRectangleWrapper(bottomLeftCorner, width, height);
+        }
+
         public override Boolean isInterior(Vector2 point)
         {
             float X = point.X;
@@ -137,6 +142,25 @@ namespace Shapes
         public override float getHeight()
         {
             return height;
+        }
+    }
+
+    public class RvHorizontalRectangleWrapper : RvAbstractShapeWrapper
+    {
+        [JsonProperty] private Vector2 bottomLeftCorner;
+        [JsonProperty] private float width;
+        [JsonProperty] private float height;
+
+        public RvHorizontalRectangleWrapper(Vector2 bottomLeftCorner, float width, float height)
+        {
+            this.bottomLeftCorner = bottomLeftCorner;
+            this.width = width; 
+            this.height = height;
+        }
+
+        public override RvHorizontalRectangle unWrap()
+        {
+            return new RvHorizontalRectangle(bottomLeftCorner, width, height);
         }
     }
 }

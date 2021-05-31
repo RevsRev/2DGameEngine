@@ -24,7 +24,13 @@ public class RvLevel : RvAbstractWrappable, RvUpdatableI
         JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
         RvLevelWrapper w =  JsonConvert.DeserializeObject<RvLevelWrapper>(levelAsJson, settings);
 
-        return w.unWrap();
+        if (w!=null)
+        {
+            return w.unWrap();
+        }
+
+        //create a brand new level
+        return new RvLevel(levelAsJson, RvObjectHandler.factory(), new RvSceneryHandler(game));
     }
 
     public override RvLevelWrapper wrap()

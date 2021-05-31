@@ -2,9 +2,11 @@ using Shapes;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-public abstract class RvAbstractShape : RvShapeI
+public abstract class RvAbstractShape : RvAbstractWrappable, RvShapeI
 {
     public abstract Rectangle getRectangle();
+
+    public abstract override RvAbstractShapeWrapper wrap();
 
     /*
      * RvShapeI methods
@@ -21,4 +23,9 @@ public abstract class RvAbstractShape : RvShapeI
     //not ideal, but will do for now.
     public abstract float getWidth();
     public abstract float getHeight();
+}
+
+public abstract class RvAbstractShapeWrapper : RvAbstractWrapper
+{
+    public abstract override RvAbstractShape unWrap();
 }

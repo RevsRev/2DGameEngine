@@ -35,7 +35,7 @@ public class RvKnight : RvPhysicalObject
     public override RvPhysicalObjectWrapper wrap()
     {
         //haven't handled null sprite here. Not sure if it'll be a problem or not...
-        return new RvKnightWrapper(position, velocity, sprite.wrap(), mass, immovable, shape);
+        return new RvKnightWrapper(position, velocity, sprite.wrap(), mass, immovable, shape.wrap());
     }
 
     public static RvDrawableObject getKnightSprites()
@@ -138,14 +138,14 @@ public class RvKnight : RvPhysicalObject
 
 public class RvKnightWrapper : RvPhysicalObjectWrapper
 {
-    public RvKnightWrapper(Vector2 position, Vector2 velocity, RvDrawableObjectWrapper spriteWrapper, float mass, bool immovable, RvAbstractShape shape)
-    : base(position, velocity, spriteWrapper, mass, immovable, shape)
+    public RvKnightWrapper(Vector2 position, Vector2 velocity, RvDrawableObjectWrapper spriteWrapper, float mass, bool immovable, RvAbstractShapeWrapper shapeWrapper)
+    : base(position, velocity, spriteWrapper, mass, immovable, shapeWrapper)
     {
     }
 
     public override RvPhysicalObject unWrap()
     {
         RvDrawableObject sprite = spriteWrapper.unWrap();
-        return new RvKnight(position, velocity, sprite, mass, immovable, shape);
+        return new RvKnight(position, velocity, sprite, mass, immovable, shapeWrapper.unWrap());
     }
 }

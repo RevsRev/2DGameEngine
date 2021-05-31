@@ -20,12 +20,12 @@ public abstract class RvAbstractGameObject : RvAbstractWrappable, RvUpdatableI
 public abstract class RvAbstractGameObjectWrapper : RvAbstractWrapper
 {
     [JsonProperty] protected Vector2 position {get; set;}
-    [JsonProperty] protected RvAbstractShape shape {get; set;}
+    [JsonProperty] protected RvAbstractShapeWrapper shapeWrapper {get; set;}
 
-    public RvAbstractGameObjectWrapper(Vector2 position, RvAbstractShape shape)
+    public RvAbstractGameObjectWrapper(Vector2 position, RvAbstractShapeWrapper shapeWrapper)
     {
         this.position = position;
-        this.shape = shape;
+        this.shapeWrapper = shapeWrapper;
     }
 
     public abstract override RvAbstractGameObject unWrap();

@@ -11,6 +11,10 @@ public class RvObjectHandler : RvAbstractWrappable, RvUpdatableI
     {
         this.objects = objects;
     }
+    public static RvObjectHandler factory()
+    {
+        return new RvObjectHandler(new List<RvPhysicalObject>());
+    }
 
     public override RvObjectHandlerWrapper wrap()
     {
