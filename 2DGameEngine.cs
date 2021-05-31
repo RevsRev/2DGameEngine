@@ -124,17 +124,11 @@ public class RvGame : Game
         {
             updateGameStateEdit(gameTime);
         }
-        //etc... for other game states.
-
-        //testing
+        //etc... for other game states.     
+        
         RvKeyboard.the().Update(gameTime);
         RvMouse.the().Update(gameTime);
         RvScreenHandler.the().Update(gameTime);
-
-        if (Keyboard.GetState().IsKeyDown(Keys.F1))
-        {
-            RvScreenHandler.the().doPopup("RvPhysicalObjectCreator");
-        }
 
         base.Update(gameTime);
     }

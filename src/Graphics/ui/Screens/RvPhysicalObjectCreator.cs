@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public class RvPhysicalObjectCreator : RvSDialog<RvPhysicalObject>
 {
-    private const int DEFAULT_X = 200;
-    private const int DEFAULT_Y = 200;
     private const int DEFAULT_WIDTH = 600;
     private const int DEFAULT_HEIGHT = 200;
 

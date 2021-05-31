@@ -28,8 +28,9 @@ public class RvEditor : RvPopupMenuListenerI
         RvPopupMenu retval = new RvPopupMenu();
         retval.addPopupMenuItem("Save");
         //retval.addPopupMenuItem("Remove");
-        retval.addPopupMenuItem("Knight");
-        retval.addPopupMenuItem("fEye");
+        retval.addPopupMenuItem("Add Object");
+        // retval.addPopupMenuItem("Knight");
+        // retval.addPopupMenuItem("fEye");
         return retval;
     }
 
@@ -60,18 +61,22 @@ public class RvEditor : RvPopupMenuListenerI
         {
             doSave();
         }
-        if (actionCommand.Equals("Remove"))
+        else if (actionCommand.Equals("Add Object"))
         {
-            //doRemove();
+            RvScreenHandler.the().doPopup("RvPhysicalObjectCreator");
         }
-        else if (actionCommand.Equals("Knight"))
-        {
-            //addObject(actionCommand, editorMenu.getPosition());
-        }
-        else if (actionCommand.Equals("fEye"))
-        {
-            //addObject(actionCommand, editorMenu.getPosition());
-        }
+        // if (actionCommand.Equals("Remove"))
+        // {
+        //     //doRemove();
+        // }
+        // else if (actionCommand.Equals("Knight"))
+        // {
+        //     //addObject(actionCommand, editorMenu.getPosition());
+        // }
+        // else if (actionCommand.Equals("fEye"))
+        // {
+        //     //addObject(actionCommand, editorMenu.getPosition());
+        // }
     }
 
     private void doSave()
