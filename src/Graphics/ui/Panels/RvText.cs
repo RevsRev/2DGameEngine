@@ -13,6 +13,10 @@ public class RvText : RvAbstractComponent
         this.text = text;
     }
 
+    public override void init()
+    {
+    }
+
     public override void Draw(RvAbstractDrawer drawer)
     {
         //at the moment, this is just to text.

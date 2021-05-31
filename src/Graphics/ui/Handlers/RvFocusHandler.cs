@@ -16,6 +16,8 @@ public class RvFocusHandler : RvKeyboardListenerI, RvMouseListenerI
         RvKeyboard.the().addKeyboardListener(this);
     }
 
+    public bool respectsClickableRegion() {return false;}
+
     public static RvFocusHandler the()
     {
         if (instance == null)

@@ -11,6 +11,10 @@ public abstract class RvAbstractPanel : RvAbstractComponent
     {
     }
 
+    public override void init()
+    {
+    }
+
     public override void Draw(RvAbstractDrawer drawer)
     {
         drawer.DrawRectangle(getDrawingRegion(), panelColor, getDrawingLayer());
@@ -27,12 +31,12 @@ public abstract class RvAbstractPanel : RvAbstractComponent
             components[i].Update(gameTime);
         }
     }
-    public override void move(Vector2 pos)
+    public override void move(Vector2 delPos)
     {
-        base.move(pos);
+        base.move(delPos);
         for (int i=0; i<components.Count; i++)
         {
-            components[i].move(pos);
+            components[i].move(delPos);
         }
     }
 
@@ -53,6 +57,7 @@ public abstract class RvAbstractPanel : RvAbstractComponent
         component.setOffset(component.getOffset() + getOffset()); //components offset + parents offset.
         component.setLayerNum(layerNum + 1);
 
+        component.init();
         components.Add(component);
     }
 

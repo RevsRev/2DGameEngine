@@ -10,8 +10,10 @@ public abstract class RvAbstractComponent : RvDisposableI
     public RvAbstractComponent(Rectangle bounds)
     {
         this.bounds = bounds;
+        init();
     }
 
+    public abstract void init();
     public abstract void dispose();
 
     public Rectangle getBounds()
@@ -57,10 +59,9 @@ public abstract class RvAbstractComponent : RvDisposableI
         return initialDrawingLayer - (float)RvSequencesAndSeries.geometricSum(0.01f, 0.1f, layerNum);
     }
 
-    public virtual void move(Vector2 pos)
+    public virtual void move(Vector2 delPos)
     {
-        bounds.X = (int)pos.X;
-        bounds.Y = (int)pos.Y;
+        offest += delPos;
     }
     
     public virtual void Update(GameTime gameTime) {}

@@ -16,9 +16,11 @@ public abstract class RvSAbstractScreen : RvAbstractPanel, RvScreenI
     {
     }
 
-    public virtual void init()
+    public override void init()
     {
-        setBounds(new Rectangle(0,0, DEFAULT_X, DEFAULT_Y));
+        base.init();
+        setBounds(new Rectangle(0, 0, DEFAULT_X, DEFAULT_Y));
+        setOffset(new Vector2((RvSystem.SCR_WIDTH-DEFAULT_X)/2, (RvSystem.SCR_HEIGHT - DEFAULT_Y)/2));
     }
 
     protected void setOkToFinish(bool okToFinish)

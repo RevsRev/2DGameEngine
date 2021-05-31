@@ -13,6 +13,10 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>, RvMouseL
     public RvAbstractButton(T message, Rectangle bounds) : base(bounds)
     {
         this.message = message;
+    }
+
+    public override void init()
+    {
         RvMouse.the().addMouseListener(this);
     }
 

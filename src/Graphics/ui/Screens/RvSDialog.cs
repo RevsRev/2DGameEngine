@@ -27,13 +27,12 @@ public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>, RvMou
         RvMouse.the().addMouseListener(this);
 
         //I'm going to assume we put in sensible dimensions for the time being...
-        Rectangle bannerRect = new Rectangle(bounds.X, bounds.Y, bounds.Width, BANNER_HEIGHT);
+        Rectangle bannerRect = new Rectangle(0, 0, bounds.Width, BANNER_HEIGHT);
         banner = new RvPanel(bannerRect);
         banner.setPanelColor(Color.DarkGray);
         RvButtonImage xButton = new RvButtonImage("close", new Rectangle(0, 0, BANNER_HEIGHT, BANNER_HEIGHT), RvContentFiles.UI + "XButton");
         xButton.setOffset(new Vector2(bounds.Width - BANNER_HEIGHT, 0));
         xButton.Subscribe(this);
-        banner.addComponent(xButton);
 
         Rectangle contentRect = new Rectangle(0,0, bounds.Width, bounds.Height - BANNER_HEIGHT);
         contentPanel = new RvPanel(contentRect);
@@ -41,6 +40,7 @@ public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>, RvMou
 
         base.addComponent(contentPanel);
         base.addComponent(banner);
+        banner.addComponent(xButton); //an annoying quirk of how i've written this means the ui will only  look right if we add the button after the banner... fix this at some point.
     }
 
     public override void addComponent(RvAbstractComponent component)
@@ -77,11 +77,14 @@ public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>, RvMou
     //stuff for mouse listener
     public Rectangle getClickableRegion()
     {
-        return getBounds();
+        Rectangle bounds = getBounds();
+        Vector2 offset = getOffset();
+        return new Rectangle((int)(bounds.X + offset.X), (int)(bounds.Y + offset.Y), bounds.Width, bounds.Height);
     }
     public void doDrag(Vector2 mouseCoords, Vector2 anchorPoint)
     {
-        Vector2 pos = mouseCoords - anchorPoint;
-        move(pos);
+        Vector2 oldPos = getOffset() + anchorPoint; //where the mouse was when we clicked
+        Vector2 delPos = mouseCoords - oldPos; //change in position
+        move(delPos);
     }
 }

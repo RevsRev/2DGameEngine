@@ -19,6 +19,11 @@ public class RvTextField : RvAbstractPanel, RvFocusableI
     public RvTextField(Rectangle bounds, int mode) : base(bounds)
     {
         this.mode = mode;
+    }
+
+    public override void init()
+    {
+        base.init();
         setPanelColor(Color.White);
         initKeysToChars();
         RvFocusHandler.the().addFocusable(this);

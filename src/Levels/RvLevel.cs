@@ -30,7 +30,7 @@ public class RvLevel : RvAbstractWrappable, RvUpdatableI
         }
 
         //create a brand new level
-        return new RvLevel(levelAsJson, RvObjectHandler.factory(), new RvSceneryHandler(game));
+        return new RvLevel(levelName, RvObjectHandler.factory(), new RvSceneryHandler(game));
     }
 
     public override RvLevelWrapper wrap()
