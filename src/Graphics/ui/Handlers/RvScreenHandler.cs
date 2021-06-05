@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
 
-public sealed class RvScreenHandler
+public sealed class RvScreenHandler : RvDrawableI
 {
     private static RvScreenHandler instance;
     private static readonly object padlock = new object();
@@ -44,7 +44,7 @@ public sealed class RvScreenHandler
             }
         }
     }
-    public void Draw()
+    public void draw()
     {
         
         RvUiDrawer.the().Begin(SpriteSortMode.BackToFront, null);

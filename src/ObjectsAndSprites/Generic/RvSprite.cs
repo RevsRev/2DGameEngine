@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-public class RvDrawableObject : RvAbstractWrappable
+public class RvSprite : RvAbstractGameObject, RvDrawableI
 {
     protected List<RvAnimation> animations;
     int currentAnimation = 0;
@@ -11,14 +11,19 @@ public class RvDrawableObject : RvAbstractWrappable
     private bool visible = true;
     private float layer = RvSpriteBatch.DEFAULT_DRAWING_LAYER;
 
-    public RvDrawableObject(List<RvAnimation> animations, float layer = 0.0f, bool visible = true)
+    public RvSprite(Vector2 position, RvAbstractShape shape, List<RvAnimation> animations, float layer = 0.0f, bool visible = true)
+      : this(position, Vector2.Zero, shape, animations, layer, visible)
+      {
+
+      }
+    public RvSprite(Vector2 position, Vector2 velocity, RvAbstractShape shape, List<RvAnimation> animations, float layer = 0.0f, bool visible = true) : base(position, velocity, shape)
     {
         this.animations = animations;
         this.layer = layer;
         this.visible = visible;
     }
 
-    public override RvDrawableObjectWrapper wrap()
+    public override RvSpriteWrapper wrap()
     {
         List<RvAnimationWrapper> animationWrappers = new List<RvAnimationWrapper>();
         for (int i=0; i<animations.Count; i++)
@@ -27,7 +32,7 @@ public class RvDrawableObject : RvAbstractWrappable
             animationWrappers.Add(animation.wrap());
         }
 
-        return new RvDrawableObjectWrapper(animationWrappers, layer, visible);
+        return new RvSpriteWrapper(position, velocity, shape.wrap(), animationWrappers, layer, visible);
     }
 
     public void setCurrentAnimation(int animationId)
@@ -53,18 +58,19 @@ public class RvDrawableObject : RvAbstractWrappable
         currentAnimation = (currentAnimation + 1)%animations.Count;
     }
 
-    public virtual void update(GameTime gameTime)
+    public override void update(GameTime gameTime)
     {
+        base.update(gameTime);
         animations[currentAnimation].update(gameTime);
     }
 
-    public virtual void Draw(Rectangle destinationRectangle)
+    public void draw()
     {
         if (!visible)
         {
             return;
         }
-        animations[currentAnimation].Draw(destinationRectangle, layer);
+        animations[currentAnimation].draw(shape.getRectangle(), layer);
     }
 
 
@@ -83,27 +89,27 @@ public class RvDrawableObject : RvAbstractWrappable
     }
 }
 
-public class RvDrawableObjectWrapper : RvAbstractWrapper
+public class RvSpriteWrapper : RvAbstractGameObjectWrapper
 {
     [JsonProperty] public  List<RvAnimationWrapper> animationWrappers;
-
     [JsonProperty] public bool visible = true;
     [JsonProperty] public float layer = 0.0f;
 
-    public RvDrawableObjectWrapper(List<RvAnimationWrapper> animations, float layer = 0.0f, bool visible = true)
+    public RvSpriteWrapper(Vector2 position, Vector2 velocity, RvAbstractShapeWrapper shape, List<RvAnimationWrapper> animations, float layer = 0.0f, bool visible = true) 
+      : base(position, velocity, shape)
     {
         this.animationWrappers = animations;
         this.visible = visible;
         this.layer = layer;
     }
 
-    public override RvDrawableObject unWrap()
+    public override RvSprite unWrap()
     {
         List<RvAnimation> animations = new List<RvAnimation>();
         for (int i=0; i<animationWrappers.Count; i++)
         {
             animations.Add(animationWrappers[i].unWrap());
         }
-        return new RvDrawableObject(animations, layer, visible);
+        return new RvSprite(position, velocity, shapeWrapper.unWrap(), animations, layer, visible);
     }
 }

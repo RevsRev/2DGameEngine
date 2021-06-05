@@ -49,7 +49,7 @@ public class RvScenery : RvDrawableObject
     }
 }
 
-public class RvSceneryWrapper : RvDrawableObjectWrapper
+public class RvSceneryWrapper : RvSpriteWrapper
 {
     [JsonProperty] public Vector2 position;
     [JsonProperty] public int width;

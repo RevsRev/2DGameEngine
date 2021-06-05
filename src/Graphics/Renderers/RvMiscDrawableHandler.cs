@@ -27,11 +27,11 @@ public class RvMiscDrawableHandler : RvDrawableI
         return instance;
     }
 
-    public void Draw()
+    public void draw()
     {
         for (int i=0; i<drawableIs.Count; i++)
         {
-            drawableIs[i].Draw();
+            drawableIs[i].draw();
         }
     }
 

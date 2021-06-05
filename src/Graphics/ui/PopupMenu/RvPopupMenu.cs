@@ -31,7 +31,7 @@ public class RvPopupMenu : RvDisposableI, IObserver<string>, RvMouseListenerI, R
         RvPopupHandler.the().removePopupMenu(this);
     }
 
-    public void Draw()
+    public void draw()
     {
         RvAbstractDrawer drawer = RvUiDrawer.the();
 

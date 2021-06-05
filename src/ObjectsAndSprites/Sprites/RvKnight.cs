@@ -138,7 +138,7 @@ public class RvKnight : RvPhysicalObject
 
 public class RvKnightWrapper : RvPhysicalObjectWrapper
 {
-    public RvKnightWrapper(Vector2 position, Vector2 velocity, RvDrawableObjectWrapper spriteWrapper, float mass, bool immovable, RvAbstractShapeWrapper shapeWrapper)
+    public RvKnightWrapper(Vector2 position, Vector2 velocity, RvSpriteWrapper spriteWrapper, float mass, bool immovable, RvAbstractShapeWrapper shapeWrapper)
     : base(position, velocity, spriteWrapper, mass, immovable, shapeWrapper)
     {
     }

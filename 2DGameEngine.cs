@@ -159,8 +159,8 @@ public class RvGame : Game
             drawCurrentLevel();
         }
 
-        RvScreenHandler.the().Draw();
-        RvMiscDrawableHandler.the().Draw();
+        RvScreenHandler.the().draw();
+        RvMiscDrawableHandler.the().draw();
 
         base.Draw(gameTime);
     }

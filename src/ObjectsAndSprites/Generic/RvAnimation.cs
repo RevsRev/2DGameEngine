@@ -69,7 +69,7 @@ public class RvAnimation : RvAbstractWrappable, RvUpdatableI
         }
     }
 
-    public void Draw(Rectangle destinationRect, float layer)
+    public void draw(Rectangle destinationRect, float layer)
     {
         bool doClipping = false; //pass this in/set at a later date.
 
