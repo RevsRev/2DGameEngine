@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using System.Threading.Tasks;
 
-public class RvPhysicalObjectCreator : RvSDialog<RvPhysicalObject>
+public class RvPhysicalObjectCreator : RvSDialog<RvAbstractGameObject>
 {
     private const int DEFAULT_WIDTH = 600;
     private const int DEFAULT_HEIGHT = 200;

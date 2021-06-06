@@ -4,40 +4,38 @@ using System.IO;
 
 public class RvLevel : RvAbstractWrappable, RvUpdatableI
 {
-    private RvObjectHandler objectHandler;
-    private RvSceneryHandler sceneryHandler;
+    private RvGameObjectHandler objectHandler;
 
     private string levelName;
 
-    public RvLevel(string levelName, RvObjectHandler objectHandler, RvSceneryHandler sceneryHandler)
+    public RvLevel(string levelName, RvGameObjectHandler objectHandler)
     {
         this.levelName = levelName;
         this.objectHandler = objectHandler;
-        this.sceneryHandler = sceneryHandler;
     }
 
     
 
     public static RvLevel loadLevel(string levelName, Game game)
     {
-        string levelAsJson = File.ReadAllText(RvContentFiles.LEVELS + levelName + ".txt");
+        string levelAsJson = "";
+        try
+        {
+            levelAsJson = File.ReadAllText(RvContentFiles.LEVELS + levelName + ".txt");
+        }
+        catch(FileNotFoundException e)
+        {
+            return new RvLevel(levelName, RvGameObjectHandler.factory());
+        }
         JsonSerializerSettings settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
         RvLevelWrapper w =  JsonConvert.DeserializeObject<RvLevelWrapper>(levelAsJson, settings);
-
-        if (w!=null)
-        {
-            return w.unWrap();
-        }
-
-        //create a brand new level
-        return new RvLevel(levelName, RvObjectHandler.factory(), new RvSceneryHandler(game));
+        return w.unWrap();
     }
 
     public override RvLevelWrapper wrap()
     {
-        RvObjectHandlerWrapper objectHandlerWrapper = objectHandler.wrap();
-        RvSceneryHandlerWrapper sceneryHandlerWrapper = sceneryHandler.wrap();
-        return new RvLevelWrapper(levelName, objectHandlerWrapper, sceneryHandlerWrapper);
+        RvGameObjectHandlerWrapper objectHandlerWrapper = objectHandler.wrap();
+        return new RvLevelWrapper(levelName, objectHandlerWrapper);
     }
 
     public async void saveLevel()
@@ -52,30 +50,25 @@ public class RvLevel : RvAbstractWrappable, RvUpdatableI
     public void update(GameTime gameTime)
     {
         objectHandler.update(gameTime);
-        sceneryHandler.update(gameTime);
     }
-    public void Draw()
-    {
-        objectHandler.Draw();
-        sceneryHandler.Draw();      
-    }
+    //06/06/2021 moving all this to a drawable object handler.
+    // public void Draw()
+    // {
+    //     objectHandler.Draw();     
+    // }
 
-    public void setObjectHandler(RvObjectHandler objectHandler)
+    public void setObjectHandler(RvGameObjectHandler objectHandler)
     {
         this.objectHandler = objectHandler;
     }
-    public RvObjectHandler GetObjectHandler()
+    public RvGameObjectHandler GetObjectHandler()
     {
         return objectHandler;
     }
-    public void setSceneryHandler(RvSceneryHandler sceneryHandler)
-    {
-        this.sceneryHandler = sceneryHandler;
-    }
 
-    public void addToObjectHandler(RvPhysicalObject physicalObject)
+    public void addToObjectHandler(RvAbstractGameObject obj)
     {
-        objectHandler.addObject(physicalObject);
+        objectHandler.addObject(obj);
     }
 
     public void removeFromObjectHandler(Vector2 position)
@@ -86,19 +79,17 @@ public class RvLevel : RvAbstractWrappable, RvUpdatableI
 
 public class RvLevelWrapper : RvAbstractWrapper
 {
-    [JsonProperty] public RvObjectHandlerWrapper objectHandlerWrapper;
-    [JsonProperty] public RvSceneryHandlerWrapper sceneryHandlerWrapper;
+    [JsonProperty] public RvGameObjectHandlerWrapper objectHandlerWrapper;
     [JsonProperty] public string levelName;
 
-    public RvLevelWrapper(string levelName, RvObjectHandlerWrapper objectHandlerWrapper, RvSceneryHandlerWrapper sceneryHandlerWrapper)
+    public RvLevelWrapper(string levelName, RvGameObjectHandlerWrapper objectHandlerWrapper)
     {
         this.objectHandlerWrapper = objectHandlerWrapper;
-        this.sceneryHandlerWrapper = sceneryHandlerWrapper;
         this.levelName = levelName;
     }
 
     public override RvLevel unWrap()
     {
-        return new RvLevel(levelName, objectHandlerWrapper.unWrap(), sceneryHandlerWrapper.unWrap());
+        return new RvLevel(levelName, objectHandlerWrapper.unWrap());
     }
 }

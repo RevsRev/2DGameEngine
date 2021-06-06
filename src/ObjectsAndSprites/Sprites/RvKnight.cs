@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System;
 using Shapes;
 
-public class RvKnight : RvPhysicalObject
+public class RvKnight : RvCollidableSrite
 {
     public static readonly int ANIMATION_ID_KNIGHT_IDLE         = 0;
     public static readonly int ANIMATION_ID_KNIGHT_RUN          = 1;
@@ -23,22 +23,28 @@ public class RvKnight : RvPhysicalObject
 
     //private bool facingRight = true; //to do.
 
-    public RvKnight(Vector2 position, Vector2 velocity, RvDrawableObject sprite, float mass, bool immovable, RvAbstractShape shape)
-    : base(position, velocity, sprite, mass, immovable, shape)
+    public RvKnight(Vector2 position) : this(position, new Shapes.RvHorizontalRectangle(position, 50, 75))
+    {
+
+    }
+
+    public RvKnight(Vector2 position, RvAbstractShape shape) : this(position, Vector2.Zero, shape, getKnightAnimations())
     {
     }
 
-    public RvKnight(Vector2 position, Vector2 velocity, float mass = 0.1f) : this(position, velocity, getKnightSprites(), mass, false, new Shapes.RvHorizontalRectangle(position, 50, 75))
+    public RvKnight(Vector2 position, Vector2 velocity, RvAbstractShape shape, List<RvAnimation> animations, float layer = 0.0f, bool visible = true)
+      : base(position, velocity, shape, animations, layer, visible)
     {
+
     }
 
-    public override RvPhysicalObjectWrapper wrap()
+    public override RvKnightWrapper wrap()
     {
         //haven't handled null sprite here. Not sure if it'll be a problem or not...
-        return new RvKnightWrapper(position, velocity, sprite.wrap(), mass, immovable, shape.wrap());
+        return new RvKnightWrapper(position, velocity, shape.wrap(), RvWrapperUtils.wrapVector<RvAnimation, RvAnimationWrapper>(animations), layer, visible);
     }
 
-    public static RvDrawableObject getKnightSprites()
+    public static List<RvAnimation> getKnightAnimations()
     {
         List<RvAnimation> animations = new List<RvAnimation>();
 
@@ -52,100 +58,97 @@ public class RvKnight : RvPhysicalObject
         animations.Add(RvAnimation.factory(RvContentFiles.KNIGHT + "noBKG_KnightFalling_strip", 1, 1, ANIMATION_ID_KNIGHT_FALLING));
         animations.Add(RvAnimation.factory(RvContentFiles.KNIGHT + "noBKG_KnightRising_strip", 1, 1, ANIMATION_ID_KNIGHT_RISING, true, new Rectangle(0, 25, 50, 75)));
 
-        RvDrawableObject sprite = new RvDrawableObject(animations);
-        sprite.setCurrentAnimation(ANIMATION_ID_KNIGHT_IDLE);
-        
-        return sprite;
+        return animations;
     }
 
     public override void update(GameTime gameTime)
     {
-        doControlling(gameTime);
-        selectAnimation();
+        // doControlling(gameTime);
+        // selectAnimation();
         base.update(gameTime);
     }
 
-    public override Vector2 getForceDueToFriction()
-    {
-        Vector2 velocity = getVelocity();
-        float lengthSquared = velocity.LengthSquared();
+    // public override Vector2 getForceDueToFriction()
+    // {
+    //     Vector2 velocity = getVelocity();
+    //     float lengthSquared = velocity.LengthSquared();
 
-        if (getIsDoingACollision())
-        {
-            float coefficientOfFriction = 1.0f; //to do - make depend on materials, etc.
-            if (velocity.Length() > EPSILON)
-            {
-                Vector2 normVel = Vector2.Normalize(velocity);
-                return -coefficientOfFriction * getMass() * LinearAlgebra.absDet(normVel, RvPhysics.GRAVITY) * normVel;
-            }
-        }
+    //     if (getIsDoingACollision())
+    //     {
+    //         float coefficientOfFriction = 1.0f; //to do - make depend on materials, etc.
+    //         if (velocity.Length() > EPSILON)
+    //         {
+    //             Vector2 normVel = Vector2.Normalize(velocity);
+    //             return -coefficientOfFriction * getMass() * LinearAlgebra.absDet(normVel, RvPhysics.GRAVITY) * normVel;
+    //         }
+    //     }
 
-        if (lengthSquared > EPSILON)
-        {
-            return -Vector2.Multiply(Vector2.Normalize(velocity), velocity.LengthSquared()*COEFFICIENT_OF_DRAG_SECOND_ORDER)
-                    ;//-Vector2.Multiply(Vector2.Normalize(velocity), velocity.Length()*COEFFICIENT_OF_DRAG_FIRST_ORDER);
-        }
-        return Vector2.Zero;
-    }
+    //     if (lengthSquared > EPSILON)
+    //     {
+    //         return -Vector2.Multiply(Vector2.Normalize(velocity), velocity.LengthSquared()*COEFFICIENT_OF_DRAG_SECOND_ORDER)
+    //                 ;//-Vector2.Multiply(Vector2.Normalize(velocity), velocity.Length()*COEFFICIENT_OF_DRAG_FIRST_ORDER);
+    //     }
+    //     return Vector2.Zero;
+    // }
 
-    public void doControlling(GameTime gameTime)
-    {
-        var kState = Keyboard.GetState();
+    // public void doControlling(GameTime gameTime)
+    // {
+    //     var kState = Keyboard.GetState();
         
-        if (kState.IsKeyDown(Keys.D))
-        {
-            updateKinematics(gameTime, new Vector2(RUNNING_FORCE, 0));
-            if (!isAirborne() && getSprite().getCurrentAnimationId() != ANIMATION_ID_KNIGHT_RUN)
-            {
-                getSprite().setCurrentAnimation(ANIMATION_ID_KNIGHT_RUN);
-            }
-        }
+    //     if (kState.IsKeyDown(Keys.D))
+    //     {
+    //         updateKinematics(gameTime, new Vector2(RUNNING_FORCE, 0));
+    //         if (!isAirborne() && getSprite().getCurrentAnimationId() != ANIMATION_ID_KNIGHT_RUN)
+    //         {
+    //             getSprite().setCurrentAnimation(ANIMATION_ID_KNIGHT_RUN);
+    //         }
+    //     }
         
-        if (kState.IsKeyDown(Keys.A))
-        {
-            updateKinematics(gameTime, new Vector2(-RUNNING_FORCE, 0));
-            if (!isAirborne() && getSprite().getCurrentAnimationId() != ANIMATION_ID_KNIGHT_RUN)
-            {
-                getSprite().setCurrentAnimation(ANIMATION_ID_KNIGHT_RUN);
-            }
-        }
+    //     if (kState.IsKeyDown(Keys.A))
+    //     {
+    //         updateKinematics(gameTime, new Vector2(-RUNNING_FORCE, 0));
+    //         if (!isAirborne() && getSprite().getCurrentAnimationId() != ANIMATION_ID_KNIGHT_RUN)
+    //         {
+    //             getSprite().setCurrentAnimation(ANIMATION_ID_KNIGHT_RUN);
+    //         }
+    //     }
 
-        if (kState.IsKeyDown(Keys.Space))
-        {
-            if (doJump(gameTime))
-            {
-                getSprite().setCurrentAnimation(ANIMATION_ID_KNIGHT_JUMP);
-            }
-        }
-    }
+    //     if (kState.IsKeyDown(Keys.Space))
+    //     {
+    //         if (doJump(gameTime))
+    //         {
+    //             getSprite().setCurrentAnimation(ANIMATION_ID_KNIGHT_JUMP);
+    //         }
+    //     }
+    // }
 
-    public void selectAnimation()
-    {
-        if (isFalling())
-        {
-            getSprite().setCurrentAnimation(ANIMATION_ID_KNIGHT_FALLING);
-        }
-        if (isRising())
-        {
-            getSprite().setCurrentAnimation(ANIMATION_ID_KNIGHT_RISING);
-        }
-        if (!isAirborne() && getVelocity().Length() < MINIMUM_HORIZONTAL_VELOCITY)
-        {
-            getSprite().setCurrentAnimation(ANIMATION_ID_KNIGHT_IDLE);
-        }
-    }
+    // public void selectAnimation()
+    // {
+    //     if (isFalling())
+    //     {
+    //         getSprite().setCurrentAnimation(ANIMATION_ID_KNIGHT_FALLING);
+    //     }
+    //     if (isRising())
+    //     {
+    //         getSprite().setCurrentAnimation(ANIMATION_ID_KNIGHT_RISING);
+    //     }
+    //     if (!isAirborne() && getVelocity().Length() < MINIMUM_HORIZONTAL_VELOCITY)
+    //     {
+    //         getSprite().setCurrentAnimation(ANIMATION_ID_KNIGHT_IDLE);
+    //     }
+    // }
 }
 
-public class RvKnightWrapper : RvPhysicalObjectWrapper
+public class RvKnightWrapper : RvCollidableSriteWrapper
 {
-    public RvKnightWrapper(Vector2 position, Vector2 velocity, RvSpriteWrapper spriteWrapper, float mass, bool immovable, RvAbstractShapeWrapper shapeWrapper)
-    : base(position, velocity, spriteWrapper, mass, immovable, shapeWrapper)
+    public RvKnightWrapper(Vector2 position, Vector2 velocity, RvAbstractShapeWrapper shape, List<RvAnimationWrapper> animations, float layer = 0.0f, bool visible = true) 
+      : base(position, velocity, shape, animations, layer, visible)
     {
+
     }
 
-    public override RvPhysicalObject unWrap()
+    public override RvSprite unWrap()
     {
-        RvDrawableObject sprite = spriteWrapper.unWrap();
-        return new RvKnight(position, velocity, sprite, mass, immovable, shapeWrapper.unWrap());
+        return (RvKnight)base.unWrap();
     }
 }

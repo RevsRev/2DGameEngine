@@ -37,7 +37,7 @@ public abstract class RvAbstractDrawer : SpriteBatch
     }
 
     //If we want to follow a particular object (i.e. side scrolling for a platformer!)
-    private RvPhysicalObject boundObject;
+    private RvAbstractGameObject boundObject;
 
     public void initPens(ContentManager content)
     {
@@ -49,7 +49,7 @@ public abstract class RvAbstractDrawer : SpriteBatch
         fonts[FONT_THEANO_DIDOT] = RvTheanoDidotFont.factory(content);
     }
 
-    public void setBoundObject(RvPhysicalObject boundObject)
+    public void setBoundObject(RvAbstractGameObject boundObject)
     {
         this.boundObject = boundObject;
     }

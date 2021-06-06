@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 
-public abstract class RvAbstractGameObject : RvAbstractWrappable, RvUpdatableI
+public abstract class RvAbstractGameObject : RvAbstractWrappable, RvUpdatableI, RvDisposableI
 {
     protected Vector2 position;
     protected Vector2 velocity;
@@ -17,7 +17,16 @@ public abstract class RvAbstractGameObject : RvAbstractWrappable, RvUpdatableI
         this.position = position;
         this.velocity = velocity;
         this.shape = shape;
+
+        registerHandlers();
     }
+
+    public void dispose()
+    {
+        disposeHandlers();
+    }
+    public abstract void disposeHandlers();
+    public abstract void registerHandlers();
 
     public abstract override RvAbstractGameObjectWrapper wrap();
 
@@ -26,6 +35,23 @@ public abstract class RvAbstractGameObject : RvAbstractWrappable, RvUpdatableI
         doPhysics(gameTime);
         position += velocity * gameTime.ElapsedGameTime.Seconds;
         shape.setTranslation(position);
+    }
+
+    public RvAbstractShape getShape()
+    {
+        return shape;
+    }
+    public Vector2 getPosition()
+    {
+        return position;
+    }
+    public float getHitboxWidth()
+    {
+        return shape.getWidth();
+    }
+    public float getHitboxHeight()
+    {
+        return shape.getHeight();
     }
 
     bool doesPhysics()

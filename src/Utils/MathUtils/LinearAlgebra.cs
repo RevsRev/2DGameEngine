@@ -3,10 +3,12 @@ using System;
 
 public class LinearAlgebra
 {
+    public static readonly float EPSILON = 0.001f;
+
     public static Vector2 project(Vector2 vector, Vector2 orthog)
     {
         //don't want weird rounding errors.
-        if (orthog.Length() < RvPhysicalObject.EPSILON)
+        if (orthog.Length() < EPSILON)
         {
             return new Vector2(vector.X, vector.Y);
         }

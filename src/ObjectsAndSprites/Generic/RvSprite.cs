@@ -8,8 +8,8 @@ public class RvSprite : RvAbstractGameObject, RvDrawableI
     protected List<RvAnimation> animations;
     int currentAnimation = 0;
 
-    private bool visible = true;
-    private float layer = RvSpriteBatch.DEFAULT_DRAWING_LAYER;
+    protected bool visible = true;
+    protected float layer = RvSpriteBatch.DEFAULT_DRAWING_LAYER;
 
     public RvSprite(Vector2 position, RvAbstractShape shape, List<RvAnimation> animations, float layer = 0.0f, bool visible = true)
       : this(position, Vector2.Zero, shape, animations, layer, visible)
@@ -33,6 +33,18 @@ public class RvSprite : RvAbstractGameObject, RvDrawableI
         }
 
         return new RvSpriteWrapper(position, velocity, shape.wrap(), animationWrappers, layer, visible);
+    }
+
+
+    //to do - make an abstract handler class.
+    //Then keep a vector of handlers on the class...
+    public override void registerHandlers()
+    {
+        RvDrawableHandler.the().addDrawable(this);
+    }
+    public override void disposeHandlers()
+    {
+        RvDrawableHandler.the().removeDrawable(this);
     }
 
     public void setCurrentAnimation(int animationId)

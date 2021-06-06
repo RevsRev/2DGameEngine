@@ -1,18 +1,18 @@
 using System.Collections.Generic;
 
-public class RvMiscDrawableHandler : RvDrawableI
+public class RvDrawableHandler : RvDrawableI
 {
-    private static RvMiscDrawableHandler instance = null;
+    private static RvDrawableHandler instance = null;
     private static object padlock = new object();
 
     private List<RvDrawableI> drawableIs = new List<RvDrawableI>();
 
-    private RvMiscDrawableHandler()
+    private RvDrawableHandler()
     {
 
     }
 
-    public static RvMiscDrawableHandler the()
+    public static RvDrawableHandler the()
     {
         if (instance == null)
         {
@@ -20,7 +20,7 @@ public class RvMiscDrawableHandler : RvDrawableI
             {
                 if(instance == null)
                 {
-                    instance = new RvMiscDrawableHandler();
+                    instance = new RvDrawableHandler();
                 }
             }
         }

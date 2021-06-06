@@ -29,14 +29,14 @@ public class RvEditor : RvPopupMenuListenerI
         retval.addPopupMenuItem("Save");
         //retval.addPopupMenuItem("Remove");
         retval.addPopupMenuItem("Add Object");
-        // retval.addPopupMenuItem("Knight");
+        retval.addPopupMenuItem("Knight");
         // retval.addPopupMenuItem("fEye");
         return retval;
     }
 
     public bool okToBuildMenu(int x, int y)
     {
-        RvObjectHandler objHandler = game.getCurrentLevel().GetObjectHandler();
+        RvGameObjectHandler objHandler = game.getCurrentLevel().GetObjectHandler();
         return (objHandler.getObjectsAt(new Vector2(x,y)).Count == 0);
     }
 
@@ -64,6 +64,11 @@ public class RvEditor : RvPopupMenuListenerI
         else if (actionCommand.Equals("Add Object"))
         {
             RvScreenHandler.the().doPopup("RvPhysicalObjectCreator");
+        }
+        //for testing purposes.
+        else if (actionCommand.Equals("Knight"))
+        {
+            addObject("Knight", Vector2.Zero);
         }
         // if (actionCommand.Equals("Remove"))
         // {
@@ -96,11 +101,11 @@ public class RvEditor : RvPopupMenuListenerI
         Vector2 physicalPosition = mapScreenCoordsToGameCoords(position);
         if (objectName.Equals("Knight"))
         {
-            game.getCurrentLevel().addToObjectHandler(new RvKnight(physicalPosition, Vector2.Zero));
+            game.getCurrentLevel().addToObjectHandler(new RvKnight(physicalPosition));
         }
         else if (objectName.Equals("fEye"))
         {
-            game.getCurrentLevel().addToObjectHandler(new RvFlyingEye(physicalPosition, Vector2.Zero));
+            game.getCurrentLevel().addToObjectHandler(new RvFlyingEye(physicalPosition));
         }
     }
 }

@@ -15,7 +15,7 @@ public class RvPopupMenu : RvDisposableI, IObserver<string>, RvMouseListenerI, R
     public RvPopupMenu()
     {
         RvMouse.the().addMouseListener(this);
-        RvMiscDrawableHandler.the().addDrawable(this);
+        RvDrawableHandler.the().addDrawable(this);
         RvPopupHandler.the().addPopupMenu(this);
     }
 
@@ -27,7 +27,7 @@ public class RvPopupMenu : RvDisposableI, IObserver<string>, RvMouseListenerI, R
         }
         actionListener = null;
         RvMouse.the().removeMouseListener(this);
-        RvMiscDrawableHandler.the().removeDrawable(this);
+        RvDrawableHandler.the().removeDrawable(this);
         RvPopupHandler.the().removePopupMenu(this);
     }
 

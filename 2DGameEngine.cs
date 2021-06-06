@@ -160,7 +160,10 @@ public class RvGame : Game
         }
 
         RvScreenHandler.the().draw();
-        RvMiscDrawableHandler.the().draw();
+
+        RvSpriteBatch.the().Begin();
+        RvDrawableHandler.the().draw();
+        RvSpriteBatch.the().End();
 
         base.Draw(gameTime);
     }
@@ -175,7 +178,6 @@ public class RvGame : Game
         RvLevel level = levels[currentLevel];
 
         RvSpriteBatch.the().Begin(SpriteSortMode.BackToFront, null);
-        level.Draw();
 
         if (gameState == GAME_STATE_EDIT)
         {
