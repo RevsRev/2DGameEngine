@@ -12,7 +12,7 @@ public class RvFocusHandler : RvKeyboardListenerI, RvMouseListenerI
 
     private RvFocusHandler()
     {
-        RvMouse.the().addMouseListener(this);
+        RvMouse.the().addListener(this);
         RvKeyboard.the().addKeyboardListener(this);
     }
 

@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-public interface RvMouseListenerI
+public interface RvMouseListenerI : RvEventListenerI
 {
     public void mouseEvent(RvMouseEvent e) //for mouse click/held events (in future do scroll as well)
     {

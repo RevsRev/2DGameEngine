@@ -1,7 +1,11 @@
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 
-public abstract class RvAbstractGameObject : RvAbstractWrappable, RvUpdatableI, RvDisposableI
+public abstract class RvAbstractGameObject :    RvAbstractWrappable, 
+                                                RvUpdatableI, 
+                                                RvDisposableI, 
+                                                RvPopupMenuListenerI, 
+                                                RvMouseListenerI
 {
     protected Vector2 position;
     protected Vector2 velocity;
@@ -18,11 +22,13 @@ public abstract class RvAbstractGameObject : RvAbstractWrappable, RvUpdatableI, 
         this.velocity = velocity;
         this.shape = shape;
 
+        RvMouse.the().addListener(this);
         registerHandlers();
     }
 
     public void dispose()
     {
+        RvMouse.the().removeListener(this);
         disposeHandlers();
     }
     public abstract void disposeHandlers();
@@ -35,6 +41,35 @@ public abstract class RvAbstractGameObject : RvAbstractWrappable, RvUpdatableI, 
         doPhysics(gameTime);
         position += velocity * gameTime.ElapsedGameTime.Seconds;
         shape.setTranslation(position);
+    }
+
+    public Rectangle getClickableRegion()
+    {
+        return shape.getRectangle();
+    }
+    public void doDrag(Vector2 mouseCoords, Vector2 anchorPoint)
+    {
+        Vector2 screenPosition = mouseCoords - anchorPoint;
+        position = RvEditor.mapScreenCoordsToGameCoords(screenPosition);
+        shape.setTranslation(position);
+    }
+
+    public void doClick(RvMouseEvent e)
+    {
+        RvPopupMenuListenerI.onClick(e, this);
+    }
+
+    public RvPopupMenu buildPopupMenu()
+    {
+        RvPopupMenu retval = new RvPopupMenu();
+        retval.addPopupMenuItem("Properties");
+        retval.addPopupMenuItem("Remove");
+        return retval;
+    }
+
+    public void performPopupMenuAction(string actionStr)
+    {
+        //not doing anything for now
     }
 
     public RvAbstractShape getShape()

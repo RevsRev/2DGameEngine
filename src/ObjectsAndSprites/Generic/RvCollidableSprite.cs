@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-public class RvCollidableSrite : RvSprite, RvCollidableI
+public class RvCollidableSprite : RvSprite, RvCollidableI
 {
-    public RvCollidableSrite(Vector2 position, Vector2 velocity, RvAbstractShape shape, List<RvAnimation> animations, float layer = 0.0f, bool visible = true)
+    public RvCollidableSprite(Vector2 position, Vector2 velocity, RvAbstractShape shape, List<RvAnimation> animations, float layer = 0.0f, bool visible = true)
       : base(position, velocity, shape, animations, layer, visible)
     {
 
@@ -28,8 +28,8 @@ public class RvCollidableSriteWrapper : RvSpriteWrapper
 
     }
 
-    public override RvSprite unWrap()
+    public override RvCollidableSprite unWrap()
     {
-        return (RvCollidableSrite)base.unWrap();
+        return new RvCollidableSprite(position, velocity, shapeWrapper.unWrap(), RvWrapperUtils.unwrapVector<RvAnimation, RvAnimationWrapper>(animationWrappers), layer, visible);
     }
 }

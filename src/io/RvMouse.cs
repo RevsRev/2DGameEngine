@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using System;
 
-public class RvMouse
+public class RvMouse : RvAbstractEventHandler<RvMouseListenerI>
 {
     private static RvMouse instance = null;
     private static readonly object padlock = new object();
@@ -72,14 +72,14 @@ public class RvMouse
         }
     }
 
-    public void addMouseListener(RvMouseListenerI listener)
+    public override void addListener(RvMouseListenerI listener)
     {
         if (!listeners.Contains(listener))
         {
             listeners.Add(listener);
         }
     }
-    public void removeMouseListener(RvMouseListenerI listenerI)
+    public override void removeListener(RvMouseListenerI listenerI)
     {
         listeners.Remove(listenerI);
     }

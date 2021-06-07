@@ -17,12 +17,12 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>, RvMouseL
 
     public override void init()
     {
-        RvMouse.the().addMouseListener(this);
+        RvMouse.the().addListener(this);
     }
 
     public override void dispose()
     {
-        RvMouse.the().removeMouseListener(this);
+        RvMouse.the().removeListener(this);
     }
 
     public Rectangle getClickableRegion()

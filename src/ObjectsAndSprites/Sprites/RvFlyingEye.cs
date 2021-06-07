@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-public class RvFlyingEye : RvCollidableSrite
+public class RvFlyingEye : RvCollidableSprite
 {
     public static readonly int ANIMATION_FLYING_EYE_FLIGHT = 0;
 
@@ -36,8 +36,8 @@ public class RvFlyingEyeWrapper : RvCollidableSriteWrapper
 
     }
 
-    public override RvSprite unWrap()
+    public override RvFlyingEye unWrap()
     {
-        return (RvFlyingEye)base.unWrap();
+        return new RvFlyingEye(position, velocity, shapeWrapper.unWrap(), RvWrapperUtils.unwrapVector<RvAnimation, RvAnimationWrapper>(animationWrappers), layer, visible);
     }
 }

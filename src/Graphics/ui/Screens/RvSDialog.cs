@@ -16,7 +16,7 @@ public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>, RvMou
 
     public override void dispose()
     {
-        RvMouse.the().removeMouseListener(this);
+        RvMouse.the().removeListener(this);
         base.dispose();
     }
 
@@ -24,7 +24,7 @@ public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>, RvMou
     {
         base.init();
         
-        RvMouse.the().addMouseListener(this);
+        RvMouse.the().addListener(this);
 
         //I'm going to assume we put in sensible dimensions for the time being...
         Rectangle bannerRect = new Rectangle(0, 0, bounds.Width, BANNER_HEIGHT);

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System;
 using Shapes;
 
-public class RvKnight : RvCollidableSrite
+public class RvKnight : RvCollidableSprite
 {
     public static readonly int ANIMATION_ID_KNIGHT_IDLE         = 0;
     public static readonly int ANIMATION_ID_KNIGHT_RUN          = 1;
@@ -147,8 +147,8 @@ public class RvKnightWrapper : RvCollidableSriteWrapper
 
     }
 
-    public override RvSprite unWrap()
+    public override RvKnight unWrap()
     {
-        return (RvKnight)base.unWrap();
+        return new RvKnight(position, velocity, shapeWrapper.unWrap(), RvWrapperUtils.unwrapVector<RvAnimation, RvAnimationWrapper>(animationWrappers), layer, visible);
     }
 }

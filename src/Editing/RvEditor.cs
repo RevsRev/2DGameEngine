@@ -11,7 +11,7 @@ public class RvEditor : RvPopupMenuListenerI
     public RvEditor(RvGame game)
     {
         this.game = game;
-        RvMouse.the().addMouseListener(this);
+        RvMouse.the().addListener(this);
     }
 
     public void doClick(RvMouseEvent e)
