@@ -28,7 +28,7 @@ public abstract class RvAbstractComponent : RvDisposableI
     {
         return offest;
     }
-    public void setOffset(Vector2 offset)
+    public virtual void setOffset(Vector2 offset)
     {
         this.offest = offset;
     }

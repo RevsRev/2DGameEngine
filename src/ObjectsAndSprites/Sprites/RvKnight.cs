@@ -32,8 +32,8 @@ public class RvKnight : RvCollidableSprite
     {
     }
 
-    public RvKnight(Vector2 position, Vector2 velocity, RvAbstractShape shape, List<RvAnimation> animations, float layer = 0.0f, bool visible = true)
-      : base(position, velocity, shape, animations, layer, visible)
+    public RvKnight(Vector2 position, Vector2 velocity, RvAbstractShape shape, List<RvAnimation> animations, int layerNumber = RvSprite.SPRITE_LAYER_MID, bool visible = true)
+      : base(position, velocity, shape, animations, layerNumber, visible)
     {
 
     }
@@ -41,7 +41,7 @@ public class RvKnight : RvCollidableSprite
     public override RvKnightWrapper wrap()
     {
         //haven't handled null sprite here. Not sure if it'll be a problem or not...
-        return new RvKnightWrapper(position, velocity, shape.wrap(), RvWrapperUtils.wrapVector<RvAnimation, RvAnimationWrapper>(animations), layer, visible);
+        return new RvKnightWrapper(position, velocity, shape.wrap(), RvWrapperUtils.wrapVector<RvAnimation, RvAnimationWrapper>(animations), layerNumber, visible);
     }
 
     public static List<RvAnimation> getKnightAnimations()
@@ -141,14 +141,14 @@ public class RvKnight : RvCollidableSprite
 
 public class RvKnightWrapper : RvCollidableSriteWrapper
 {
-    public RvKnightWrapper(Vector2 position, Vector2 velocity, RvAbstractShapeWrapper shape, List<RvAnimationWrapper> animations, float layer = 0.0f, bool visible = true) 
-      : base(position, velocity, shape, animations, layer, visible)
+    public RvKnightWrapper(Vector2 position, Vector2 velocity, RvAbstractShapeWrapper shape, List<RvAnimationWrapper> animations, int layerNumber = RvSprite.SPRITE_LAYER_MID, bool visible = true) 
+      : base(position, velocity, shape, animations, layerNumber, visible)
     {
 
     }
 
     public override RvKnight unWrap()
     {
-        return new RvKnight(position, velocity, shapeWrapper.unWrap(), RvWrapperUtils.unwrapVector<RvAnimation, RvAnimationWrapper>(animationWrappers), layer, visible);
+        return new RvKnight(position, velocity, shapeWrapper.unWrap(), RvWrapperUtils.unwrapVector<RvAnimation, RvAnimationWrapper>(animationWrappers), layerNumber, visible);
     }
 }

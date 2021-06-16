@@ -15,8 +15,8 @@ public class RvFlyingEye : RvCollidableSprite
 
     }
 
-    public RvFlyingEye(Vector2 position, Vector2 velocity, RvAbstractShape shape, List<RvAnimation> animations, float layer = 0.0f, bool visible = true)
-      : base(position, velocity, shape, animations, layer, visible)
+    public RvFlyingEye(Vector2 position, Vector2 velocity, RvAbstractShape shape, List<RvAnimation> animations, int layerNumber = RvSprite.SPRITE_LAYER_MID, bool visible = true)
+      : base(position, velocity, shape, animations, layerNumber, visible)
     {
     }
 
@@ -30,14 +30,14 @@ public class RvFlyingEye : RvCollidableSprite
 
 public class RvFlyingEyeWrapper : RvCollidableSriteWrapper
 {
-    public RvFlyingEyeWrapper(Vector2 position, Vector2 velocity, RvAbstractShapeWrapper shape, List<RvAnimationWrapper> animations, float layer = 0.0f, bool visible = true) 
-      : base(position, velocity, shape, animations, layer, visible)
+    public RvFlyingEyeWrapper(Vector2 position, Vector2 velocity, RvAbstractShapeWrapper shape, List<RvAnimationWrapper> animations, int layerNumber = RvSprite.SPRITE_LAYER_MID, bool visible = true) 
+      : base(position, velocity, shape, animations, layerNumber, visible)
     {
 
     }
 
     public override RvFlyingEye unWrap()
     {
-        return new RvFlyingEye(position, velocity, shapeWrapper.unWrap(), RvWrapperUtils.unwrapVector<RvAnimation, RvAnimationWrapper>(animationWrappers), layer, visible);
+        return new RvFlyingEye(position, velocity, shapeWrapper.unWrap(), RvWrapperUtils.unwrapVector<RvAnimation, RvAnimationWrapper>(animationWrappers), layerNumber, visible);
     }
 }

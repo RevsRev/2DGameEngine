@@ -39,6 +39,15 @@ public abstract class RvAbstractPanel : RvAbstractComponent
             components[i].move(delPos);
         }
     }
+    public override void setOffset(Vector2 offset)
+    {
+        Vector2 delPos = offset - base.getOffset();
+        base.setOffset(offset);
+        for (int i=0; i<components.Count; i++)
+        {
+            components[i].move(delPos);
+        }
+    }
 
     public override void dispose()
     {

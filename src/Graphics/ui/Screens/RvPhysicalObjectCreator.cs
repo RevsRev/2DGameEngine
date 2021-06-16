@@ -1,11 +1,8 @@
 using Microsoft.Xna.Framework;
 using System.Threading.Tasks;
 
-public class RvPhysicalObjectCreator : RvSDialog<RvAbstractGameObject>
+public class RvPhysicalObjectCreator : RvSDialog
 {
-    private const int DEFAULT_WIDTH = 600;
-    private const int DEFAULT_HEIGHT = 200;
-
     //This is not ideal but will do for now.
     private readonly Rectangle TIP_TEXT_POSITIONING = new Rectangle(5, 5, 90, 20);
     private readonly Rectangle TEXT_FIELD_POSITIONING = new Rectangle(5, 30, 90, 65);

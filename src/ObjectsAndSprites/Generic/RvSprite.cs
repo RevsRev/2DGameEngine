@@ -5,21 +5,34 @@ using Newtonsoft.Json;
 
 public class RvSprite : RvAbstractGameObject, RvDrawableI
 {
+    //layers for drawing. This should be enough for now. Leaving gaps to add more.
+    public const int SPRITE_LAYER_FRONT = 0;
+    public const int SPRITE_LAYER_FRONT_MID = 10;
+    public const int SPRITE_LAYER_MID = 20;
+    public const int SPRITE_LAYER_MID_BACK = 30;
+    public const int SPRITE_LAYER_BACK = 40;
+
+    // public static readonly float SPRITE_DRAWING_LAYER_FRONT = 0.5f + SPRITE_LAYER_FRONT/100.0f;
+    // public static readonly float SPRITE_DRAWING_LAYER_MID_FRONT = 0.5f + SPRITE_LAYER_FRONT_MID/100.0f;
+    // public static readonly float SRPITE_DRAWING_LAYER_MID = 0.5f + SPRITE_LAYER_MID/100.0f;
+    // public static readonly float SPRITE_DRAWING_LAYER_MID_BACK = 0.5f + SPRITE_LAYER_MID_BACK/100.0f;
+    // public static readonly float SRPITE_DRAWING_LAYER_BACK = 0.5f + SPRITE_LAYER_BACK/100.0f;
+
     protected List<RvAnimation> animations;
     int currentAnimation = 0;
 
     protected bool visible = true;
-    protected float layer = RvSpriteBatch.DEFAULT_DRAWING_LAYER;
+    protected int layerNumber = SPRITE_LAYER_MID;
 
-    public RvSprite(Vector2 position, RvAbstractShape shape, List<RvAnimation> animations, float layer = 0.0f, bool visible = true)
-      : this(position, Vector2.Zero, shape, animations, layer, visible)
+    public RvSprite(Vector2 position, RvAbstractShape shape, List<RvAnimation> animations, int layerNumber = SPRITE_LAYER_MID, bool visible = true)
+      : this(position, Vector2.Zero, shape, animations, layerNumber, visible)
       {
 
       }
-    public RvSprite(Vector2 position, Vector2 velocity, RvAbstractShape shape, List<RvAnimation> animations, float layer = 0.0f, bool visible = true) : base(position, velocity, shape)
+    public RvSprite(Vector2 position, Vector2 velocity, RvAbstractShape shape, List<RvAnimation> animations, int layerNumber = SPRITE_LAYER_MID, bool visible = true) : base(position, velocity, shape)
     {
         this.animations = animations;
-        this.layer = layer;
+        this.layerNumber = layerNumber;
         this.visible = visible;
     }
 
@@ -32,7 +45,7 @@ public class RvSprite : RvAbstractGameObject, RvDrawableI
             animationWrappers.Add(animation.wrap());
         }
 
-        return new RvSpriteWrapper(position, velocity, shape.wrap(), animationWrappers, layer, visible);
+        return new RvSpriteWrapper(position, velocity, shape.wrap(), animationWrappers, layerNumber, visible);
     }
 
 
@@ -82,17 +95,22 @@ public class RvSprite : RvAbstractGameObject, RvDrawableI
         {
             return;
         }
-        animations[currentAnimation].draw(shape.getRectangle(), layer);
+        animations[currentAnimation].draw(shape.getRectangle(), getDrawingLayer());
     }
 
 
-    public void setLayer(float layer)
+    public void setLayerNumber(int layerNumber)
     {
-        this.layer = layer;
+        this.layerNumber = layerNumber;
     }
-    public float getLayer()
+    public int getLayerNumber()
     {
-        return layer;
+        return layerNumber;
+    }
+
+    public float getDrawingLayer()
+    {
+        return 0.5f + layerNumber/100.0f;
     }
 
     public void setVisible(bool visible)
@@ -105,14 +123,14 @@ public class RvSpriteWrapper : RvAbstractGameObjectWrapper
 {
     [JsonProperty] public  List<RvAnimationWrapper> animationWrappers;
     [JsonProperty] public bool visible = true;
-    [JsonProperty] public float layer = 0.0f;
+    [JsonProperty] public int layerNumber = RvSprite.SPRITE_LAYER_MID;
 
-    public RvSpriteWrapper(Vector2 position, Vector2 velocity, RvAbstractShapeWrapper shape, List<RvAnimationWrapper> animations, float layer = 0.0f, bool visible = true) 
+    public RvSpriteWrapper(Vector2 position, Vector2 velocity, RvAbstractShapeWrapper shape, List<RvAnimationWrapper> animations, int layerNumber = RvSprite.SPRITE_LAYER_MID, bool visible = true) 
       : base(position, velocity, shape)
     {
         this.animationWrappers = animations;
         this.visible = visible;
-        this.layer = layer;
+        this.layerNumber = layerNumber;
     }
 
     public override RvSprite unWrap()
@@ -122,6 +140,6 @@ public class RvSpriteWrapper : RvAbstractGameObjectWrapper
         {
             animations.Add(animationWrappers[i].unWrap());
         }
-        return new RvSprite(position, velocity, shapeWrapper.unWrap(), animations, layer, visible);
+        return new RvSprite(position, velocity, shapeWrapper.unWrap(), animations, layerNumber, visible);
     }
 }

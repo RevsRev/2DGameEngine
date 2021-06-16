@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Threading.Tasks;
 
-public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>, RvMouseListenerI
+public abstract class RvSDialog : RvSAbstractScreen, IObserver<string>, RvMouseListenerI
 {
     private const int BANNER_HEIGHT = 20;
 
@@ -27,12 +27,13 @@ public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>, RvMou
         RvMouse.the().addListener(this);
 
         //I'm going to assume we put in sensible dimensions for the time being...
-        Rectangle bannerRect = new Rectangle(0, 0, bounds.Width, BANNER_HEIGHT);
-        banner = new RvPanel(bannerRect);
-        banner.setPanelColor(Color.DarkGray);
-        RvButtonImage xButton = new RvButtonImage("close", new Rectangle(0, 0, BANNER_HEIGHT, BANNER_HEIGHT), RvContentFiles.UI + "XButton");
-        xButton.setOffset(new Vector2(bounds.Width - BANNER_HEIGHT, 0));
-        xButton.Subscribe(this);
+        // Rectangle bannerRect = new Rectangle(0, 0, bounds.Width, BANNER_HEIGHT);
+        // banner = new RvPanel(bannerRect);
+        // banner.setPanelColor(Color.DarkGray);
+        // RvButtonImage xButton = new RvButtonImage("close", new Rectangle(0, 0, BANNER_HEIGHT, BANNER_HEIGHT), RvContentFiles.UI + "XButton");
+        // xButton.setOffset(new Vector2(bounds.Width - BANNER_HEIGHT, 0));
+        // xButton.Subscribe(this);
+        banner = new RvDialogBanner(this);
 
         Rectangle contentRect = new Rectangle(0,0, bounds.Width, bounds.Height - BANNER_HEIGHT);
         contentPanel = new RvPanel(contentRect);
@@ -40,7 +41,7 @@ public abstract class RvSDialog<T> : RvSAbstractScreen, IObserver<string>, RvMou
 
         base.addComponent(contentPanel);
         base.addComponent(banner);
-        banner.addComponent(xButton); //an annoying quirk of how i've written this means the ui will only  look right if we add the button after the banner... fix this at some point.
+        //banner.addComponent(xButton); //an annoying quirk of how i've written this means the ui will only  look right if we add the button after the banner... fix this at some point.
     }
 
     public override void addComponent(RvAbstractComponent component)
