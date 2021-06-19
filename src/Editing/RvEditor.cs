@@ -63,7 +63,7 @@ public class RvEditor : RvPopupMenuListenerI
         }
         else if (actionCommand.Equals("Add Object"))
         {
-            RvScreenHandler.the().doPopup("RvPhysicalObjectCreator");
+            RvScreenHandler.the().doPopup("RvSObjectCreator");
         }
         //for testing purposes.
         else if (actionCommand.Equals("Knight"))

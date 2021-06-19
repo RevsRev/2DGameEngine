@@ -65,10 +65,11 @@ public sealed class RvScreenHandler : RvDrawableI
         screens.Remove(screen);
     }
 
-    public void doPopup(String screenName)
+    public RvSAbstractScreen doPopup(String screenName)
     {
         RvSAbstractScreen screen = (RvSAbstractScreen)RvClassLoader.createByName(screenName);
         screen.init();
         RvScreenHandler.the().addScreen(screen);
+        return screen;
     }
 }

@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-public class RvPhysicalObjectCreator : RvSDialog
+public class RvSObjectCreator : RvSDialog
 {
     //This is not ideal but will do for now.
     private readonly Rectangle TIP_TEXT_POSITIONING = new Rectangle(5, 5, 90, 20);
@@ -11,17 +11,16 @@ public class RvPhysicalObjectCreator : RvSDialog
     //private RvText tipText;
     //private RvTextField textField;
 
-    public RvPhysicalObjectCreator() : this(new Vector2(DEFAULT_X, DEFAULT_Y))
+    public RvSObjectCreator() : this(new Vector2(DEFAULT_X, DEFAULT_Y))
     {
-
     }
 
-    public RvPhysicalObjectCreator(Rectangle bounds) : base(bounds)
+    public RvSObjectCreator(Rectangle bounds) : base(bounds)
     {
         initComponents();
     }
 
-    public RvPhysicalObjectCreator(Vector2 position) : this(new Rectangle((int)position.X, (int)position.Y, DEFAULT_WIDTH, DEFAULT_HEIGHT))
+    public RvSObjectCreator(Vector2 position) : this(new Rectangle((int)position.X, (int)position.Y, DEFAULT_WIDTH, DEFAULT_HEIGHT))
     {
 
     }
@@ -77,6 +76,10 @@ public class RvPhysicalObjectCreator : RvSDialog
         {
             RvAbstractGameObject gameObject = (RvAbstractGameObject)RvClassLoader.createByName(actionString);
             RvGame.the().getCurrentLevel().addToObjectHandler(gameObject);
+
+            //now do the popup for the properties editor and close this dialog.
+            RvSObjectEditor.doPopup(gameObject);
+            setOkToFinish(true);
         }
     }
 
