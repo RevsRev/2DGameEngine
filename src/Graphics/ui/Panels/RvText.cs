@@ -27,4 +27,9 @@ public class RvText : RvAbstractComponent
     public override void dispose()
     {
     }
+
+    public void setText(string text)
+    {
+        this.text = text;
+    }
 }

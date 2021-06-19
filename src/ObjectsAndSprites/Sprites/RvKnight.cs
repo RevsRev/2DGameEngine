@@ -22,6 +22,10 @@ public class RvKnight : RvCollidableSprite
     public static readonly float COEFFICIENT_OF_DRAG_FIRST_ORDER         = 0.0f;
 
     //private bool facingRight = true; //to do.
+    public RvKnight() : this(Vector2.Zero)
+    {
+
+    }
 
     public RvKnight(Vector2 position) : this(position, new Shapes.RvHorizontalRectangle(position, 50, 75))
     {

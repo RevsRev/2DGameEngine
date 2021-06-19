@@ -48,13 +48,11 @@ public sealed class RvScreenHandler : RvDrawableI
     {
         
         RvUiDrawer.the().Begin(SpriteSortMode.BackToFront, null);
-
         for (int i=screens.Count-1; i>=0; i--)
         {
             RvScreenI screen = screens[i];
             screen.Draw(RvUiDrawer.the());
         }
-
         RvUiDrawer.the().End();
     }
 

@@ -4,7 +4,9 @@ using System;
 
 public class RvDialogBanner : RvPanel, IObserver<string>, IObservable<string>
 {
-    private const int BANNER_HEIGHT = 15;
+    private const int BANNER_HEIGHT = 20;
+    RvButtonImage xButton;
+    RvText header;
     IObserver<string> dialog = null;
 
     public RvDialogBanner(RvSDialog dialog) : base(getBannerBounds(dialog))
@@ -13,18 +15,23 @@ public class RvDialogBanner : RvPanel, IObserver<string>, IObservable<string>
         initComponents();
     }
 
-    // public override void init()
-    // {
-    //     initComponents();
-    // }
-
     private void initComponents()
     {
         setPanelColor(Color.DarkGray);
-        RvButtonImage xButton = new RvButtonImage("close", new Rectangle(0, 0, bounds.Height, bounds.Height), RvContentFiles.UI + "XButton");
+
+        xButton = new RvButtonImage("close", new Rectangle(0, 0, bounds.Height, bounds.Height), RvContentFiles.UI + "XButton");
         xButton.setOffset(new Vector2(bounds.Width - bounds.Height, 0));
         xButton.Subscribe(this);
+
+        header = new RvText("", new Rectangle(0,0, bounds.Width, bounds.Height));
+
+        addComponent(header);
         addComponent(xButton);
+    }
+
+    public void setTitle(string title)
+    {
+        header.setText(title);
     }
 
     private static Rectangle getBannerBounds(RvSDialog dialog)

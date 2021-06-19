@@ -6,7 +6,7 @@ public abstract class RvSDialog : RvSAbstractScreen, IObserver<string>, RvMouseL
 {
     private const int BANNER_HEIGHT = 20;
 
-    RvAbstractPanel banner; //contains the title, X buttons, etc...
+    RvDialogBanner banner; //contains the title, X buttons, etc...
     RvAbstractPanel contentPanel; //for putting the actual content of the panel.
 
     protected RvSDialog(Rectangle bounds) : base(bounds)
@@ -58,7 +58,7 @@ public abstract class RvSDialog : RvSAbstractScreen, IObserver<string>, RvMouseL
     {
         buttonPressed(actionStr);
     }
-    public void buttonPressed(String btnString)
+    public virtual void buttonPressed(String btnString)
     {
         if (btnString.Equals("close"))
         {
@@ -73,6 +73,11 @@ public abstract class RvSDialog : RvSAbstractScreen, IObserver<string>, RvMouseL
     public void OnError(Exception exception)
     {
         //do nothing
+    }
+
+    protected void setTitle(string title)
+    {
+        banner.setTitle(title);
     }
 
     //stuff for mouse listener
