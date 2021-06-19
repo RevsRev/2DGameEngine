@@ -23,7 +23,6 @@ public class RvGame : Game
     Dictionary<string, RvLevel> levels = new Dictionary<string, RvLevel>();
 
     //testing
-    RvPhysicalObjectCreator physicalObjectCreator;
 
     public RvGame()
     {
@@ -67,7 +66,6 @@ public class RvGame : Game
         loadLevels();
 
         //testing
-        physicalObjectCreator = new RvPhysicalObjectCreator(new Vector2(400,400));
     }
 
     private void loadLevels()

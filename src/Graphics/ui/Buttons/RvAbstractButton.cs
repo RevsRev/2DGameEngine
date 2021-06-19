@@ -23,7 +23,6 @@ public class RvAbstractButton<T> : RvAbstractComponent, IObservable<T>, RvMouseL
     public override void dispose()
     {
         RvMouse.the().removeListener(this);
-        observers = new List<IObserver<T>>();
     }
 
     public Rectangle getClickableRegion()
